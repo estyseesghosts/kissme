@@ -48,7 +48,7 @@ function spawnChildProcess(command, args, options) {
 		// Ctrl+C, allowing only this supervisor to coordinate the shutdown.
 		windowsVerbatimArguments: true,
 		windowsHide: false,
-		env: shouldForceColor ? { FORCE_COLOR: '1' } : undefined,
+		env: shouldForceColor ? { ...options.env, FORCE_COLOR: '1' } : options.env,
 		stdout: 'pipe',
 		stderr: 'pipe',
 		buffer: false,
@@ -229,12 +229,22 @@ try {
 		cwd: _dirname + '/../',
 		stdout: process.stdout,
 		stderr: process.stderr,
+		env: {
+			...process.env,
+			VITE_BACKEND_URL: process.env.VITE_BACKEND_URL || 'http://localhost:3000',
+			...(process.env.VITE_BASE ? { VITE_BASE: process.env.VITE_BASE } : {}),
+		},
 	});
 
 	startChildProcess('pnpm', ['--filter', 'frontend-embed', 'watch'], {
 		cwd: _dirname + '/../',
 		stdout: process.stdout,
 		stderr: process.stderr,
+		env: {
+			...process.env,
+			VITE_BACKEND_URL: process.env.VITE_BACKEND_URL || 'http://localhost:3000',
+			...(process.env.VITE_BASE ? { VITE_BASE: process.env.VITE_BASE } : {}),
+		},
 	});
 
 	startChildProcess('pnpm', ['--filter', 'sw', 'watch'], {

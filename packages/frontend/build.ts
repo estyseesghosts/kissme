@@ -42,10 +42,31 @@ async function buildAllLocale() {
 	}
 }
 
+async function copyServiceWorker() {
+	const swSrc = __dirname + '/../../built/_sw_dist_/sw.js';
+	const swDest = outputDir + '/sw.js';
+	try {
+		await fs.copyFile(swSrc, swDest);
+	} catch {
+		// Service worker not built yet; skip (monolithic backend still serves /sw.js).
+	}
+}
+
 async function build() {
 	await fs.rm(outputDir, { recursive: true, force: true });
 	await viteBuild();
 	await buildAllLocale();
+	await copyServiceWorker();
+	await runPostbuild();
+}
+
+async function runPostbuild() {
+	const { execa } = await import('execa');
+	await execa('node', [__dirname + '/scripts/postbuild.mjs'], {
+		cwd: __dirname,
+		stdout: process.stdout,
+		stderr: process.stderr,
+	});
 }
 
 await build();

@@ -119,6 +119,8 @@ type Source = {
 	deactivateAntennaThreshold?: number;
 	pidFile: string;
 
+	serveFrontend?: boolean;
+
 	logging?: {
 		format?: LogFormat;
 		level?: LogLevelSetting;
@@ -210,6 +212,7 @@ export type Config = {
 	userAgent: string;
 	frontendManifestExists: boolean;
 	frontendEmbedManifestExists: boolean;
+	serveFrontend: boolean;
 	rootDir: string;
 	mediaProxy: string;
 	externalMediaProxyEnabled: boolean;
@@ -352,6 +355,7 @@ export function loadConfig(): Config {
 		userAgent: `Misskey/${version} (${config.url})`,
 		frontendManifestExists: frontendManifestExists,
 		frontendEmbedManifestExists: frontendEmbedManifestExists,
+		serveFrontend: config.serveFrontend ?? true,
 		rootDir,
 		perChannelMaxNoteCacheCount: config.perChannelMaxNoteCacheCount ?? 1000,
 		perUserNotificationsMaxCount: config.perUserNotificationsMaxCount ?? 500,

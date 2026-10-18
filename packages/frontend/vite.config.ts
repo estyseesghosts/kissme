@@ -119,7 +119,7 @@ export function getConfig(): UserConfig {
 	const localesHash = toBase62(hash(JSON.stringify(locales)));
 
 	return {
-		base: '/vite/',
+		base: process.env.VITE_BASE || '/vite/',
 
 		// The console is shared with backend, so clearing the console will also clear the backend log.
 		clearScreen: false,
@@ -127,9 +127,21 @@ export function getConfig(): UserConfig {
 		server: {
 			// The backend allows access from any addresses, so vite also allows access from any addresses.
 			host: '0.0.0.0',
-			allowedHosts: host ? [host] : undefined,
+			allowedHosts: host ? [host, 'localhost', '127.0.0.1'] : undefined,
 			port: 5173,
 			strictPort: true,
+			// Proxy API and streaming (WebSocket) requests to the backend during split dev.
+			proxy: url ? {
+				'/api': {
+					target: url,
+					changeOrigin: true,
+				},
+				'/streaming': {
+					target: url.replace(/^http/, 'ws'),
+					ws: true,
+					changeOrigin: true,
+				},
+			} : undefined,
 			hmr: {
 				// バックエンド経由での起動時、Viteは5173経由でアセットを参照していると思い込んでいるが実際は3000から配信される
 				// そのため、バックエンドのWSサーバーにHMRのWSリクエストが吸収されてしまい、正しくHMRが機能しない

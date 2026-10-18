@@ -213,6 +213,7 @@ export class ClientServerService {
 		});
 
 		//#region vite assets
+		if (this.config.serveFrontend) {
 		if (this.config.frontendEmbedManifestExists) {
 			this.clientLoggerService.logger.info(`[ClientServerService] Using built frontend vite assets. ${this.frontendViteOut}`);
 			fastify.register((fastify, options, done) => {
@@ -250,6 +251,7 @@ export class ClientServerService {
 				prefix: '/embed_vite',
 				rewritePrefix: '/embed_vite',
 			});
+		}
 		}
 		//#endregion
 
@@ -931,9 +933,11 @@ export class ClientServerService {
 		});
 
 		// Render base html for all requests
+		if (this.config.serveFrontend) {
 		fastify.get('*', async (request, reply) => {
 			return await renderBase(reply);
 		});
+		}
 
 		fastify.setErrorHandler<FastifyError>(async (error, request, reply) => {
 			const errId = randomUUID();

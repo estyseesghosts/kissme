@@ -1,0 +1,17 @@
+<!-- SPDX-FileCopyrightText: syuilo and misskey-project -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<!-- Backend origin for split deployment; defaults to current origin when unset -->
+	<meta property="instance_url" content="%VITE_BACKEND_URL%" />
+	<meta property="og:site_name" content="Misskey" />
+	<title>Misskey</title>
+</head>
+<body>
+	<div id="app"></div>
+	<script type="module" src="/src/_boot_.ts"></script>
+</body>
+</html>

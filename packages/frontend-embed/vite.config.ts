@@ -76,9 +76,20 @@ export function getConfig(): UserConfig {
 		server: {
 			// The backend allows access from any addresses, so vite also allows access from any addresses.
 			host: '0.0.0.0',
-			allowedHosts: host ? [host] : undefined,
+			allowedHosts: host ? [host, 'localhost', '127.0.0.1'] : undefined,
 			port: 5174,
 			strictPort: true,
+			proxy: url ? {
+				'/api': {
+					target: url,
+					changeOrigin: true,
+				},
+				'/streaming': {
+					target: url.replace(/^http/, 'ws'),
+					ws: true,
+					changeOrigin: true,
+				},
+			} : undefined,
 			hmr: {
 				// バックエンド経由での起動時、Viteは5174経由でアセットを参照していると思い込んでいるが実際は3000から配信される
 				// そのため、バックエンドのWSサーバーにHMRのWSリクエストが吸収されてしまい、正しくHMRが機能しない
