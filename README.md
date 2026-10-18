@@ -9,6 +9,6 @@
 
 ---
 
-created this fork for my own personal testing of the keystone ui and pinetree server. this fork properly splits misskey in two, so i can test both of those things - pinetree against misskey's frontend, and keystone against misskey's backend. 
+created this fork for my own personal testing of the keystone ui and pinetree server. this fork properly splits misskey in two, so i can test both of those things - [pinetree](https://github.com/estyseesghosts/pinetree) against misskey's frontend, and [keystone](https://github.com/estyseesghosts/keystone) against misskey's backend. 
 
 </div>
