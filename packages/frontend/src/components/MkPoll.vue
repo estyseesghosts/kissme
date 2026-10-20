@@ -35,6 +35,8 @@ import { sum } from '@/utility/array.js';
 import { pleaseLogin } from '@/utility/please-login.js';
 import * as os from '@/os.js';
 import { misskeyApi } from '@/utility/misskey-api.js';
+import { $i } from '@/i.js';
+import { noteEvents } from '@/composables/use-note-capture.js';
 import { i18n } from '@/i18n.js';
 import { useLowresTime } from '@/composables/use-lowres-time.js';
 
@@ -103,6 +105,8 @@ const vote = async (id: number) => {
 		noteId: props.noteId,
 		choice: id,
 	});
+	// Immediate local update; the stream echo for the same vote is deduped.
+	if ($i) noteEvents.emit(`pollVoted:${props.noteId}`, { userId: $i.id, choice: id });
 	if (!showResult.value) showResult.value = !props.multiple;
 };
 </script>
