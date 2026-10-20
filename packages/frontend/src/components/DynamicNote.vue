@@ -28,7 +28,7 @@ import { prefer } from '@/preferences';
 import { deepAssign } from '@/utility/merge';
 import { useMuteOverrides } from '@/utility/sk-check-mute';
 
-// 'misskey' (default) keeps the stock MkNote; any other value selects the Sharkey-style SkNote.
+// 'misskey' keeps the stock MkNote; any other value (including the default 'sk') selects the Sharkey-style SkNote.
 const XNote = defineAsyncComponent(() => (prefer.s.noteDesign === 'misskey'
 	? import('@/components/MkNote.vue')
 	: import('@/components/SkNote.vue')) as Promise<typeof import('@/components/MkNote.vue')>);

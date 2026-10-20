@@ -55,8 +55,8 @@ SPDX-License-Identifier: AGPL-3.0-only
 		<SkNoteSimple v-if="renoteTargetNote" :class="$style.targetNote" :hideFiles="true" :note="renoteTargetNote" :skipMute="true"/>
 	</template>
 	<template v-else>
-		<MkNoteSimple v-if="replyTargetNote" :class="$style.targetNote" :note="replyTargetNote"/>
-		<MkNoteSimple v-if="renoteTargetNote" :class="$style.targetNote" :note="renoteTargetNote"/>
+		<DynamicNoteSimple v-if="replyTargetNote" :class="$style.targetNote" :note="replyTargetNote"/>
+		<DynamicNoteSimple v-if="renoteTargetNote" :class="$style.targetNote" :note="renoteTargetNote"/>
 	</template>
 	<div v-if="quoteId" :class="$style.withQuote"><i class="ti ti-quote"></i> {{ i18n.ts.quoteAttached }}<button @click="quoteId = null; renoteTargetNote = null;"><i class="ti ti-x"></i></button></div>
 	<div v-if="visibility === 'specified'" :class="$style.toSpecified">
@@ -147,7 +147,7 @@ import SkNoteSimple from '@/components/SkNoteSimple.vue';
 import MkScheduleEditor from '@/components/MkScheduleEditor.vue';
 import XTextCounter from '@/components/MkPostForm.TextCounter.vue';
 import MkPollEditor from '@/components/MkPollEditor.vue';
-import MkNoteSimple from '@/components/MkNoteSimple.vue';
+import DynamicNoteSimple from '@/components/DynamicNoteSimple.vue';
 import { erase, unique } from '@/utility/array.js';
 import { extractMentions } from '@/utility/extract-mentions.js';
 import { formatTimeString } from '@/utility/format-time-string.js';

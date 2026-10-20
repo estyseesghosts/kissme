@@ -20,18 +20,18 @@ SPDX-License-Identifier: AGPL-3.0-only
 						<span style="height: 1em; width: 1px; background: var(--MI_THEME-divider);"></span>
 						<span>{{ getSeparatorInfo(paginator.items.value[i - 1].createdAt, note.createdAt)?.nextText }} <i class="ti ti-chevron-down"></i></span>
 					</div>
-					<MkNote :class="$style.note" :note="note" :withHardMute="true"/>
+					<DynamicNote :class="$style.note" :note="note" :withHardMute="true"/>
 					<div v-if="note._shouldInsertAd_" :class="$style.ad">
 						<MkAd :preferForms="['horizontal', 'horizontal-big']"/>
 					</div>
 				</div>
 				<div v-else-if="note._shouldInsertAd_" :class="{ '_gaps': !noGap }" :data-scroll-anchor="note.id">
-					<MkNote :class="$style.note" :note="note" :withHardMute="true"/>
+					<DynamicNote :class="$style.note" :note="note" :withHardMute="true"/>
 					<div :class="$style.ad">
 						<MkAd :preferForms="['horizontal', 'horizontal-big']"/>
 					</div>
 				</div>
-				<MkNote v-else :class="$style.note" :note="note" :withHardMute="true" :data-scroll-anchor="note.id"/>
+				<DynamicNote v-else :class="$style.note" :note="note" :withHardMute="true" :data-scroll-anchor="note.id"/>
 			</template>
 		</div>
 	</template>
@@ -42,7 +42,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 import * as Misskey from 'misskey-js';
 import type { MkPaginationOptions } from '@/components/MkPagination.vue';
 import type { IPaginator } from '@/utility/paginator.js';
-import MkNote from '@/components/MkNote.vue';
+import DynamicNote from '@/components/DynamicNote.vue';
 import MkPagination from '@/components/MkPagination.vue';
 import { i18n } from '@/i18n.js';
 import { useGlobalEvent } from '@/events.js';
