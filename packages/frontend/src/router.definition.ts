@@ -231,6 +231,14 @@ export const ROUTE_DEF = [{
 	path: '/about-misskey',
 	component: page(() => import('@/pages/about-misskey.vue')),
 }, {
+	// Phase 9.3 (Sharkey static pages): minimal entries; Phase 10.3 consolidates the route table.
+	path: '/about-sharkey',
+	component: page(() => import('@/pages/about-sharkey.vue')),
+}, {
+	// Phase 9.3: public (no loginRequired) so email links work while signed out.
+	path: '/unsubscribe/:user/:token',
+	component: page(() => import('@/pages/unsubscribe.vue')),
+}, {
 	path: '/invite',
 	name: 'invite',
 	component: page(() => import('@/pages/invite.vue')),

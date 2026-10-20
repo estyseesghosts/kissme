@@ -112,6 +112,9 @@ SPDX-License-Identifier: AGPL-3.0-only
 								</dd>
 							</dl>
 						</div>
+						<div v-if="hasListenBrainz(user)" class="listenbrainz">
+							<XListenBrainz :key="user.id" :userId="user.id"/>
+						</div>
 						<div class="status">
 							<MkA :to="userPage(user, 'notes')">
 								<b>{{ number(user.notesCount) }}</b>
@@ -187,6 +190,7 @@ import MkSparkle from '@/components/MkSparkle.vue';
 import { prefer } from '@/preferences.js';
 import MkPullToRefresh from '@/components/MkPullToRefresh.vue';
 import { isBirthday } from '@/utility/is-birthday.js';
+import { hasListenBrainz } from '@/utility/sk-listenbrainz.js';
 import type XTimeline_TypeReferenceOnly from './index.timeline.vue';
 
 function calcAge(birthdate: string): number {
@@ -206,6 +210,7 @@ function calcAge(birthdate: string): number {
 
 const XFiles = defineAsyncComponent(() => import('./index.files.vue'));
 const XActivity = defineAsyncComponent(() => import('./index.activity.vue'));
+const XListenBrainz = defineAsyncComponent(() => import('@/components/SkListenBrainz.vue'));
 const XTimeline = defineAsyncComponent(() => import('./index.timeline.vue'));
 
 const props = withDefaults(defineProps<{

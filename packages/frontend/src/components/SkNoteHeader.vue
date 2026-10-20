@@ -3,7 +3,8 @@ SPDX-FileCopyrightText: marie and other Sharkey contributors
 SPDX-License-Identifier: AGPL-3.0-only
 
 Header for a note in the Sharkey style, displaying info such as username and creation timestamp.
-Slice 1.1: instance ticker (9.1), the versions menu and the Edited marker (1.3, needs note version data) are deferred.
+Slice 1.1: the versions menu and the Edited marker (1.3, needs note version data) are deferred.
+Instance ticker (9.1): shown per pref `instanceTicker`; in the compact/classic header only when pref `showTickerOnReplies` is on.
 -->
 
 <template>
@@ -39,6 +40,9 @@ Slice 1.1: instance ticker (9.1), the versions menu and the Edited marker (1.3, 
 			<span v-if="note.localOnly" style="margin-left: 0.5em;" :title="i18n.ts._visibility['disableFederation']"><i class="ti ti-rocket-off"></i></span>
 			<span v-if="note.channel" style="margin-left: 0.5em;" :title="note.channel.name"><i class="ti ti-device-tv"></i></span>
 		</div>
+		<div :class="$style.info">
+			<SkInstanceTicker v-if="showTicker" style="cursor: pointer;" :instance="note.user.instance" :host="note.user.host" @click.stop="showNoteOnOriginalInstance(note)"/>
+		</div>
 	</div>
 </header>
 <header v-else :class="$style.classicRoot">
@@ -53,6 +57,7 @@ Slice 1.1: instance ticker (9.1), the versions menu and the Edited marker (1.3, 
 	<div v-if="note.user.badgeRoles" :class="$style.badgeRoles">
 		<img v-for="(role, i) in note.user.badgeRoles" :key="i" v-tooltip="role.name" :class="$style.badgeRole" :src="role.iconUrl ?? ''"/>
 	</div>
+	<SkInstanceTicker v-if="showTicker && !isMobile && prefer.s.showTickerOnReplies" style="cursor: pointer; max-height: 5px; top: 3px; position: relative; margin-top: 0 !important;" :instance="note.user.instance" :host="note.user.host" @click.stop="showNoteOnOriginalInstance(note)"/>
 	<div :class="$style.classicInfo">
 		<div v-if="mock">
 			<MkTime :time="note.createdAt" colored/>
@@ -72,17 +77,26 @@ Slice 1.1: instance ticker (9.1), the versions menu and the Edited marker (1.3, 
 </template>
 
 <script lang="ts" setup>
-import { inject } from 'vue';
+import { inject, ref } from 'vue';
 import * as Misskey from 'misskey-js';
 import { i18n } from '@/i18n.js';
 import { notePage } from '@/filters/note.js';
 import { userPage } from '@/filters/user.js';
 import { DI } from '@/di.js';
+import { prefer } from '@/preferences.js';
+import { deviceKind } from '@/utility/device-kind.js';
+import { showNoteOnOriginalInstance } from '@/utility/show-note-on-original-instance.js';
+import SkInstanceTicker from '@/components/SkInstanceTicker.vue';
 
-defineProps<{
+const props = defineProps<{
 	note: Misskey.entities.Note;
 	classic?: boolean;
 }>();
+
+const showTicker = (prefer.s.instanceTicker === 'always') || (prefer.s.instanceTicker === 'remote' && props.note.user.instance);
+
+const MOBILE_THRESHOLD = 500;
+const isMobile = ref(deviceKind === 'smartphone' || window.innerWidth <= MOBILE_THRESHOLD);
 
 const mock = inject(DI.mock, false);
 </script>

@@ -78,7 +78,7 @@ Detailed view of a note in the Sharkey style. Used when opening a note onto its 
 						<span v-if="appearNote.updatedAt" ref="menuVersionsButton" style="margin-left: 0.5em;" title="Edited" @mousedown="menuVersions()"><i class="ti ti-pencil"></i></span>
 						<span v-if="appearNote.localOnly" style="margin-left: 0.5em;" :title="i18n.ts._visibility['disableFederation']"><i class="ti ti-rocket-off"></i></span>
 					</div>
-					<MkInstanceTicker v-if="showTicker" style="cursor: pointer;" :host="appearNote.user.host" :instance="appearNote.user.instance" @click.stop="showNoteOnOriginalInstance(appearNote)"/>
+					<SkInstanceTicker v-if="showTicker" style="cursor: pointer;" :host="appearNote.user.host" :instance="appearNote.user.instance" @click.stop="showNoteOnOriginalInstance(appearNote)"/>
 				</div>
 			</div>
 		</header>
@@ -269,7 +269,7 @@ import SkMediaList from '@/components/SkMediaList.vue';
 import MkCwButton from '@/components/MkCwButton.vue';
 import MkPoll from '@/components/MkPoll.vue';
 import MkUsersTooltip from '@/components/MkUsersTooltip.vue';
-import MkInstanceTicker from '@/components/MkInstanceTicker.vue';
+import SkInstanceTicker from '@/components/SkInstanceTicker.vue';
 import { pleaseLogin } from '@/utility/please-login.js';
 import { userPage } from '@/filters/user.js';
 import { notePage } from '@/filters/note.js';

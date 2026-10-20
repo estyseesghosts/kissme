@@ -33,6 +33,9 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<Mfm v-if="user.description" :class="$style.mfm" :text="user.description" :author="user"/>
 				<div v-else style="opacity: 0.7;">{{ i18n.ts.noAccountDescription }}</div>
 			</div>
+			<div v-if="hasListenBrainz(user)" :class="$style.listenbrainz">
+				<XListenBrainz :key="user.id" :userId="user.id" :popup="true"/>
+			</div>
 			<div :class="$style.status">
 				<MkA :class="$style.statusItem" :to="userPage(user, 'notes')">
 					<div :class="$style.statusItemLabel">{{ i18n.ts.notes }}</div>
@@ -58,7 +61,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
+import { defineAsyncComponent, onMounted, ref } from 'vue';
 import * as Misskey from 'misskey-js';
 import MkFollowButton from '@/components/MkFollowButton.vue';
 import { userPage } from '@/filters/user.js';
@@ -71,6 +74,9 @@ import { prefer } from '@/preferences.js';
 import { $i } from '@/i.js';
 import { isFollowingVisibleForMe, isFollowersVisibleForMe } from '@/utility/isFfVisibleForMe.js';
 import { getStaticImageUrl } from '@/utility/media-proxy.js';
+import { hasListenBrainz } from '@/utility/sk-listenbrainz.js';
+
+const XListenBrainz = defineAsyncComponent(() => import('@/components/SkListenBrainz.vue'));
 
 const props = defineProps<{
 	showing: boolean;
@@ -204,6 +210,10 @@ onMounted(() => {
 	display: block;
 	font-size: 0.8em;
 	opacity: 0.7;
+}
+
+.listenbrainz {
+	padding: 0 16px 8px 16px;
 }
 
 .description {

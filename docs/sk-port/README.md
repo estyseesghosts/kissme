@@ -175,3 +175,19 @@ Dependency and typing notes:
 | `pages/admin/approvals.vue`, `SkApprovalUser.vue`, `utility/sk-approvals-api.ts` | (this file) | Route `/admin/approvals` + admin nav entry. Disabled note when `admin/approve-user` is missing (404 probe). Untyped endpoints; unverified live. |
 | `SkPatternTest.vue`, `utility/sk-parse-mutes.ts` | (this file) | Word-mute tester, shown in the mute settings behind pref `showWordMuteTester` (default off). Reuses `getMutedWords` from `sk-check-mute.ts`. Tested. |
 | `pages/settings/profile.attribution-domains-setting.vue`, `utility/sk-attribution-domains.ts` | (this file) | Saves via untyped `i/update`; shown in settings profile behind pref `showAttributionDomains` (default off). Tested. |
+
+### Phase 9.4 additions
+
+See [phase9-utilities.md](phase9-utilities.md) for the per-utility disposition table.
+
+### Phase 9.3 additions
+
+| Component / utility | Doc | State |
+|---|---|---|
+| `pages/about-sharkey.vue`, `pages/unsubscribe.vue`, `pages/welcome.entrance.a.vue`, `utility/sk-static-pages.ts` | [static-pages.md](static-pages.md) | Routes `/about-sharkey`, `/unsubscribe/:user/:token`; entrance A behind pref `welcomeEntranceStyle` (default `'server'`). Helpers tested. |
+
+### Phase 9.1 / 9.2 additions
+
+| Component / utility | Doc | State |
+|---|---|---|
+| `SkInstanceTicker`, `SkBadgeStrip`, `SkMfmWindow`, `SkListenBrainz`, `SkOneko`, `CkFollowMouse`, `MkMarquee`, `MkRadio`, `utility/sk-{follow-mouse,oneko,mfm-cheatsheet,listenbrainz}.ts` | [phase-9-1-9-2.md](phase-9-1-9-2.md) | Ported. Prefs `showTickerOnReplies`, `oneko` (default off). `SkUrlPreviewGroup`, `SkTransitionGroup`, `MkUrlWarningDialog` verified as already landed. |

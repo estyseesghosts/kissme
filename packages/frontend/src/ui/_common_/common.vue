@@ -95,6 +95,8 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 <div v-if="$i && $i.isBot" id="botWarn"><span style="animation: dev-ticker-blink 2s infinite;">{{ i18n.ts.loggedInAsBot }}</span></div>
 
+<SkOneko v-if="prefer.r.oneko.value"/>
+
 <div v-if="isSafeMode" id="safemodeWarn">
 	<span style="animation: dev-ticker-blink 2s infinite;">{{ i18n.ts.safeModeEnabled }}</span>&nbsp;
 	<button class="_textButton" style="pointer-events: all;" @click="exitSafeMode">{{ i18n.ts.turnItOff }}</button>
@@ -122,6 +124,7 @@ import XNavbar from '@/ui/_common_/navbar.vue';
 
 const XStreamIndicator = defineAsyncComponent(() => import('./stream-indicator.vue'));
 const XWidgets = defineAsyncComponent(() => import('./widgets.vue'));
+const SkOneko = defineAsyncComponent(() => import('@/components/SkOneko.vue'));
 
 const drawerMenuShowing = defineModel<boolean>('drawerMenuShowing');
 const widgetsShowing = defineModel<boolean>('widgetsShowing');

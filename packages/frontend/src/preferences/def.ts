@@ -272,6 +272,14 @@ export const PREF_DEF = definePreferences({
 	instanceTicker: {
 		default: 'remote' as 'none' | 'remote' | 'always',
 	},
+	// Phase 9.1: instance ticker in compact (reply/quote) SkNoteHeader. Default off (Sharkey default).
+	showTickerOnReplies: {
+		default: false,
+	},
+	// Phase 9.1: SkOneko, a cat that follows the cursor. Default off (Sharkey default); mounted in ui/_common_/common.vue.
+	oneko: {
+		default: false,
+	},
 	// 'misskey' keeps the stock MkNote*; 'sk' selects the Sharkey-style SkNote*. Consumed by DynamicNote*.
 	noteDesign: {
 		default: 'sk' as 'misskey' | 'sk',
@@ -315,6 +323,10 @@ export const PREF_DEF = definePreferences({
 	},
 	useSharkeyUploader: {
 		default: false,
+	},
+	// 'server' keeps the stock entrance (server `entrancePageStyle`); 'a' opts into welcome.entrance.a.vue.
+	welcomeEntranceStyle: {
+		default: 'server' as 'server' | 'a',
 	},
 	followingFeed: {
 		default: defaultFollowingFeedState as FollowingFeedState,

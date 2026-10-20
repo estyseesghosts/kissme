@@ -31,7 +31,7 @@ Displays an old version of an edited note.
 						</div>
 					</div>
 					<div :class="$style.noteHeaderUsername"><MkAcct :user="appearNote.user"/></div>
-					<MkInstanceTicker v-if="showTicker" :host="appearNote.user.host" :instance="appearNote.user.instance"/>
+					<SkInstanceTicker v-if="showTicker" :host="appearNote.user.host" :instance="appearNote.user.instance"/>
 				</div>
 			</header>
 			<div :class="$style.noteContent">
@@ -87,7 +87,7 @@ import SkMediaList from '@/components/SkMediaList.vue';
 import MkCwButton from '@/components/MkCwButton.vue';
 import MkWindow from '@/components/MkWindow.vue';
 import MkPoll from '@/components/MkPoll.vue';
-import MkInstanceTicker from '@/components/MkInstanceTicker.vue';
+import SkInstanceTicker from '@/components/SkInstanceTicker.vue';
 import { userPage } from '@/filters/user.js';
 import { i18n } from '@/i18n.js';
 import { deepClone } from '@/utility/clone.js';

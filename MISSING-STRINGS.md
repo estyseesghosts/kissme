@@ -81,6 +81,25 @@ Phase 4 additions. The last column notes where the wording comes from.
 | `attributionDomainsDescription` | `Websites listed here may credit you as an author. Enter one domain per line.` | `profile.attribution-domains-setting` (donor) |
 | `attributionDomainsTutorial` | `Add this tag to the website to be credited:` | `profile.attribution-domains-setting` (donor) |
 | `attributionDomainsUnsupported` | `This server does not support attribution domains.` | `profile.attribution-domains-setting` (donor) |
+| `aboutSharkey` | `About Sharkey` | `about-sharkey page title` (Phase 9.3) |
+| `aboutSharkeyDescription` | `Sharkey is open-source software forked from Misskey.` | `about-sharkey` (Phase 9.3) |
+| `aboutSharkeySource` | `Source code (Sharkey)` | `about-sharkey` (Phase 9.3) |
+| `aboutSharkeyDonate` | `Donate to Sharkey` | `about-sharkey` (Phase 9.3) |
+| `aboutSharkeyTesters` | `Testers` | `about-sharkey` (Phase 9.3) |
+| `aboutSharkeyMisskeyContributors` | `Misskey contributors` | `about-sharkey` (Phase 9.3) |
+| `aboutSharkeySponsors` | `Our lovely sponsors` | `about-sharkey` (Phase 9.3) |
+| `clickToUnsubscribe` | `Click OK to unsubscribe from these emails.` | `unsubscribe` (Phase 9.3) |
+| `unsubscribeError` | `Could not unsubscribe. The link may be invalid or expired.` | `unsubscribe` (Phase 9.3) |
+| `unsubscribeSuccess` | `You have been unsubscribed.` | `unsubscribe (new, donor showed nothing)` (Phase 9.3) |
+| `welcomeEntranceStyle` | `Entrance page style` | `entrance pref label (no settings UI yet)` (Phase 9.3) |
+| `welcomeEntranceStyleServer` | `Server default` | `entrance pref option` (Phase 9.3) |
+| `welcomeEntranceStyleA` | `Sharkey (A)` | `entrance pref option` (Phase 9.3) |
+| `systemAccountTitle` | `System account` | `show-system-account-dialog` (donor key absent from donor locale; text written here) |
+| `systemAccountDescription` | `This is a system account used by the server. It cannot be interacted with.` | `show-system-account-dialog` |
+| `listeningTo` | `Listening to…` | `SkListenBrainz` (Phase 9.1; donor `_profile.listeningTo`) |
+| `mfmCheatsheet.title` / `.openButton` | `MFM Cheatsheet` / `MFM cheatsheet` | `SkMfmWindow`, `MkPostForm` button (Phase 9.1; donor hard-coded the title) |
+| `mfmCheatsheet.intro` / `.dummy` / `.uncommonFeature` | donor `_mfm.intro` / `.dummy` / `.uncommonFeature` | `SkMfmWindow` (Phase 9.1) |
+| `mfmCheatsheet.sections.<id>.title` / `.description` (39 sections) | donor `_mfm.<id>` / `_mfm.<id>Description` | `SkMfmWindow` via `utility/sk-mfm-cheatsheet.ts` (Phase 9.1) |
 
 ## Not strings, but related
 

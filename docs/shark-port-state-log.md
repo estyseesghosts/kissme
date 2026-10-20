@@ -208,3 +208,18 @@ Exit criteria:
 - 8.1 ("queue paginates; approve/delete acts; 404 backends show disabled note"): **implemented, unverified live**. Neither the pagination, the actions nor the 404 probe were exercised.
 - 8.2 ("test textarea flags matches per mute set"): **implemented; matching and parsing unit-tested**, UI not exercised.
 - 8.3 ("edit + save round-trip"): **implemented, unverified live**; validation is unit-tested; the backend field may not exist on stock Misskey.
+
+
+## Phase 9 — implementation (verification by direction: no backend or browser smoke)
+
+Pins unchanged. Phase 8 head was `99fb46174b`. Details: `docs/sk-port/phase-9-1-9-2.md`, `static-pages.md`, `phase9-utilities.md`.
+
+- 9.1/9.2: `SkInstanceTicker`, `SkBadgeStrip`, `SkMfmWindow` (data-driven), `SkListenBrainz`, `SkOneko`, `CkFollowMouse`, `MkMarquee` (upstream `MkMarqueeText` kept), `MkRadio`. `SkUrlPreviewGroup`, `SkTransitionGroup`, `MkUrlWarningDialog` were already landed. Prefs: `showTickerOnReplies`, `oneko` (default off).
+- 9.3: `about-sharkey`, `unsubscribe`, `welcome.entrance.a`; routes `/about-sharkey`, `/unsubscribe/:user/:token` (consolidate in 10.3); pref `welcomeEntranceStyle` (default `server`).
+- 9.4: 10 utilities ported, 4 already present, 2 skipped (`contains.ts`, `stream-mock.ts`).
+
+Gate: typecheck exit 0; tests 44 files / 322 passed; SPDX OK. Build not run at this checkpoint.
+
+Notes: `noteDesign` default in `def.ts` is `'sk'` (committed before Phase 9), contradicting the plan's `'misskey'`; unchanged, needs owner decision. `--MI-radius-xs/sm/xl/full` are undefined upstream; earlier Sk* files use them without fallback. Unconsumed: `SkBadgeStrip`, `MkRadio`, several 9.4 utils.
+
+Exit criteria: widgets/pages/utils **implemented, unverified live**.

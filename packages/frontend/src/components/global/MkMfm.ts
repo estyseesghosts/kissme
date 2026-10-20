@@ -19,6 +19,7 @@ import MkCode from '@/components/MkCode.vue';
 import MkCodeInline from '@/components/MkCodeInline.vue';
 import MkGoogle from '@/components/MkGoogle.vue';
 import MkSparkle from '@/components/MkSparkle.vue';
+import CkFollowMouse from '@/components/CkFollowMouse.vue';
 import MkA from '@/components/global/MkA.vue';
 import { prefer } from '@/preferences.js';
 
@@ -250,6 +251,28 @@ export default function (props: MfmProps, { emit }: { emit: SetupContext<MfmEven
 						const y = safeParseFloat(token.props.args.y) ?? 0;
 						style = `transform: translateX(${x}em) translateY(${y}em);`;
 						break;
+					}
+					case 'followmouse': {
+						// Sharkey/Cutiekey function. Needs advanced MFM and motion allowed, like the other animated functions.
+						if (!useAnim) {
+							style = '';
+							break;
+						}
+
+						let x = !!token.props.args.x;
+						let y = !!token.props.args.y;
+
+						if (!x && !y) {
+							x = true;
+							y = true;
+						}
+
+						return h(CkFollowMouse, {
+							x,
+							y,
+							speed: validTime(token.props.args.speed) ?? '0.1s',
+							rotateByVelocity: !!token.props.args.rotateByVelocity,
+						}, genEl(token.children, scale));
 					}
 					case 'scale': {
 						if (!prefer.s.advancedMfm) {
