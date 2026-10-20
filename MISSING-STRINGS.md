@@ -41,6 +41,9 @@ Migrated (in both locale files, read via `i18n.ts`, gone from `sk-strings.ts`):
   `flashArbitraryCodeExecutionWarning`, `flashFailedToLoad`, `flashIsLoading`,
   `flashLoadingRufflePlayer`, `flashLoadingFlashFile`, `flashCspError`) in
   `SkFlashPlayer` — donor wording, flat keys as in the ja-JP tail.
+- Tracker player (`modPatternHidden`, `modFailedToLoad`, `modAudioUnsupported`)
+  in `SkModPlayer` — donor hard-coded English for the first, port wording kept
+  for the other two (donor has none).
 - `_skSettings.*` and flat pref labels (`clickToOpen`, `expandLongNote`, …).
 
 | Key in `skStrings` | English text | Used in |
@@ -50,9 +53,6 @@ Phase 4 additions. The last column notes where the wording comes from.
 
 | Key in `skStrings` | English text | Used in |
 |---|---|---|
-| `modPatternHidden` | `Pattern Hidden` | `components/SkModPlayer.vue` (donor (hard-coded)) |
-| `modFailedToLoad` | `Module failed to load` | `components/SkModPlayer.vue` (written for this port, donor has none) |
-| `modAudioUnsupported` | `Audio playback is not supported in this browser.` | `components/SkModPlayer.vue` (written for this port, donor has none) |
 | `imageLacksDescription` | `Image lacks descriptive text` | `components/SkMediaImage.vue` (donor (hard-coded)) |
 | `likeNotSupported` | `This server does not support likes yet.` | `utility/sk-like.ts` (written for this port, donor has none) |
 | `mutuals` | `Mutuals` | `utility/following-feed-utils.ts`, `components/SkRemoteFollowersWarning.vue` (donor) |

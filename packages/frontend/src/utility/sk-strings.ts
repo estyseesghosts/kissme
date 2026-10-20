@@ -14,11 +14,6 @@ import type { ParameterizedString } from 'i18n';
  */
 export const skStrings = {
 
-	// SkModPlayer.vue (patternHidden is hard-coded in the donor; the other two are written for this port, the donor has no wording)
-	modPatternHidden: 'Pattern Hidden',
-	modFailedToLoad: 'Module failed to load',
-	modAudioUnsupported: 'Audio playback is not supported in this browser.',
-
 	// SkMediaImage.vue (hard-coded in the donor)
 	imageLacksDescription: 'Image lacks descriptive text',
 

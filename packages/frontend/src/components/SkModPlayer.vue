@@ -74,16 +74,15 @@ import { i18n } from '@/i18n.js';
 import { ChiptuneJsPlayer, ChiptuneJsConfig } from '@/utility/chiptune2.js';
 import { isTouchUsing } from '@/utility/touch.js';
 import { prefer } from '@/preferences.js';
-import { skStrings } from '@/utility/sk-strings.js';
 import {
 	CHAR_WIDTH, CHAR_HEIGHT, CHANNEL_WIDTH, MAX_ROW_NUMBERS, NUMBER_ROW_WIDTH,
 	formatRowNumber, clampChannels, virtualCanvasWidth as calcVirtualCanvasWidth, sliceWidthFor, buildRowText, columnsFromScroll, channelsInViewFor,
 } from '@/utility/sk-mod-player.js';
 
 const modStrings = {
-	patternHidden: skStrings.modPatternHidden,
-	failedToLoad: skStrings.modFailedToLoad,
-	unsupported: skStrings.modAudioUnsupported,
+	patternHidden: i18n.ts.modPatternHidden,
+	failedToLoad: i18n.ts.modFailedToLoad,
+	unsupported: i18n.ts.modAudioUnsupported,
 };
 
 const colours = {
