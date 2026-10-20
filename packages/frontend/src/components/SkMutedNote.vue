@@ -13,12 +13,12 @@ Displays a placeholder for a muted note.
 	<!-- If hard muted, we want to hide *everything*, including the placeholders and controls to expand. -->
 	<div v-else-if="!mute.hardMuted" :class="[$style.muted, $style.muteContainer, mutedClass]" @click.stop="expand">
 		<!-- Mandatory CWs -->
-		<I18n v-if="mute.noteMandatoryCW" :src="skStrings.noteIsFlaggedAs" tag="small">
+		<I18n v-if="mute.noteMandatoryCW" :src="i18n.ts.noteIsFlaggedAs" tag="small">
 			<template #cw>
 				{{ mute.noteMandatoryCW }}
 			</template>
 		</I18n>
-		<I18n v-if="mute.userMandatoryCW" :src="skStrings.userIsFlaggedAs" tag="small">
+		<I18n v-if="mute.userMandatoryCW" :src="i18n.ts.userIsFlaggedAs" tag="small">
 			<template #name>
 				{{ userName }}
 			</template>
@@ -26,7 +26,7 @@ Displays a placeholder for a muted note.
 				{{ mute.userMandatoryCW }}
 			</template>
 		</I18n>
-		<I18n v-if="mute.instanceMandatoryCW" :src="skStrings.instanceIsFlaggedAs" tag="small">
+		<I18n v-if="mute.instanceMandatoryCW" :src="i18n.ts.instanceIsFlaggedAs" tag="small">
 			<template #name>
 				{{ instanceName }}
 			</template>
@@ -36,19 +36,19 @@ Displays a placeholder for a muted note.
 		</I18n>
 
 		<!-- Muted notes/threads -->
-		<I18n v-if="mute.noteMuted" :src="skStrings.userSaysSomethingInMutedNote" tag="small">
+		<I18n v-if="mute.noteMuted" :src="i18n.ts.userSaysSomethingInMutedNote" tag="small">
 			<template #name>
 				{{ userName }}
 			</template>
 		</I18n>
-		<I18n v-else-if="mute.threadMuted" :src="skStrings.userSaysSomethingInMutedThread" tag="small">
+		<I18n v-else-if="mute.threadMuted" :src="i18n.ts.userSaysSomethingInMutedThread" tag="small">
 			<template #name>
 				{{ userName }}
 			</template>
 		</I18n>
 
 		<!-- Silenced users/instances -->
-		<I18n v-if="mute.userSilenced" :src="skStrings.silencedUserSaysSomething" tag="small">
+		<I18n v-if="mute.userSilenced" :src="i18n.ts.silencedUserSaysSomething" tag="small">
 			<template #name>
 				{{ userName }}
 			</template>
@@ -56,7 +56,7 @@ Displays a placeholder for a muted note.
 				{{ host }}
 			</template>
 		</I18n>
-		<I18n v-if="mute.instanceSilenced" :src="skStrings.silencedInstanceSaysSomething" tag="small">
+		<I18n v-if="mute.instanceSilenced" :src="i18n.ts.silencedInstanceSaysSomething" tag="small">
 			<template #name>
 				{{ instanceName }}
 			</template>
@@ -100,12 +100,7 @@ import type { Ref } from 'vue';
 import { i18n } from '@/i18n.js';
 import { prefer } from '@/preferences.js';
 
-/*
-	Sharkey strings that Misskey's en-US.yml does not have yet. Locale edits are restricted
-	(ja-JP only) by the port plan, so they live here until Crowdin syncs them into locales.
-*/
 import { checkMute } from '@/utility/sk-check-mute.js';
-import { skStrings } from '@/utility/sk-strings.js';
 
 const props = withDefaults(defineProps<{
 	note: Misskey.entities.Note;

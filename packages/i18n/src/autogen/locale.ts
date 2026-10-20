@@ -13695,9 +13695,9 @@ export interface Locale extends ILocale {
      */
     "silencedUserSaysSomething": ParameterizedString<"name" | "host">;
     /**
-     * サイレンス中のサーバーの{name}さんが投稿しました
+     * {name}はサイレンス中のサーバー({host})からの投稿です
      */
-    "silencedInstanceSaysSomething": ParameterizedString<"name">;
+    "silencedInstanceSaysSomething": ParameterizedString<"name" | "host">;
     /**
      * {user}さんによる記事
      */

@@ -13,15 +13,6 @@ import type { ParameterizedString } from 'i18n';
  * Move entries into locales/en-US.yml when they are settled, then remove them here.
  */
 export const skStrings = {
-	// SkMutedNote.vue
-	noteIsFlaggedAs: 'Flagged as: {cw}' as ParameterizedString<'cw'>,
-	userIsFlaggedAs: '{name} is flagged as: {cw}' as ParameterizedString<'name' | 'cw'>,
-	instanceIsFlaggedAs: '{name} is flagged as: {cw}' as ParameterizedString<'name' | 'cw'>,
-	userSaysSomethingInMutedNote: '{name} posted a muted note' as ParameterizedString<'name'>,
-	userSaysSomethingInMutedThread: '{name} posted in a muted thread' as ParameterizedString<'name'>,
-	silencedUserSaysSomething: '{name} ({host}) is silenced and posted' as ParameterizedString<'name' | 'host'>,
-	silencedInstanceSaysSomething: '{name} is from a silenced instance and posted' as ParameterizedString<'name' | 'host'>,
-
 	// SkUrlPreview.vue
 	writtenBy: 'Written by {user}' as ParameterizedString<'user'>,
 	fetchLinkedNote: 'Fetch linked note',
