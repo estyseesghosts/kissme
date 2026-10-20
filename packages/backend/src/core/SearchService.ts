@@ -34,12 +34,80 @@ type Q =
 	{ op: 'or', qs: Q[] } |
 	{ op: 'not', q: Q };
 
+// Sync with consts.ts and const.ts
+const fileTypes = {
+	image: [
+		'image/webp',
+		'image/png',
+		'image/jpeg',
+		'image/avif',
+		'image/apng',
+		'image/gif',
+		'image/bmp',
+		'image/tiff',
+		'image/x-icon',
+	],
+	video: [
+		'video/mp4',
+		'video/webm',
+		'video/mpeg',
+		'video/x-m4v',
+		'video/ogg',
+		'video/quicktime',
+		'video/3gpp',
+		'video/3gpp2',
+		'video/x-matroska',
+	],
+	audio: [
+		'audio/mpeg',
+		'audio/flac',
+		'audio/wav',
+		'audio/aac',
+		'audio/webm',
+		'audio/opus',
+		'audio/ogg',
+		'audio/x-m4a',
+		'audio/mp4',
+		'audio/x-flac',
+		'audio/vnd.wave',
+		'audio/mod',
+		'audio/s3m',
+		'audio/xm',
+		'audio/it',
+		'audio/x-mod',
+		'audio/x-s3m',
+		'audio/x-xm',
+		'audio/x-it',
+	],
+	// Keep in sync with frontend-shared/js/const.ts
+	module: [
+		'audio/mod',
+		'audio/x-mod',
+		'audio/s3m',
+		'audio/x-s3m',
+		'audio/xm',
+		'audio/x-xm',
+		'audio/it',
+		'audio/x-it',
+	],
+	flash: [
+		'application/x-shockwave-flash',
+		'application/vnd.adobe.flash.movie',
+	],
+};
+
+// Make sure to regenerate misskey-js and check search.note.vue after changing these
+export const fileTypeCategories = ['image', 'video', 'audio', 'module', 'flash', null] as const;
+export type FileTypeCategory = typeof fileTypeCategories[number];
+
 export type SearchOpts = {
 	userId?: MiNote['userId'] | null;
 	channelId?: MiNote['channelId'] | null;
 	host?: string | null;
 	rangeStartAt?: number | null;
 	rangeEndAt?: number | null;
+	filetype?: FileTypeCategory;
+	order?: string | null;
 };
 
 export type SearchPagination = {
@@ -116,6 +184,7 @@ export class SearchService {
 					'userHost',
 					'channelId',
 					'tags',
+					'attachedFileTypes',
 				],
 				typoTolerance: {
 					enabled: false,
@@ -164,6 +233,7 @@ export class SearchService {
 			cw: note.cw,
 			text: note.text,
 			tags: note.tags,
+			attachedFileTypes: note.attachedFileTypes,
 		}], {
 			primaryKey: 'id',
 		});
@@ -237,6 +307,10 @@ export class SearchService {
 			}
 		}
 
+		if (opts.filetype) {
+			query.andWhere('note."attachedFileTypes" && :types', { types: fileTypes[opts.filetype] });
+		}
+
 		if (opts.rangeStartAt != null) {
 			const date = this.idService.gen(opts.rangeStartAt - 1);
 			query.andWhere('note.id > :rangeStartAt', { rangeStartAt: date });
@@ -303,8 +377,13 @@ export class SearchService {
 			if (this.meta.ugcVisibilityForVisitor === 'local') filter.qs.push({ op: 'is null', k: 'userHost' });
 		}
 
+		if (opts.filetype) {
+			const filters = fileTypes[opts.filetype].map(mime => ({ op: '=' as const, k: 'attachedFileTypes', v: mime }));
+			filter.qs.push({ op: 'or', qs: filters });
+		}
+
 		const res = await this.meilisearchNoteIndex.search(q, {
-			sort: ['createdAt:desc'],
+			sort: [`createdAt:${opts.order ? opts.order : 'desc'}`],
 			matchingStrategy: 'all',
 			attributesToRetrieve: ['id', 'createdAt'],
 			filter: compileQuery(filter),

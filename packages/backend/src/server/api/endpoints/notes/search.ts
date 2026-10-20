@@ -5,7 +5,7 @@
 
 import { Injectable } from '@nestjs/common';
 import { Endpoint } from '@/server/api/endpoint-base.js';
-import { SearchService } from '@/core/SearchService.js';
+import { fileTypeCategories, SearchService } from '@/core/SearchService.js';
 import { NoteEntityService } from '@/core/entities/NoteEntityService.js';
 import { RoleService } from '@/core/RoleService.js';
 import { IdService } from '@/core/IdService.js';
@@ -53,6 +53,12 @@ export const paramDef = {
 		},
 		userId: { type: 'string', format: 'misskey:id', nullable: true, default: null },
 		channelId: { type: 'string', format: 'misskey:id', nullable: true, default: null },
+		filetype: {
+			type: 'string',
+			nullable: true,
+			enum: fileTypeCategories,
+		},
+		order: { type: 'string' },
 	},
 	required: ['query'],
 } as const;
@@ -82,6 +88,8 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				host: ps.host,
 				rangeStartAt: ps.rangeStartAt,
 				rangeEndAt: ps.rangeEndAt,
+				filetype: ps.filetype,
+				order: ps.order,
 			}, {
 				untilId: untilId,
 				sinceId: sinceId,
