@@ -25,17 +25,13 @@ Migrated (in both locale files, read via `i18n.ts`, gone from `sk-strings.ts`):
   `userSaysSomethingInMutedThread`, `silencedUserSaysSomething`,
   `silencedInstanceSaysSomething`) — English follows the donor wording.
 - `SkUrlPreview` (`writtenBy`, `fetchLinkedNote`) — donor wording.
+- Note footers (`quoted`, `rmboost`, `noteFooterLabel`, `animatedMFM.*`) used by
+  `SkNote`, `SkNoteSub`, `SkNoteDetailed`, `SkOldNoteWindow` — English follows the
+  donor wording (`rmboost` is "Unboosted.", footer is "Note controls").
 - `_skSettings.*` and flat pref labels (`clickToOpen`, `expandLongNote`, …).
 
 | Key in `skStrings` | English text | Used in |
 |---|---|---|
-| `quoted` | `Quoted.` | `SkNote.vue`, `SkNoteSub.vue`, `SkNoteDetailed.vue` |
-| `rmboost` | `Removed boost.` | `SkNote.vue`, `SkNoteSub.vue`, `SkNoteDetailed.vue` |
-| `noteFooterLabel` | `Note actions` | `SkNote.vue`, `SkNoteSub.vue`, `SkNoteDetailed.vue`, `SkOldNoteWindow.vue` |
-| `animatedMFM.play` | `Play` | `SkNote.vue`, `SkNoteDetailed.vue` |
-| `animatedMFM.stop` | `Stop` | `SkNote.vue`, `SkNoteDetailed.vue` |
-| `animatedMFM.alertText` | `Animated MFM may be distracting. Play it anyway?` | `SkNote.vue`, `SkNoteDetailed.vue` |
-| `animatedMFM.alertConfirm` | `Play` | `SkNote.vue`, `SkNoteDetailed.vue` |
 | `postOn` | `Post on` | `components/MkScheduleEditor.vue` |
 | `schedulePostList` | `Scheduled notes` | `components/MkSchedulePostListDialog.vue`, `components/MkPostForm.vue` |
 | `confirmPollEditTitle` | `Edit poll?` | `components/MkPostForm.vue` |

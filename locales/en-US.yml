@@ -3547,6 +3547,14 @@ _qr:
 # Sharkey frontend port (see MISSING-STRINGS.md)
 writtenBy: "Written by {user}"
 fetchLinkedNote: "Fetch linked note"
+quoted: "Quoted."
+rmboost: "Unboosted."
+noteFooterLabel: "Note controls"
+animatedMFM:
+  play: "Play MFM Animation"
+  stop: "Stop MFM Animation"
+  alertText: "Animated MFMs could include flashing lights and fast moving text/emojis."
+  alertConfirm: "Animate"
 noteIsFlaggedAs: "Note is flagged: \"{cw}\""
 userIsFlaggedAs: "{name} is flagged: \"{cw}\""
 instanceIsFlaggedAs: "{name} is flagged: \"{cw}\""

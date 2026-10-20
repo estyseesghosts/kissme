@@ -8,21 +8,11 @@ import type { ParameterizedString } from 'i18n';
 /**
  * Sharkey UI strings that Misskey's en-US.yml does not have yet.
  *
- * Single source for every Sk* component. The port is no longer constrained to upstream
- * strings, so these are not in any locale file. Each entry is listed in MISSING-STRINGS.md.
- * Move entries into locales/en-US.yml when they are settled, then remove them here.
+ * Temporary home for the remaining un-migrated strings. Each entry is listed in
+ * MISSING-STRINGS.md. Move entries into locales/en-US.yml (and ja-JP.yml) when they
+ * are settled, switch the components to i18n.ts, then remove them here.
  */
 export const skStrings = {
-	// SkNote.vue, SkNoteSub.vue, SkNoteDetailed.vue, SkNoteSimple.vue
-	quoted: 'Quoted.',
-	rmboost: 'Removed boost.',
-	noteFooterLabel: 'Note actions',
-	animatedMFM: {
-		play: 'Play',
-		stop: 'Stop',
-		alertText: 'Animated MFM may be distracting. Play it anyway?',
-		alertConfirm: 'Play',
-	},
 
 	// MkScheduleEditor.vue, MkSchedulePostListDialog.vue, MkPostForm.vue
 	postOn: 'Post on',

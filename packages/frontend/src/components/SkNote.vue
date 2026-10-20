@@ -91,8 +91,8 @@ Displays a note in the Sharkey style. Used to show the "main" note in a given co
 							:enableEmojiMenuReaction="true"
 						/>
 						<SkNoteTranslation :note="note" :translation="translation" :translating="translating"></SkNoteTranslation>
-						<MkButton v-if="!allowAnim && animated" :class="$style.playMFMButton" :small="true" @click="animatedMFM()" @click.stop><i class="ti ti-player-play"></i> {{ skStrings.animatedMFM.play }}</MkButton>
-						<MkButton v-else-if="!prefer.s.animatedMfm && allowAnim && animated" :class="$style.playMFMButton" :small="true" @click="animatedMFM()" @click.stop><i class="ti ti-player-stop"></i> {{ skStrings.animatedMFM.stop }}</MkButton>
+						<MkButton v-if="!allowAnim && animated" :class="$style.playMFMButton" :small="true" @click="animatedMFM()" @click.stop><i class="ti ti-player-play"></i> {{ i18n.ts.animatedMFM.play }}</MkButton>
+						<MkButton v-else-if="!prefer.s.animatedMfm && allowAnim && animated" :class="$style.playMFMButton" :small="true" @click="animatedMFM()" @click.stop><i class="ti ti-player-stop"></i> {{ i18n.ts.animatedMFM.stop }}</MkButton>
 					</div>
 					<div v-if="appearNote.files && appearNote.files.length > 0 && !prefer.s.collapseFiles">
 						<SkMediaList ref="galleryEl" :mediaList="appearNote.files" :user="appearNote.user" @click.stop/>
@@ -139,7 +139,7 @@ Displays a note in the Sharkey style. Used to show the "main" note in a given co
 					<MkA :to="`/notes/${appearNote.id}/reactions`" :class="[$style.reactionOmitted]">{{ i18n.ts.more }}</MkA>
 				</template>
 			</SkReactionsViewer>
-			<footer :class="$style.footer" class="_gaps _h_gaps" tabindex="0" role="group" :aria-label="skStrings.noteFooterLabel">
+			<footer :class="$style.footer" class="_gaps _h_gaps" tabindex="0" role="group" :aria-label="i18n.ts.noteFooterLabel">
 				<button :class="$style.footerButton" class="_button" @click.stop @click="reply()">
 					<i class="ti ti-arrow-back-up"></i>
 					<p v-if="appearNote.repliesCount > 0" :class="$style.footerButtonCount">{{ number(appearNote.repliesCount) }}</p>
@@ -253,7 +253,6 @@ import { prefer } from '@/preferences.js';
 import { setupNoteViewInterruptors } from '@/plugin.js';
 import { DI } from '@/di.js';
 import { useRouter } from '@/router.js';
-import { skStrings } from '@/utility/sk-strings.js';
 import { likeNoteWithFeedback } from '@/utility/sk-like.js';
 
 // Sharkey-only fields that misskey-js's Note/User types do not declare (see docs/sk-port/SkNote.md).
@@ -601,7 +600,7 @@ function quote() {
 				});
 			}
 
-			os.toast(skStrings.quoted);
+			os.toast(i18n.ts.quoted);
 		});
 	});
 }
@@ -717,7 +716,7 @@ function undoRenote(note: Misskey.entities.Note): void {
 	misskeyApi('notes/unrenote', {
 		noteId: note.id,
 	});
-	os.toast(skStrings.rmboost);
+	os.toast(i18n.ts.rmboost);
 	appearNote.value.isRenoted = false;
 
 	const el = renoteButton.value as HTMLElement | null | undefined;
@@ -839,8 +838,8 @@ function animatedMFM() {
 	} else {
 		os.confirm({
 			type: 'warning',
-			text: skStrings.animatedMFM.alertText,
-			okText: skStrings.animatedMFM.alertConfirm,
+			text: i18n.ts.animatedMFM.alertText,
+			okText: i18n.ts.animatedMFM.alertConfirm,
 		}).then((res) => { if (!res.canceled) allowAnim.value = true; });
 	}
 }

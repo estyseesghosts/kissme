@@ -56,7 +56,7 @@ Displays an old version of an edited note.
 				</div>
 				<MkA v-if="appearNote.channel && !inChannel" :class="$style.channel" :to="`/channels/${appearNote.channel.id}`"><i class="ti ti-device-tv"></i> {{ appearNote.channel.name }}</MkA>
 			</div>
-			<footer :class="$style.footer" class="_gaps _h_gaps" tabindex="0" role="group" :aria-label="skStrings.noteFooterLabel">
+			<footer :class="$style.footer" class="_gaps _h_gaps" tabindex="0" role="group" :aria-label="i18n.ts.noteFooterLabel">
 				<div :class="$style.noteFooterInfo">
 					<MkTime :time="appearNote.createdAt" mode="detail"/>
 				</div>
@@ -98,7 +98,6 @@ import { DI } from '@/di.js';
 import SkNoteTranslation from '@/components/SkNoteTranslation.vue';
 import { getSelfNoteIds } from '@/utility/get-self-note-ids.js';
 import SkUrlPreviewGroup from '@/components/SkUrlPreviewGroup.vue';
-import { skStrings } from '@/utility/sk-strings.js';
 
 // Sharkey strings pending locales (see MISSING-STRINGS.md).
 // Not present in en-US.yml; move to locales once they are added upstream.

@@ -111,8 +111,8 @@ Detailed view of a note in the Sharkey style. Used when opening a note onto its 
 					class="_selectable"
 				/>
 				<SkNoteTranslation :note="note" :translation="translation" :translating="translating"></SkNoteTranslation>
-				<MkButton v-if="!allowAnim && animated" :class="$style.playMFMButton" :small="true" @click="animatedMFM()" @click.stop><i class="ti ti-player-play"></i> {{ skStrings.animatedMFM.play }}</MkButton>
-				<MkButton v-else-if="!prefer.s.animatedMfm && allowAnim && animated" :class="$style.playMFMButton" :small="true" @click="animatedMFM()" @click.stop><i class="ti ti-player-stop"></i> {{ skStrings.animatedMFM.stop }}</MkButton>
+				<MkButton v-if="!allowAnim && animated" :class="$style.playMFMButton" :small="true" @click="animatedMFM()" @click.stop><i class="ti ti-player-play"></i> {{ i18n.ts.animatedMFM.play }}</MkButton>
+				<MkButton v-else-if="!prefer.s.animatedMfm && allowAnim && animated" :class="$style.playMFMButton" :small="true" @click="animatedMFM()" @click.stop><i class="ti ti-player-stop"></i> {{ i18n.ts.animatedMFM.stop }}</MkButton>
 				<div v-if="appearNote.files && appearNote.files.length > 0 && !prefer.s.collapseFiles">
 					<SkMediaList ref="galleryEl" :mediaList="appearNote.files"/>
 				</div>
@@ -153,7 +153,7 @@ Detailed view of a note in the Sharkey style. Used when opening a note onto its 
 			:mutedEmojis="prefer.s.mutedEmojis"
 			@toggleEmojiMute="onToggleEmojiMute"
 		/>
-		<footer :class="$style.footer" class="_gaps _h_gaps" tabindex="0" role="group" :aria-label="skStrings.noteFooterLabel">
+		<footer :class="$style.footer" class="_gaps _h_gaps" tabindex="0" role="group" :aria-label="i18n.ts.noteFooterLabel">
 			<button class="_button" :class="$style.noteFooterButton" @click="reply()">
 				<i class="ti ti-arrow-back-up"></i>
 				<p v-if="appearNote.repliesCount > 0" :class="$style.noteFooterButtonCount">{{ number(appearNote.repliesCount) }}</p>
@@ -310,7 +310,6 @@ import { getSelfNoteIds } from '@/utility/get-self-note-ids.js';
 import SkUrlPreviewGroup from '@/components/SkUrlPreviewGroup.vue';
 import { showNoteOnOriginalInstance } from '@/utility/show-note-on-original-instance.js';
 import { Paginator } from '@/utility/paginator.js';
-import { skStrings } from '@/utility/sk-strings.js';
 import { likeNoteWithFeedback } from '@/utility/sk-like.js';
 
 const props = withDefaults(defineProps<{
@@ -611,7 +610,7 @@ function quote() {
 				});
 			}
 
-			os.toast(skStrings.quoted);
+			os.toast(i18n.ts.quoted);
 		});
 	});
 }
@@ -704,7 +703,7 @@ function undoRenote() : void {
 	misskeyApi('notes/unrenote', {
 		noteId: appearNote.value.id,
 	});
-	os.toast(skStrings.rmboost);
+	os.toast(i18n.ts.rmboost);
 	appearNote.value.isRenoted = false;
 
 	const el = renoteButton.value as HTMLElement | null | undefined;
@@ -832,8 +831,8 @@ function animatedMFM() {
 	} else {
 		os.confirm({
 			type: 'warning',
-			text: skStrings.animatedMFM.alertText,
-			okText: skStrings.animatedMFM.alertConfirm,
+			text: i18n.ts.animatedMFM.alertText,
+			okText: i18n.ts.animatedMFM.alertConfirm,
 		}).then((res) => { if (!res.canceled) allowAnim.value = true; });
 	}
 }

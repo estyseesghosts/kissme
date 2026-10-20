@@ -32,7 +32,7 @@ For example, when viewing a reply on the timeline, SkNoteSub will be used to dis
 				</div>
 			</div>
 			<SkReactionsViewer ref="reactionsViewer" :note="reactionNote" :mutedEmojis="prefer.s.mutedEmojis" @toggleEmojiMute="onToggleEmojiMute"/>
-			<footer :class="$style.footer" class="_gaps _h_gaps" tabindex="0" role="group" :aria-label="skStrings.noteFooterLabel">
+			<footer :class="$style.footer" class="_gaps _h_gaps" tabindex="0" role="group" :aria-label="i18n.ts.noteFooterLabel">
 				<button class="_button" :class="$style.noteFooterButton" @click="reply()">
 					<i class="ti ti-arrow-back-up"></i>
 					<p v-if="note.repliesCount > 0" :class="$style.noteFooterButtonCount">{{ note.repliesCount }}</p>
@@ -128,7 +128,6 @@ import { instance, policies } from '@/instance.js';
 import { getAppearNote } from '@/utility/get-appear-note.js';
 import { setupNoteViewInterruptors } from '@/plugin.js';
 import { deepClone } from '@/utility/clone.js';
-import { skStrings } from '@/utility/sk-strings.js';
 
 /*
 	Sharkey strings that Misskey's en-US.yml does not have yet. Locale edits are restricted
@@ -312,7 +311,7 @@ function undoRenote() : void {
 	misskeyApi('notes/unrenote', {
 		noteId: appearNote.value.id,
 	});
-	os.toast(skStrings.rmboost);
+	os.toast(i18n.ts.rmboost);
 	appearNote.value.isRenoted = false;
 
 	const el = renoteButton.value as HTMLElement | null | undefined;
@@ -410,7 +409,7 @@ function quote() {
 				});
 			}
 
-			os.toast(skStrings.quoted);
+			os.toast(i18n.ts.quoted);
 		});
 	});
 }
