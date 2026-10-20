@@ -1,25 +1,18 @@
-# Missing i18n strings (Sharkey frontend port)
+# Missing i18n strings (Sharkey frontend port) — MIGRATION COMPLETE
 
 Sharkey UI strings used by the ported `Sk*` components that Misskey's `locales/en-US.yml`
-did not have. Migration is in progress: settled keys live in the locale files and are
-deleted from `sk-strings.ts`.
+did not have. All keys now live in the locale files; `sk-strings.ts` is deleted.
 
 State:
 - `locales/ja-JP.yml` has a trailing `# Sharkey frontend port` section with Japanese
   wording for the ported keys (added before the real-locales policy).
-- `locales/en-US.yml` is gaining the matching English section key-by-key, reusing the
-  donor `sharkey-locales/en-US.yml` wording where it fits.
-- `_skSettings.*` plus the flat pref labels were migrated earlier into both locale
-  files (new Japanese written in Misskey tone); the orphaned top-level duplicates
-  left in the ja-JP tail are still to be removed.
+- `locales/en-US.yml` has the matching trailing English section, reusing the
+  donor `sharkey-locales/en-US.yml` wording where it fits (noted per area below).
+- `_skSettings.*` plus the flat pref labels live in both locale files (new Japanese
+  written in Misskey tone); the orphaned top-level `welcomeEntranceStyle*`
+  duplicates left in the ja-JP tail are still to be removed.
 
-Remaining keys live in one module: `packages/frontend/src/utility/sk-strings.ts`.
-Components import `skStrings` from there, so there is one wording per key.
-
-To settle each key: ensure it is in `locales/en-US.yml` (and `ja-JP.yml`), switch the
-components to `i18n.ts.<key>`, and delete the entry from `sk-strings.ts`.
-
-Migrated (in both locale files, read via `i18n.ts`, gone from `sk-strings.ts`):
+Migrated (in both locale files, read via `i18n.ts` / `i18n.tsx`):
 - `SkMutedNote` (7 keys: `noteIsFlaggedAs`, `userIsFlaggedAs`,
   `instanceIsFlaggedAs`, `userSaysSomethingInMutedNote`,
   `userSaysSomethingInMutedThread`, `silencedUserSaysSomething`,
@@ -73,23 +66,32 @@ Migrated (in both locale files, read via `i18n.ts`, gone from `sk-strings.ts`):
   system-account dialog copy).
 - ListenBrainz (`listeningTo`) in `SkListenBrainz` — donor wording
   (donor `_profile.listeningTo`).
+- MFM cheatsheet (`mfmCheatsheet.*`, 39 sections) in `SkMfmWindow`,
+  `MkPostForm` button, `sk-mfm-cheatsheet.ts` — English follows the donor
+  `_mfm.*` wording verbatim; the port's nested structure is kept as in the
+  ja-JP tail. `MfmSectionId` is now `keyof Locale['mfmCheatsheet']['sections']`.
+
+`sk-strings.ts` deleted — no remaining users. The ja-JP tail orphans
+(top-level `welcomeEntranceStyle*`) are still to be removed.
 
 Remaining (phases 1–3 are fully migrated):
 
 Phase 4 additions. The last column notes where the wording comes from.
 
-| Key in `skStrings` | English text | Used in |
-|---|---|---|
-| `welcomeEntranceStyle` | `Entrance page style` | migrated to `_skSettings` (Phase 10); orphaned top-level ja-JP tail copies pending removal |
-| `welcomeEntranceStyleServer` | `Server default` | migrated to `_skSettings` (Phase 10); orphaned top-level ja-JP tail copies pending removal |
-| `welcomeEntranceStyleA` | `Sharkey (A)` | migrated to `_skSettings` (Phase 10); orphaned top-level ja-JP tail copies pending removal |
-| `mfmCheatsheet.title` / `.openButton` | `MFM Cheatsheet` / `MFM cheatsheet` | `SkMfmWindow`, `MkPostForm` button (Phase 9.1; donor hard-coded the title) |
-| `mfmCheatsheet.intro` / `.dummy` / `.uncommonFeature` | donor `_mfm.intro` / `.dummy` / `.uncommonFeature` | `SkMfmWindow` (Phase 9.1) |
-| `mfmCheatsheet.sections.<id>.title` / `.description` (39 sections) | donor `_mfm.<id>` / `_mfm.<id>Description` | `SkMfmWindow` via `utility/sk-mfm-cheatsheet.ts` (Phase 9.1) |
+No remaining keys. `sk-strings.ts` is deleted; every ported string lives in
+`locales/en-US.yml` (trailing `# Sharkey frontend port` section) and
+`locales/ja-JP.yml` (trailing tail section plus `_skSettings.*`), read via
+`i18n.ts` / `i18n.tsx`.
 
-## Phase 10.6
+| Orphaned key | State |
+|---|---|
+| top-level `welcomeEntranceStyle`, `welcomeEntranceStyleServer`, `welcomeEntranceStyleA` (ja-JP tail) | superseded by `_skSettings.*`; removal pending |
 
-All `skStrings` keys above now also exist in `locales/ja-JP.yml` under the same names (Japanese only; Crowdin propagates). Components still read `skStrings`.
+## Phase 10.6 (historical)
+
+The ja-JP tail section was added here (Japanese only at the time). The en-US
+counterpart and the component switch to `i18n.ts` landed key-by-key afterwards;
+`sk-strings.ts` is now deleted.
 
 ## Phase 10.1/10.2 — MIGRATED to locale files
 

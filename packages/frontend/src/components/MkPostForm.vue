@@ -115,7 +115,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 			<button v-tooltip="i18n.ts.hashtags" class="_button" :class="[$style.footerButton, { [$style.footerButtonActive]: withHashtags }]" @click="withHashtags = !withHashtags"><i class="ti ti-hash"></i></button>
 			<button v-tooltip="i18n.ts.mention" class="_button" :class="$style.footerButton" @click="insertMention"><i class="ti ti-at"></i></button>
 			<button v-if="showAddMfmFunction" v-tooltip="i18n.ts.addMfmFunction" :class="['_button', $style.footerButton]" @click="insertMfmFunction"><i class="ti ti-palette"></i></button>
-			<button v-if="sk" v-tooltip="skStrings.mfmCheatsheet.openButton" :class="['_button', $style.footerButton]" @click="openMfmCheatsheet"><i class="ti ti-help-circle"></i></button>
+			<button v-if="sk" v-tooltip="i18n.ts.mfmCheatsheet.openButton" :class="['_button', $style.footerButton]" @click="openMfmCheatsheet"><i class="ti ti-help-circle"></i></button>
 			<button v-if="postFormActions.length > 0" v-tooltip="i18n.ts.plugins" class="_button" :class="$style.footerButton" @click="showActions"><i class="ti ti-plug"></i></button>
 		</div>
 		<div :class="$style.footerRight">
@@ -160,7 +160,6 @@ import { skSelectFiles } from '@/utility/sk-select-file.js';
 import { addMentionToText, getMissingMentions, isSelfMention, reactionAcceptanceHeaderIcon } from '@/utility/sk-post-form.js';
 import { replaceFileById } from '@/utility/sk-attaches.js';
 import { createScheduledNote, editNote } from '@/utility/sk-schedule-api.js';
-import { skStrings } from '@/utility/sk-strings.js';
 import { store } from '@/store.js';
 import MkInfo from '@/components/MkInfo.vue';
 import { i18n } from '@/i18n.js';

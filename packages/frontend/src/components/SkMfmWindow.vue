@@ -14,16 +14,16 @@ The donor repeated one hand-written block per function; here the sections come f
 	@closed="emit('closed')"
 >
 	<template #header>
-		{{ skStrings.mfmCheatsheet.title }}
+		{{ i18n.ts.mfmCheatsheet.title }}
 	</template>
 	<MkStickyContainer>
 		<div class="_spacer" style="--MI_SPACER-w: 800px;">
 			<div :class="$style.root">
-				<div>{{ skStrings.mfmCheatsheet.intro }}</div>
+				<div>{{ i18n.ts.mfmCheatsheet.intro }}</div>
 				<br/>
 				<div v-for="section in sections" :key="section.id" class="_block" :class="$style.section">
 					<div :class="$style.title">{{ section.title }}</div>
-					<MkInfo v-if="section.uncommon" warn>{{ skStrings.mfmCheatsheet.uncommonFeature }}</MkInfo>
+					<MkInfo v-if="section.uncommon" warn>{{ i18n.ts.mfmCheatsheet.uncommonFeature }}</MkInfo>
 					<div :class="$style.content">
 						<p :class="$style.description">{{ section.description }}</p>
 						<div :class="$style.preview">
@@ -44,7 +44,7 @@ import MkInfo from '@/components/MkInfo.vue';
 import MkWindow from '@/components/MkWindow.vue';
 import MkTextarea from '@/components/MkTextarea.vue';
 import MkStickyContainer from '@/components/global/MkStickyContainer.vue';
-import { skStrings } from '@/utility/sk-strings.js';
+import { i18n } from '@/i18n.js';
 import { buildMfmCheatsheet } from '@/utility/sk-mfm-cheatsheet.js';
 
 const emit = defineEmits<{

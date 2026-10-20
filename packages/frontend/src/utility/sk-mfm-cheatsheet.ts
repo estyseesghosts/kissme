@@ -3,9 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { skStrings } from '@/utility/sk-strings.js';
+import { i18n } from '@/i18n.js';
+import type { Locale } from 'i18n';
 
-export type MfmSectionId = keyof typeof skStrings.mfmCheatsheet.sections;
+export type MfmSectionId = keyof Locale['mfmCheatsheet']['sections'];
 
 export type MfmCheatsheetSection = {
 	id: MfmSectionId;
@@ -28,7 +29,7 @@ function animation(fn: string): string {
  * `now` is injectable so the unixtime example is deterministic in tests.
  */
 export function buildMfmCheatsheet(now: number = Date.now()): MfmCheatsheetSection[] {
-	const s = skStrings.mfmCheatsheet;
+	const s = i18n.ts.mfmCheatsheet;
 	const dummy = s.dummy;
 	const previews: Record<MfmSectionId, string> = {
 		mention: '@example',
