@@ -729,7 +729,7 @@ function showOtherSettings() {
 		action: toggleScheduleNote,
 	}, {
 		icon: 'ti ti-calendar-time',
-		text: skStrings.schedulePostList,
+		text: i18n.ts.schedulePostList,
 		action: () => {
 			const { dispose } = os.popup(defineAsyncComponent(() => import('@/components/MkSchedulePostListDialog.vue')), {}, {
 				cancel: () => {
@@ -1193,8 +1193,8 @@ async function post(ev?: PointerEvent) {
 	if (sk.value && props.editId && poll.value !== initialPoll.value) {
 		const { canceled } = await os.confirm({
 			type: 'warning',
-			title: skStrings.confirmPollEditTitle,
-			text: skStrings.confirmPollEditText,
+			title: i18n.ts.confirmPollEditTitle,
+			text: i18n.ts.confirmPollEditText,
 		});
 		if (canceled) return;
 	}

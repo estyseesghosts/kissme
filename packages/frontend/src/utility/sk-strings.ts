@@ -14,14 +14,6 @@ import type { ParameterizedString } from 'i18n';
  */
 export const skStrings = {
 
-	// MkScheduleEditor.vue, MkSchedulePostListDialog.vue, MkPostForm.vue
-	postOn: 'Post on',
-	schedulePostList: 'Scheduled notes',
-
-	// MkPostForm.vue (edit mode)
-	confirmPollEditTitle: 'Edit poll?',
-	confirmPollEditText: 'The poll was changed. Editing a note with a poll may reset its votes. Continue?',
-
 	// SkNoteTranslation.vue
 	translationFailed: 'Translation failed',
 

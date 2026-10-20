@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 <div style="padding: 8px 16px;">
 	<section>
 		<MkInput v-model="atDate" small type="date" class="input">
-			<template #label>{{ skStrings.postOn }}</template>
+			<template #label>{{ i18n.ts.postOn }}</template>
 		</MkInput>
 		<MkInput v-model="atTime" small type="time" class="input">
 			<template #label>{{ i18n.ts._poll.deadlineTime }}</template>
@@ -20,7 +20,6 @@ SPDX-License-Identifier: AGPL-3.0-only
 import { onMounted, ref, watch } from 'vue';
 import MkInput from '@/components/MkInput.vue';
 import { i18n } from '@/i18n.js';
-import { skStrings } from '@/utility/sk-strings.js';
 import { defaultScheduleParts, joinScheduledAt, splitScheduledAt } from '@/utility/sk-schedule.js';
 
 const props = defineProps<{

@@ -28,21 +28,18 @@ Migrated (in both locale files, read via `i18n.ts`, gone from `sk-strings.ts`):
 - Note footers (`quoted`, `rmboost`, `noteFooterLabel`, `animatedMFM.*`) used by
   `SkNote`, `SkNoteSub`, `SkNoteDetailed`, `SkOldNoteWindow` — English follows the
   donor wording (`rmboost` is "Unboosted.", footer is "Note controls").
+- Schedule + poll-edit (`postOn`, `schedulePostList`, `confirmPollEditTitle`,
+  `confirmPollEditText`) in `MkScheduleEditor`, `MkSchedulePostListDialog`,
+  `MkPostForm` — English follows the donor wording.
 - `_skSettings.*` and flat pref labels (`clickToOpen`, `expandLongNote`, …).
 
 | Key in `skStrings` | English text | Used in |
 |---|---|---|
-| `postOn` | `Post on` | `components/MkScheduleEditor.vue` |
-| `schedulePostList` | `Scheduled notes` | `components/MkSchedulePostListDialog.vue`, `components/MkPostForm.vue` |
-| `confirmPollEditTitle` | `Edit poll?` | `components/MkPostForm.vue` |
-| `confirmPollEditText` | `The poll was changed. Editing a note with a poll may reset its votes. Continue?` | `components/MkPostForm.vue` |
 | `translationFailed` | `Translation failed` | `components/SkNoteTranslation.vue` |
 | `cannotLoadNote` | `Cannot load note` | `components/SkFetchNote.vue` |
 | `externalWarningTitle` | `External website` | `components/MkUrlWarningDialog.vue` |
 | `externalWarningDescription` | `This link goes to a website outside {host}. Check that you trust it before you continue.` | `components/MkUrlWarningDialog.vue` |
 | `externalWarningTrust` | `Trust this domain` | `components/MkUrlWarningDialog.vue` |
-
-Note: the two `confirmPollEdit*` texts are not in the donor's en-US.yml either (the donor references `_confirmPollEdit`); the wording above is written for this port, not copied.
 
 Phase 4 additions. The last column notes where the wording comes from.
 
