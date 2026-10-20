@@ -8,7 +8,7 @@ import { ref, shallowRef } from 'vue';
 import type { FollowingFeedState } from '@/types/following-feed.js';
 
 vi.mock('@/i18n.js', () => ({
-	i18n: { ts: { following: 'Following', followers: 'Followers', options: 'Options' } },
+	i18n: { ts: { following: 'Following', followers: 'Followers', mutuals: 'Mutuals', options: 'Options', showNonPublicNotes: 'Show non-public', showQuotes: 'Show quotes', showBots: 'Show bots in timeline', showReplies: 'Show replies', fileAttachedOnly: 'Only notes with files' } },
 }));
 vi.mock('@/os.js', () => ({ popupMenu: vi.fn() }));
 vi.mock('@/preferences.js', () => ({ prefer: { r: {}, s: {}, commit: vi.fn() } }));

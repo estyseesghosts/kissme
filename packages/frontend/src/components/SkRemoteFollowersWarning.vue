@@ -7,16 +7,16 @@ Warning in the following feed/column that remote users may have incomplete/outda
 
 <template>
 <MkInfo v-if="showRemoteWarning" warn closable @close="closeWarning">
-	{{ skStrings.remoteFollowersWarning }}
+	{{ i18n.ts.remoteFollowersWarning }}
 </MkInfo>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
 import type { FollowingFeedModel } from '@/types/following-feed.js';
-import { skStrings } from '@/utility/sk-strings.js';
 import MkInfo from '@/components/MkInfo.vue';
 import { followersTab } from '@/types/following-feed.js';
+import { i18n } from '@/i18n.js';
 
 const props = defineProps<{
 	model: FollowingFeedModel,

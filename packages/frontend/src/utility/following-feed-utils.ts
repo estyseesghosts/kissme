@@ -12,7 +12,6 @@ import { deepMerge } from '@/utility/merge.js';
 import { i18n } from '@/i18n.js';
 import { popupMenu } from '@/os.js';
 import { prefer } from '@/preferences.js';
-import { skStrings } from '@/utility/sk-strings.js';
 import { followingTab, followersTab, mutualsTab, defaultFollowingFeedState } from '@/types/following-feed.js';
 
 export function followingTabName(tab: FollowingFeedTab): string;
@@ -20,7 +19,7 @@ export function followingTabName(tab: FollowingFeedTab | null | undefined): null
 export function followingTabName(tab: FollowingFeedTab | null | undefined): string | null {
 	if (tab === followingTab) return i18n.ts.following;
 	if (tab === followersTab) return i18n.ts.followers;
-	if (tab === mutualsTab) return skStrings.mutuals;
+	if (tab === mutualsTab) return i18n.ts.mutuals;
 	return null;
 }
 
@@ -57,23 +56,23 @@ export function createOptionsMenu(storage?: Ref<StorageInterface>): MenuItem[] {
 	return [
 		{
 			type: 'switch',
-			text: skStrings.showNonPublicNotes,
+			text: i18n.ts.showNonPublicNotes,
 			ref: withNonPublic,
 			disabled: computed(() => userList.value === followersTab),
 		},
 		{
 			type: 'switch',
-			text: skStrings.showQuotes,
+			text: i18n.ts.showQuotes,
 			ref: withQuotes,
 		},
 		{
 			type: 'switch',
-			text: skStrings.showBots,
+			text: i18n.ts.showBots,
 			ref: withBots,
 		},
 		{
 			type: 'switch',
-			text: skStrings.showReplies,
+			text: i18n.ts.showReplies,
 			ref: withReplies,
 			disabled: onlyFiles,
 		},

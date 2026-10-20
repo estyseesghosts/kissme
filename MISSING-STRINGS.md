@@ -48,20 +48,16 @@ Migrated (in both locale files, read via `i18n.ts`, gone from `sk-strings.ts`):
   honest-like fallback (`likeNotSupported`) in `sk-like.ts` — donor hard-coded
   English for the former, port wording for the latter.
 - `_skSettings.*` and flat pref labels (`clickToOpen`, `expandLongNote`, …).
+- Following feed (`mutuals`, `showBots`, `showQuotes`, `showReplies`,
+  `showNonPublicNotes`, `remoteFollowersWarning`) in
+  `following-feed-utils.ts`, `SkRemoteFollowersWarning` — donor wording.
 
-| Key in `skStrings` | English text | Used in |
-|---|---|---|
+Remaining (phases 1–3 are fully migrated):
 
 Phase 4 additions. The last column notes where the wording comes from.
 
 | Key in `skStrings` | English text | Used in |
 |---|---|---|
-| `mutuals` | `Mutuals` | `utility/following-feed-utils.ts`, `components/SkRemoteFollowersWarning.vue` (donor) |
-| `showBots` | `Show bots in timeline` | `utility/following-feed-utils.ts`, `components/SkRemoteFollowersWarning.vue` (donor) |
-| `showQuotes` | `Show quotes` | `utility/following-feed-utils.ts`, `components/SkRemoteFollowersWarning.vue` (donor) |
-| `showReplies` | `Show replies` | `utility/following-feed-utils.ts`, `components/SkRemoteFollowersWarning.vue` (donor) |
-| `showNonPublicNotes` | `Show non-public` | `utility/following-feed-utils.ts`, `components/SkRemoteFollowersWarning.vue` (donor) |
-| `remoteFollowersWarning` | `Remote followers may have incomplete or outdated activity` | `utility/following-feed-utils.ts`, `components/SkRemoteFollowersWarning.vue` (donor) |
 | `approvals` | `Approvals` | `SkApprovalUser / admin approvals` (donor) |
 | `approveAccount` | `Approve` | `SkApprovalUser / admin approvals` (donor) |
 | `denyAccount` | `Deny and delete` | `SkApprovalUser / admin approvals` (donor) |

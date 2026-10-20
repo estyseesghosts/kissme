@@ -14,14 +14,6 @@ import type { ParameterizedString } from 'i18n';
  */
 export const skStrings = {
 
-	// following-feed-utils.ts, SkRemoteFollowersWarning.vue (Phase 7)
-	mutuals: 'Mutuals',
-	showBots: 'Show bots in timeline',
-	showQuotes: 'Show quotes',
-	showReplies: 'Show replies',
-	showNonPublicNotes: 'Show non-public',
-	remoteFollowersWarning: 'Remote followers may have incomplete or outdated activity',
-
 	// SkApprovalUser.vue, pages/admin/approvals.vue (Phase 8.1)
 	approvals: 'Approvals',
 	approveAccount: 'Approve',
