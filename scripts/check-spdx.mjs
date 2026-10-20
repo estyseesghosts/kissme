@@ -96,6 +96,8 @@ function isTargetPath(file) {
 
 	const name = basename(file);
 	if (name.includes('eslint')) return false;
+	// vendored third-party code (BSD-3-Clause, see its LICENSE); not ours to relabel
+	if (file.includes('packages/frontend/src/utility/libopenmpt/')) return false;
 	if (EXCLUDED_CONFIG_EXTENSIONS.has(ext) && name.endsWith(`.config${ext}`)) return false;
 
 	return isRegularFile(file);

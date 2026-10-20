@@ -83,6 +83,17 @@ const externalPackages = [
 				: id;
 		},
 	},
+	// sharkey: Used for SkFlashPlayer, has large wasm files so it's loaded via Ruffle's preferred CDN
+	{
+		name: 'ruffle',
+		match: /^@ruffle-rs\/ruffle\/?(?<file>.*)$/,
+		path(id: string, pattern: RegExp): string {
+			const match = pattern.exec(id)?.groups;
+			return match
+				? `https://esm.sh/@ruffle-rs/ruffle@${packageInfo.dependencies['@ruffle-rs/ruffle']}/${match['file']}?raw`
+				: id;
+		},
+	},
 ];
 
 export const hash = (str: string, seed = 0): number => {
@@ -208,6 +219,7 @@ export function getConfig(): UserConfig {
 			_PERF_PREFIX_: JSON.stringify('Misskey:'),
 			__VUE_OPTIONS_API__: false,
 			__VUE_PROD_DEVTOOLS__: false,
+			_RUFFLE_VERSION_: JSON.stringify(packageInfo.dependencies['@ruffle-rs/ruffle']),
 		},
 
 		build: {

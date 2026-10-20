@@ -31,6 +31,7 @@ export default [
 				_VERSION_: false,
 				_ENV_: false,
 				_PERF_PREFIX_: false,
+				_RUFFLE_VERSION_: false,
 			},
 			parser,
 			parserOptions: {
