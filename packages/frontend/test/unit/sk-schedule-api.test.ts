@@ -10,7 +10,7 @@ const apiWithDialog = vi.fn(async () => ({}));
 vi.mock('@/utility/misskey-api.js', () => ({ misskeyApi }));
 vi.mock('@/os.js', () => ({ apiWithDialog }));
 
-const { createScheduledNote, deleteScheduledNote, listScheduledNotes } = await import('@/utility/sk-schedule-api.js');
+const { createScheduledNote, deleteScheduledNote, editNote, listScheduledNotes } = await import('@/utility/sk-schedule-api.js');
 
 beforeEach(() => {
 	misskeyApi.mockClear();
@@ -30,5 +30,9 @@ describe('sk-schedule-api', () => {
 	test('list defaults to an empty body', async () => {
 		await listScheduledNotes();
 		expect(misskeyApi).toHaveBeenCalledWith('notes/schedule/list', {});
+	});
+	test('edit posts to notes/edit', async () => {
+		await editNote({ editId: 'n1', text: 'x' }, null);
+		expect(misskeyApi).toHaveBeenCalledWith('notes/edit', { editId: 'n1', text: 'x' }, null);
 	});
 });

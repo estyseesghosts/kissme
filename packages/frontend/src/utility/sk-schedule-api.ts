@@ -28,3 +28,10 @@ export function deleteScheduledNote(noteId: string): Promise<unknown> {
 export function listScheduledNotes(body: { limit?: number; offset?: number } = {}): Promise<unknown> {
 	return api('notes/schedule/list', body);
 }
+
+/**
+ * `notes/edit` is likewise absent from misskey-js. Used by MkPostForm when `editId` is set.
+ */
+export function editNote(body: object, token?: string | null): Promise<unknown> {
+	return api('notes/edit', body, token);
+}

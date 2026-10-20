@@ -29,11 +29,15 @@ components to `i18n.ts.<key>`, and delete the entry from `sk-strings.ts`.
 | `animatedMFM.alertConfirm` | `Play` | `SkNote.vue`, `SkNoteDetailed.vue` |
 | `postOn` | `Post on` | `components/MkScheduleEditor.vue` |
 | `schedulePostList` | `Scheduled notes` | `components/MkSchedulePostListDialog.vue`, `components/MkPostForm.vue` |
+| `confirmPollEditTitle` | `Edit poll?` | `components/MkPostForm.vue` |
+| `confirmPollEditText` | `The poll was changed. Editing a note with a poll may reset its votes. Continue?` | `components/MkPostForm.vue` |
 | `translationFailed` | `Translation failed` | `components/SkNoteTranslation.vue` |
 | `cannotLoadNote` | `Cannot load note` | `components/SkFetchNote.vue` |
 | `externalWarningTitle` | `External website` | `components/MkUrlWarningDialog.vue` |
 | `externalWarningDescription` | `This link goes to a website outside {host}. Check that you trust it before you continue.` | `components/MkUrlWarningDialog.vue` |
 | `externalWarningTrust` | `Trust this domain` | `components/MkUrlWarningDialog.vue` |
+
+Note: the two `confirmPollEdit*` texts are not in the donor's en-US.yml either (the donor references `_confirmPollEdit`); the wording above is written for this port, not copied.
 
 ## Not strings, but related
 

@@ -350,6 +350,9 @@ export const PREF_DEF = definePreferences({
 	limitWidthOfReaction: {
 		default: true,
 	},
+	useSharkeyPostForm: {
+		default: false,
+	},
 	showGapBetweenNotesInTimeline: {
 		default: false,
 	},

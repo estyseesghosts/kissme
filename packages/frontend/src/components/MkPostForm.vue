@@ -20,7 +20,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 		</div>
 		<div :class="$style.headerRight">
 			<template v-if="!(targetChannel != null && fixed)">
-				<button v-if="targetChannel == null" ref="visibilityButton" v-tooltip="i18n.ts.visibility" :class="['_button', $style.headerRightItem, $style.visibility]" @click="setVisibility">
+				<button v-if="targetChannel == null" ref="visibilityButton" v-tooltip="i18n.ts.visibility" :class="['_button', $style.headerRightItem, $style.visibility]" :disabled="editId != null" @click="setVisibility">
 					<span v-if="visibility === 'public'"><i class="ti ti-world"></i></span>
 					<span v-if="visibility === 'home'"><i class="ti ti-home"></i></span>
 					<span v-if="visibility === 'followers'"><i class="ti ti-lock"></i></span>
@@ -32,9 +32,12 @@ SPDX-License-Identifier: AGPL-3.0-only
 					<span :class="$style.headerRightButtonText">{{ targetChannel.name }}</span>
 				</button>
 			</template>
-			<button v-if="visibility !== 'specified'" v-tooltip="i18n.ts._visibility.disableFederation" class="_button" :class="[$style.headerRightItem, { [$style.danger]: localOnly }]" :disabled="targetChannel != null" @click="toggleLocalOnly">
+			<button v-if="visibility !== 'specified'" v-tooltip="i18n.ts._visibility.disableFederation" class="_button" :class="[$style.headerRightItem, { [$style.danger]: localOnly }]" :disabled="targetChannel != null || editId != null" @click="toggleLocalOnly">
 				<span v-if="!localOnly"><i class="ti ti-rocket"></i></span>
 				<span v-else><i class="ti ti-rocket-off"></i></span>
+			</button>
+			<button v-if="sk" v-tooltip="i18n.ts.reactionAcceptance" class="_button" :class="[$style.headerRightItem, { [$style.danger]: reactionAcceptance === 'likeOnly' }]" @click="toggleReactionAcceptance">
+				<i :class="reactionAcceptanceHeaderIcon(reactionAcceptance)"></i>
 			</button>
 			<button ref="otherSettingsButton" v-tooltip="i18n.ts.other" class="_button" :class="$style.headerRightItem" @click="showOtherSettings"><i class="ti ti-dots"></i></button>
 			<button ref="submitButtonEl" v-click-anime class="_button" :class="$style.submit" :disabled="!canPost" data-testid="post-form-submit" @click="post">
@@ -47,8 +50,14 @@ SPDX-License-Identifier: AGPL-3.0-only
 			</button>
 		</div>
 	</header>
-	<MkNoteSimple v-if="replyTargetNote" :class="$style.targetNote" :note="replyTargetNote"/>
-	<MkNoteSimple v-if="renoteTargetNote" :class="$style.targetNote" :note="renoteTargetNote"/>
+	<template v-if="sk">
+		<SkNoteSimple v-if="replyTargetNote" :class="$style.targetNote" :hideFiles="true" :note="replyTargetNote" :skipMute="true"/>
+		<SkNoteSimple v-if="renoteTargetNote" :class="$style.targetNote" :hideFiles="true" :note="renoteTargetNote" :skipMute="true"/>
+	</template>
+	<template v-else>
+		<MkNoteSimple v-if="replyTargetNote" :class="$style.targetNote" :note="replyTargetNote"/>
+		<MkNoteSimple v-if="renoteTargetNote" :class="$style.targetNote" :note="renoteTargetNote"/>
+	</template>
 	<div v-if="quoteId" :class="$style.withQuote"><i class="ti ti-quote"></i> {{ i18n.ts.quoteAttached }}<button @click="quoteId = null; renoteTargetNote = null;"><i class="ti ti-x"></i></button></div>
 	<div v-if="visibility === 'specified'" :class="$style.toSpecified">
 		<span style="margin-right: 8px;">{{ i18n.ts.recipient }}</span>
@@ -81,7 +90,8 @@ SPDX-License-Identifier: AGPL-3.0-only
 		<div v-if="maxTextLength - textLength < 100" :class="['_acrylic', $style.textCount, { [$style.textOver]: textLength > maxTextLength }]">{{ maxTextLength - textLength }}</div>
 	</div>
 	<input v-show="withHashtags" ref="hashtagsInputEl" v-model="hashtags" :class="$style.hashtags" :placeholder="i18n.ts.hashtags" list="hashtags">
-	<XPostFormAttaches v-model="files" @detach="detachFile" @changeSensitive="updateFileSensitive" @changeName="updateFileName"/>
+	<SkPostFormAttaches v-if="sk" v-model="files" @detach="detachFile" @changeSensitive="updateFileSensitive" @changeName="updateFileName" @replaceFile="replaceFile"/>
+	<XPostFormAttaches v-else v-model="files" @detach="detachFile" @changeSensitive="updateFileSensitive" @changeName="updateFileName"/>
 	<div v-if="uploader.items.value.length > 0" style="padding: 12px;">
 		<MkTip k="postFormUploader">
 			{{ i18n.ts._postForm.uploaderTip }}
@@ -89,13 +99,17 @@ SPDX-License-Identifier: AGPL-3.0-only
 		<MkUploaderItems :items="uploader.items.value" @showMenu="(item, ev) => showPerUploadItemMenu(item, ev)" @showMenuViaContextmenu="(item, ev) => showPerUploadItemMenuViaContextmenu(item, ev)"/>
 	</div>
 	<MkPollEditor v-if="poll" v-model="poll" @destroyed="poll = null"/>
+	<MkScheduleEditor v-if="scheduleNote" v-model="scheduleNote"/>
 	<MkNotePreview v-if="showPreview" :class="$style.preview" :text="text" :files="files" :poll="poll ?? undefined" :useCw="useCw" :cw="cw" :user="postAccount ?? $i"/>
 	<div v-if="showingOptions" style="padding: 8px 16px;">
 	</div>
 	<footer ref="footerEl" :class="$style.footer">
 		<div :class="$style.footerLeft">
-			<button v-tooltip="i18n.ts.attachFile + ' (' + i18n.ts.upload + ')'" class="_button" :class="$style.footerButton" @click="chooseFileFromPc"><i class="ti ti-photo-plus"></i></button>
-			<button v-tooltip="i18n.ts.attachFile + ' (' + i18n.ts.fromDrive + ')'" class="_button" :class="$style.footerButton" @click="chooseFileFromDrive"><i class="ti ti-cloud-download"></i></button>
+			<button v-if="sk" v-tooltip="i18n.ts.attachFile" class="_button" :class="$style.footerButton" @click="chooseFileFrom"><i class="ti ti-photo-plus"></i></button>
+			<template v-else>
+				<button v-tooltip="i18n.ts.attachFile + ' (' + i18n.ts.upload + ')'" class="_button" :class="$style.footerButton" @click="chooseFileFromPc"><i class="ti ti-photo-plus"></i></button>
+				<button v-tooltip="i18n.ts.attachFile + ' (' + i18n.ts.fromDrive + ')'" class="_button" :class="$style.footerButton" @click="chooseFileFromDrive"><i class="ti ti-cloud-download"></i></button>
+			</template>
 			<button v-tooltip="i18n.ts.poll" class="_button" :class="[$style.footerButton, { [$style.footerButtonActive]: poll }]" @click="togglePoll"><i class="ti ti-chart-arrows"></i></button>
 			<button v-tooltip="i18n.ts.useCw" class="_button" :class="[$style.footerButton, { [$style.footerButtonActive]: useCw }]" @click="useCw = !useCw"><i class="ti ti-eye-off"></i></button>
 			<button v-tooltip="i18n.ts.hashtags" class="_button" :class="[$style.footerButton, { [$style.footerButtonActive]: withHashtags }]" @click="withHashtags = !withHashtags"><i class="ti ti-hash"></i></button>
@@ -128,6 +142,9 @@ import type { PollEditorModelValue } from '@/components/MkPollEditor.vue';
 import type { UploaderItem } from '@/composables/use-uploader.js';
 import MkNotePreview from '@/components/MkNotePreview.vue';
 import XPostFormAttaches from '@/components/MkPostFormAttaches.vue';
+import SkPostFormAttaches from '@/components/SkPostFormAttaches.vue';
+import SkNoteSimple from '@/components/SkNoteSimple.vue';
+import MkScheduleEditor from '@/components/MkScheduleEditor.vue';
 import XTextCounter from '@/components/MkPostForm.TextCounter.vue';
 import MkPollEditor from '@/components/MkPollEditor.vue';
 import MkNoteSimple from '@/components/MkNoteSimple.vue';
@@ -137,7 +154,11 @@ import { formatTimeString } from '@/utility/format-time-string.js';
 import { Autocomplete } from '@/utility/autocomplete.js';
 import * as os from '@/os.js';
 import { misskeyApi } from '@/utility/misskey-api.js';
-import { chooseDriveFile } from '@/utility/drive.js';
+import { chooseDriveFile, selectFile } from '@/utility/drive.js';
+import { addMentionToText, getMissingMentions, isSelfMention, reactionAcceptanceHeaderIcon } from '@/utility/sk-post-form.js';
+import { replaceFileById } from '@/utility/sk-attaches.js';
+import { createScheduledNote, editNote } from '@/utility/sk-schedule-api.js';
+import { skStrings } from '@/utility/sk-strings.js';
 import { store } from '@/store.js';
 import MkInfo from '@/components/MkInfo.vue';
 import { i18n } from '@/i18n.js';
@@ -165,6 +186,8 @@ const props = withDefaults(defineProps<PostFormProps & {
 	fixed?: boolean;
 	autofocus?: boolean;
 	freezeAfterPosted?: boolean;
+	/** Sharkey: edit this note in place (`notes/edit`). Disables visibility and localOnly. */
+	editId?: Misskey.entities.Note['id'];
 	mock?: boolean;
 }>(), {
 	initialVisibleUsers: () => [],
@@ -212,6 +235,11 @@ if (props.initialVisibleUsers) {
 }
 const reactionAcceptance = ref(store.s.reactionAcceptance);
 const scheduledAt = ref<number | null>(null);
+// Sharkey composer options (pref `useSharkeyPostForm`): Sharkey schedule (`notes/schedule/*`), header
+// reaction-acceptance toggle, Sk attaches/previews, single attach button, Sharkey mention handling.
+const sk = computed(() => prefer.s.useSharkeyPostForm);
+const scheduleNote = ref<{ scheduledAt: number | null } | null>(null);
+const initialPoll = ref<PollEditorModelValue | null>(null);
 const draghover = ref(false);
 const quoteId = ref<string | null>(null);
 const hasNotSpecifiedMentions = ref(false);
@@ -279,7 +307,7 @@ const placeholder = computed((): string => {
 });
 
 const submitText = computed((): string => {
-	return scheduledAt.value != null
+	return scheduledAt.value != null || scheduleNote.value != null
 		? i18n.ts.schedule
 		: renoteTargetNote.value
 			? i18n.ts.quote
@@ -289,7 +317,7 @@ const submitText = computed((): string => {
 });
 
 const submitIcon = computed((): string => {
-	return posted.value ? 'ti ti-check' : scheduledAt.value != null ? 'ti ti-calendar-time' : replyTargetNote.value ? 'ti ti-arrow-back-up' : renoteTargetNote.value ? 'ti ti-quote' : 'ti ti-send';
+	return posted.value ? 'ti ti-check' : (scheduledAt.value != null || scheduleNote.value != null) ? 'ti ti-calendar-time' : replyTargetNote.value ? 'ti ti-arrow-back-up' : renoteTargetNote.value ? 'ti ti-quote' : 'ti ti-send';
 });
 
 const textLength = computed((): number => {
@@ -441,6 +469,11 @@ function watchForDraft() {
 }
 
 function checkMissingMention() {
+	if (visibility.value === 'specified' && sk.value) {
+		hasNotSpecifiedMentions.value = getMissingMentions(text.value, visibleUsers.value).length > 0;
+		return;
+	}
+
 	if (visibility.value === 'specified') {
 		const ast = mfm.parse(text.value);
 
@@ -455,6 +488,15 @@ function checkMissingMention() {
 }
 
 function addMissingMention() {
+	if (sk.value) {
+		for (const x of getMissingMentions(text.value, visibleUsers.value)) {
+			misskeyApi('users/show', { username: x.username, host: x.host }).then(user => {
+				pushVisibleUser(user);
+			});
+		}
+		return;
+	}
+
 	const ast = mfm.parse(text.value);
 
 	for (const x of extractMentions(ast)) {
@@ -506,6 +548,19 @@ function chooseFileFromDrive(ev: PointerEvent) {
 	chooseDriveFile({ multiple: true }).then(driveFiles => {
 		files.value.push(...driveFiles);
 	});
+}
+
+// Sharkey: one attach button that offers upload / drive / URL through the upstream selectFile menu.
+function chooseFileFrom(ev: PointerEvent) {
+	if (props.mock) return;
+
+	selectFile({ anchorElement: ev.currentTarget ?? ev.target, multiple: true, label: i18n.ts.attachFile }).then(selected => {
+		files.value.push(...selected);
+	});
+}
+
+function replaceFile(file: Misskey.entities.DriveFile, newFile: Misskey.entities.DriveFile): void {
+	files.value = replaceFileById(files.value, file.id, newFile);
 }
 
 function detachFile(id: Misskey.entities.DriveFile['id']) {
@@ -662,7 +717,21 @@ function showOtherSettings() {
 			}
 			saveServerDraft();
 		},
-	}, ...($i.policies.scheduledNoteLimit > 0 ? [{
+	}, ...(sk.value && skScheduleNoteMax() > 0 ? [{
+		icon: 'ti ti-calendar-plus',
+		text: i18n.ts.schedulePost,
+		action: toggleScheduleNote,
+	}, {
+		icon: 'ti ti-calendar-time',
+		text: skStrings.schedulePostList,
+		action: () => {
+			const { dispose } = os.popup(defineAsyncComponent(() => import('@/components/MkSchedulePostListDialog.vue')), {}, {
+				cancel: () => {
+					dispose();
+				},
+			});
+		},
+	}] : []), ...($i.policies.scheduledNoteLimit > 0 ? [{
 		icon: 'ti ti-calendar-time',
 		text: i18n.ts.schedulePost + '...',
 		action: () => {
@@ -692,6 +761,21 @@ function showOtherSettings() {
 }
 //#endregion
 
+// `scheduleNoteMax` is a Sharkey policy, absent from the misskey-js types.
+function skScheduleNoteMax(): number {
+	return (($i.policies as unknown as { scheduleNoteMax?: number }).scheduleNoteMax) ?? 0;
+}
+
+function toggleScheduleNote() {
+	if (scheduleNote.value) {
+		scheduleNote.value = null;
+	} else {
+		// Upstream's draft-based scheduledAt and Sharkey's scheduleNote are mutually exclusive.
+		scheduledAt.value = null;
+		scheduleNote.value = { scheduledAt: null };
+	}
+}
+
 function pushVisibleUser(user: Misskey.entities.UserDetailed) {
 	if (!visibleUsers.value.some(u => u.username === user.username && u.host === user.host)) {
 		visibleUsers.value.push(user);
@@ -719,6 +803,7 @@ function clear() {
 	poll.value = null;
 	quoteId.value = null;
 	scheduledAt.value = null;
+	scheduleNote.value = null;
 	uploader.reset();
 }
 
@@ -1076,15 +1161,31 @@ async function post(ev?: PointerEvent) {
 		}
 	}
 
+	if (sk.value && props.editId && poll.value !== initialPoll.value) {
+		const { canceled } = await os.confirm({
+			type: 'warning',
+			title: skStrings.confirmPollEditTitle,
+			text: skStrings.confirmPollEditText,
+		});
+		if (canceled) return;
+	}
+
 	posting.value = true;
-	misskeyApi('notes/create', postData, token).then((res) => {
+	// Sharkey sends: edit (`notes/edit`) or schedule (`notes/schedule/create`) instead of `notes/create`.
+	// Both are absent from misskey-js, so they go through the untyped wrappers.
+	const request: Promise<{ createdNote?: Misskey.entities.Note }> = sk.value && props.editId
+		? editNote({ ...postData, editId: props.editId }, token) as Promise<{ createdNote?: Misskey.entities.Note }>
+		: sk.value && scheduleNote.value
+			? createScheduledNote({ ...postData, scheduleNote: scheduleNote.value }, token) as Promise<{ createdNote?: Misskey.entities.Note }>
+			: misskeyApi('notes/create', postData, token);
+	request.then((res) => {
 		if (props.freezeAfterPosted) {
 			posted.value = true;
 		} else {
 			clear();
 		}
 
-		globalEvents.emit('notePosted', res.createdNote);
+		if (res.createdNote) globalEvents.emit('notePosted', res.createdNote);
 
 		nextTick(() => {
 			deleteDraft();
@@ -1167,6 +1268,13 @@ function cancel() {
 function insertMention() {
 	os.selectUser({ localOnly: localOnly.value, includeSelf: true }).then(user => {
 		if (textareaEl.value == null) return;
+		if (sk.value) {
+			// Sharkey: never mention yourself, and keep the text model in sync.
+			if (isSelfMention(user, $i)) return;
+			insertTextAtCursor(textareaEl.value, '@' + Misskey.acct.toString(user) + ' ');
+			text.value = textareaEl.value.value;
+			return;
+		}
 		insertTextAtCursor(textareaEl.value, '@' + Misskey.acct.toString(user) + ' ');
 	});
 }
@@ -1358,6 +1466,7 @@ async function schedule() {
 	if (canceled) return;
 	if (result.getTime() <= Date.now()) return;
 
+	scheduleNote.value = null;
 	scheduledAt.value = result.getTime();
 }
 
@@ -1458,6 +1567,7 @@ onMounted(() => {
 					expiresAt: init.poll.expiresAt ? (new Date(init.poll.expiresAt)).getTime() : null,
 					expiredAfter: null,
 				};
+				if (props.editId) initialPoll.value = poll.value;
 			}
 			if (init.visibleUserIds) {
 				misskeyApi('users/show', { userIds: init.visibleUserIds }).then(users => {
@@ -1466,6 +1576,10 @@ onMounted(() => {
 			}
 			quoteId.value = renoteTargetNote.value ? renoteTargetNote.value.id : null;
 			reactionAcceptance.value = init.reactionAcceptance;
+			// Sharkey: a scheduled note re-opened for editing keeps its schedule (`isSchedule` is a Sharkey field).
+			if (sk.value && (init as { isSchedule?: boolean }).isSchedule) {
+				scheduleNote.value = { scheduledAt: new Date(init.createdAt).getTime() };
+			}
 		}
 
 		nextTick(() => watchForDraft());
