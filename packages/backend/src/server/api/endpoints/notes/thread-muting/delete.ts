@@ -4,6 +4,7 @@
  */
 
 import { Inject, Injectable } from '@nestjs/common';
+import ms from 'ms';
 import type { NoteThreadMutingsRepository } from '@/models/_.js';
 import { Endpoint } from '@/server/api/endpoint-base.js';
 import { GetterService } from '@/server/api/GetterService.js';
@@ -24,12 +25,18 @@ export const meta = {
 			id: 'bddd57ac-ceb3-b29d-4334-86ea5fae481a',
 		},
 	},
+
+	limit: {
+		duration: ms('1hour'),
+		max: 20,
+	},
 } as const;
 
 export const paramDef = {
 	type: 'object',
 	properties: {
 		noteId: { type: 'string', format: 'misskey:id' },
+		noteOnly: { type: 'boolean', default: false },
 	},
 	required: ['noteId'],
 } as const;
@@ -48,9 +55,11 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				throw err;
 			});
 
+			const threadId = note.threadId ?? note.id;
 			await this.noteThreadMutingsRepository.delete({
-				threadId: note.threadId ?? note.id,
+				threadId: ps.noteOnly ? note.id : threadId,
 				userId: me.id,
+				isPostMute: ps.noteOnly,
 			});
 		});
 	}
