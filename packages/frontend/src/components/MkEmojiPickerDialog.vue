@@ -19,7 +19,8 @@ SPDX-License-Identifier: AGPL-3.0-only
 	@close="emit('close')"
 	@closed="emit('closed')"
 >
-	<MkEmojiPicker
+	<component
+		:is="pickerComponent"
 		ref="picker"
 		class="_popup _shadow"
 		:class="{ [$style.drawer]: type === 'drawer' }"
@@ -40,6 +41,7 @@ import * as Misskey from 'misskey-js';
 import { useTemplateRef } from 'vue';
 import MkModal from '@/components/MkModal.vue';
 import MkEmojiPicker from '@/components/MkEmojiPicker.vue';
+import SkEmojiPicker from '@/components/SkEmojiPicker.vue';
 import { prefer } from '@/preferences.js';
 
 const props = withDefaults(defineProps<{
@@ -65,7 +67,9 @@ const emit = defineEmits<{
 }>();
 
 const modal = useTemplateRef('modal');
-const picker = useTemplateRef('picker');
+// sharkey: useSharkeyEmojiPicker swaps in the coexisting SkEmojiPicker (same props/emits/exposes)
+const pickerComponent = prefer.s.useSharkeyEmojiPicker ? SkEmojiPicker : MkEmojiPicker;
+const picker = useTemplateRef<InstanceType<typeof MkEmojiPicker>>('picker');
 
 function chosen(emoji: string) {
 	emit('done', emoji);

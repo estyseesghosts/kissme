@@ -109,3 +109,32 @@ Exit criteria:
 - Phase 2 ("Sharkey lists coexist with upstream timelines; no consumer broken"): **met by construction, not verified live**. All new files coexist; no upstream list/pagination component was modified; typecheck and tests green.
 - Phase 3 ("scheduling works against `notes/schedule/*`, PostForm options present, attaches drag+replace"): scheduling **implemented, unverified against a backend** (endpoints absent from misskey-js and stock backend); PostForm options **implemented** behind a default-off pref; drag+replace **implemented, not exercised in a browser**.
 
+
+## Phase 4 and 5 — implementation (verification by direction: no backend or browser smoke)
+
+Pins unchanged (base `split-project`, donor Sharkey `develop` @ `752a392d3b`). Phase 3 head was `0287991b9f`.
+
+Commits on split-project:
+- `83ddea5970` dependencies only: `@ruffle-rs/ruffle` 0.2.0-nightly.2025.9.25, `katex` 0.16.22, `@types/katex` 0.16.7 (donor pins), vendored `utility/libopenmpt`, vite ruffle external + `_RUFFLE_VERSION_`. Lockfile has incidental msw peer-suffix churn.
+- `f038e96d8a` 4.3: `SkModPlayer`, `SkFlashPlayer`, `SkFormula`, `chiptune2`, `sk-mod-player` (+tests), `types/ruffle`, const additions, new strings, SPDX exemptions.
+- `8f6b8f38a7` 4.2: `SkMediaVideo`, `SkMediaAudio`, `sk-media-player` (+tests).
+- `ab91f3a3be` 4.4: `MkImgPreviewDialog` (+stories), used for images in `SkPostFormAttaches` (only rendered under `useSharkeyPostForm`).
+- `d278d389a7` 4.1: `SkMediaImage`, `SkMediaBanner`, `SkMediaList`, `sk-media-types` (+tests).
+- `e43fc3ff76` 5.1: `SkReactionsViewer(.reaction)`, `sk-reaction-rules` (+tests), `sk-emoji-mute`, `SkNote*` wiring. Its pref `mutedEmojis` is in `def.ts`, which landed in the 5.2 commit, so `e43fc3ff76` alone does not typecheck.
+- 5.2 commit (HEAD): `SkEmojiPicker`, `sk-emoji-search` (+tests), `MkEmojiPickerDialog` pref-gated swap, prefs `mutedEmojis` and `useSharkeyEmojiPicker`, README and this log.
+
+Gate on the final tree: typecheck exit 0; frontend tests 31 files / 261 passed; eslint --quiet clean on touched files; SPDX OK; `pnpm --filter frontend build` exit 0 (only the usual chunk-size warning).
+Not run: any backend/browser/live check; ja-JP changes (none made). Intermediate commits were not individually gated.
+
+Decisions:
+- Lightbox: the Sharkey list keeps upstream `MkLightbox` routing (no PhotoSwipe dep). `image/jxl` and `video/x-matroska` live in a new `FILE_TYPE_BROWSERSAFE_SHARKEY` list, not `FILE_TYPE_BROWSERSAFE`, so stock `isPreviewable` and the embed list do not change.
+- Audio renders as an inline banner, as in the donor; tracker and flash are inline in the grid and are not offered to the lightbox.
+- Picker: coexisting `SkEmojiPicker` (option A), swapped in by `MkEmojiPickerDialog` behind `useSharkeyEmojiPicker`. Upstream picker, gear and haptic kept.
+- `MkNote*` call sites and upstream `MkReactionsViewer` are untouched.
+- No new `any`. `chiptune2` is an ES-class rewrite of the donor with `eslint-disable`.
+
+Deferred: settings UI for `mutedEmojis`, `useSharkeyEmojiPicker` and earlier prefs (Phase 10); `SkFormula` wiring into `MkMfm`; live reply append (`use-note-capture.ts` unchanged); Ruffle needs a CSP allowing raw.esm.sh; `notes/like` still untyped and unverified.
+
+Exit criteria:
+- Phase 4 ("Sharkey players render gated by MIME + prefs; stock lightbox path untouched"): **implemented, unverified live**. Gating is by `classifySkMedia` (unit-tested) and the nsfw/dataSaver/confirm prefs; stock lightbox files and `FILE_TYPE_BROWSERSAFE` are unmodified. Players, the sensitive gate and unsupported-MIME fallback are not exercised in a browser.
+- Phase 5 ("react/unreact, custom emoji perms, muted hidden with unmute; picker alias-prefix search, recent/pinned, folders"): **implemented, unverified live**. Permission/mute rules and alias-prefix search are unit-tested; react/unreact paths and the picker UI are not exercised.

@@ -305,6 +305,12 @@ export const PREF_DEF = definePreferences({
 	trustedDomains: {
 		default: [] as string[],
 	},
+	mutedEmojis: {
+		default: [] as string[],
+	},
+	useSharkeyEmojiPicker: {
+		default: false,
+	},
 	warnExternalUrl: {
 		default: true,
 	},

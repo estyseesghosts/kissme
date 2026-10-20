@@ -59,6 +59,26 @@ eslint, and SPDX.
 | `SkPostFormAttaches.vue`, `utility/sk-attaches.ts` | [SkPostFormAttaches.md](SkPostFormAttaches.md) | Ported (new dependency `vuedraggable`). |
 | `MkPostForm.vue` (edited), `utility/sk-post-form.ts` | [MkPostForm.md](MkPostForm.md) | Sharkey options behind pref `useSharkeyPostForm` (default off). |
 
+### Phase 4 and 5 additions
+
+| Component / utility | Doc | State |
+|---|---|---|
+| `SkMediaImage.vue`, `SkMediaBanner.vue` | [SkMediaImage.md](SkMediaImage.md), [SkMediaBanner.md](SkMediaBanner.md) | Ported from upstream's newer base plus Sharkey badges, comment title, inline audio banner. |
+| `SkMediaList.vue`, `utility/sk-media-types.ts` | [SkMediaList.md](SkMediaList.md), [sk-media-types.md](sk-media-types.md) | Stock `MkLightbox` path kept (no PhotoSwipe). Used by `SkNote`, `SkNoteDetailed`, `SkOldNoteWindow`. Tested classifier. |
+| `SkMediaVideo.vue`, `SkMediaAudio.vue`, `utility/sk-media-player.ts` | [SkMediaVideo.md](SkMediaVideo.md), [SkMediaAudio.md](SkMediaAudio.md), [sk-media-player.md](sk-media-player.md) | Inline custom players, tested math. `useNativeUiForVideoAudioPlayer` fallback. |
+| `SkModPlayer.vue`, `utility/chiptune2.ts`, `utility/sk-mod-player.ts`, vendored `utility/libopenmpt/` | [SkModPlayer.md](SkModPlayer.md), [chiptune2.md](chiptune2.md), [sk-mod-player.md](sk-mod-player.md) | Tracker modules. `chiptune2` rewritten as ES classes. |
+| `SkFlashPlayer.vue`, `types/ruffle/**` | [SkFlashPlayer.md](SkFlashPlayer.md) | Ruffle via esm.sh (needs a CSP that allows it). |
+| `SkFormula.vue` | [SkFormula.md](SkFormula.md) | KaTeX. **Not wired into `MkMfm`** (math MFM still renders `<code>`; deferred). |
+| `MkImgPreviewDialog.vue` | [MkImgPreviewDialog.md](MkImgPreviewDialog.md) | Added an emitted `closed` (donor leaked the popup). Opened from `SkPostFormAttaches` for image files. |
+| `SkReactionsViewer.vue`, `SkReactionsViewer.reaction.vue`, `utility/sk-reaction-rules.ts`, `utility/sk-emoji-mute.ts` | [SkReactionsViewer.md](SkReactionsViewer.md), [SkReactionsViewer.reaction.md](SkReactionsViewer.reaction.md), [sk-reaction-rules.md](sk-reaction-rules.md), [sk-emoji-mute.md](sk-emoji-mute.md) | `note: Note` prop. Used by `SkNote*`; `MkNote*` keep the stock viewer. Rules tested. |
+| `SkEmojiPicker.vue`, `utility/sk-emoji-search.ts` | [SkEmojiPicker.md](SkEmojiPicker.md) | Coexisting picker, swapped in by `MkEmojiPickerDialog` behind `useSharkeyEmojiPicker`. Search util tested. |
+
+Prefs added in Phase 4/5 (all with no settings UI yet; Phase 10): `mutedEmojis` (`string[]`, default `[]`), `useSharkeyEmojiPicker` (default `false`). Media and reaction components are used only by the `Sk*` note design, which is itself gated by `noteDesign`.
+
+Upstream files touched in Phase 4/5 (additive): `frontend-shared/js/const.ts` (new exports only; `FILE_TYPE_BROWSERSAFE` unchanged), `components/MkEmojiPickerDialog.vue` (pref-gated component swap), `components/SkPostFormAttaches.vue` (image preview dialog), `vite.config.ts` (ruffle external + `_RUFFLE_VERSION_`), `@types/global.d.ts`, `eslint.config.js`, `scripts/check-spdx.mjs` (exempts vendored libopenmpt, ruffle types, chiptune2).
+
+Phase 4/5 gaps: sensitive/`confirmWhenRevealingSensitiveMedia` gate in `SkModPlayer`/`SkFlashPlayer` only follows `nsfw` (as the donor); `SkModPlayer` fetches the module even while hidden (as the donor); `use-note-capture.ts` is unchanged, the viewer reads `note.reactions` reactively only; no seekbar white tint; the "SkFormula in MkMfm" wiring is not done; `notes/like` is still untyped and unverified.
+
 Prefs added in Phase 2/3: `showGapBetweenNotesInTimeline`, `disableStreamingTimeline`, `useSharkeyPostForm` (all default `false`, none has a settings UI yet; Phase 10).
 
 Upstream components changed (additive, default behavior unchanged):
@@ -128,7 +148,7 @@ Dependency and typing notes:
 ## Verification performed
 
 - `pnpm --filter frontend typecheck`: exit 0.
-- `pnpm --filter frontend test`: 19 files, 160 tests pass.
+- `pnpm --filter frontend test`: 31 files, 261 tests pass (after Phase 5).
 - `eslint --quiet` on all 19 touched files: clean.
 - `node scripts/check-spdx.mjs`: `SPDX: OK`.
 - Not run: browser smoke or any backend-backed check, by direction.
