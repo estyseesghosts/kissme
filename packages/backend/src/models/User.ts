@@ -172,6 +172,12 @@ export class MiUser {
 
 	@Column('boolean', {
 		default: false,
+		comment: 'Whether the User is silenced.',
+	})
+	public isSilenced: boolean;
+
+	@Column('boolean', {
+		default: false,
 		comment: 'Whether the User is locked.',
 	})
 	public isLocked: boolean;
@@ -224,6 +230,12 @@ export class MiUser {
 	})
 	public isDeleted: boolean;
 
+	@Column('boolean', {
+		default: true,
+		comment: 'Whether the User is approved.',
+	})
+	public approved: boolean;
+
 	@Column('varchar', {
 		length: 128, array: true, default: '{}',
 	})
@@ -239,6 +251,18 @@ export class MiUser {
 		length: 128, default: 'mutual',
 	})
 	public chatScope: 'everyone' | 'followers' | 'following' | 'mutual' | 'none';
+
+	@Column('text', {
+		nullable: true,
+		comment: 'Content Warning forcibly applied to all notes by the User.',
+	})
+	public mandatoryCW: string | null;
+
+	@Column('boolean', {
+		default: false,
+		comment: 'Whether quote posts from the User are rejected.',
+	})
+	public rejectQuotes: boolean;
 
 	@Index()
 	@Column('varchar', {
