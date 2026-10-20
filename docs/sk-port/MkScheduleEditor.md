@@ -8,7 +8,7 @@ Date + time inputs; `v-model` is `{ scheduledAt: number | null }` (the donor's f
 ## Changes from the donor
 - The date/time logic moved to `utility/sk-schedule.ts` (`defaultScheduleParts`, `splitScheduledAt`, `joinScheduledAt`), with unit tests (`test/unit/sk-schedule.test.ts`).
 - Timestamp is built from explicit parts, not `new Date('yyyy-MM-dd HH:mm')` (not portable across engines). Empty or impossible input (e.g. 2025-02-31) yields `scheduledAt: null` instead of `NaN`.
-- Label `i18n.ts.postOn` is not in en-US.yml -> `skStrings.postOn`.
+- Label `i18n.ts.postOn` (trailing Sharkey section in both locale files; `sk-strings.ts` deleted).
 - No `deep: true` watcher option (watching two refs, not needed).
 
 ## Not verified

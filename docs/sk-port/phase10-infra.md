@@ -58,4 +58,4 @@ Nothing to add; the dependency and config merge had already happened.
 3. RuffleSans: bundle or proxy the Ruffle fallback font so Flash text renders without esm.sh.
 4. Bubble timeline wiring: `TimelinePageSrc` lacks `'bubble'` (currently a typecheck problem only while 10.1 is in flight; confirm it is resolved there).
 5. Settings UI for prefs added earlier without a UI (`showWordMuteTester`, `showAttributionDomains`, `showTickerOnReplies`, `oneko`, `welcomeEntranceStyle`, `enableFaviconNotificationDot` if still missing).
-6. Move `skStrings` consumers to `i18n.ts.*` now that ja-JP has the keys (and en-US via Crowdin).
+6. (Done) `skStrings` consumers moved to `i18n.ts.*`; the module is deleted.

@@ -13,7 +13,7 @@
 - `notes/following` is a Sharkey endpoint absent from misskey-js and stock Misskey; the `Paging` endpoint is cast. Without it the list shows its error state.
 - The detail pane is a plain `div` instead of `MkLazy` (upstream `MkLazy` exposes neither `showing` nor `rootEl`); "pane visible" is read from computed `display`.
 - `getNoteSummary(note, { showFiles: false })` (upstream signature). Router push uses the typed `/following-feed/:userId` form.
-- Strings come from `skStrings` (see MISSING-STRINGS.md).
+- Strings come from `i18n.ts` (trailing Sharkey locale section in both locale files; donor wording).
 - Routes added to `router.definition.ts` with `loginRequired`; Phase 10.3 should consolidate them. The donor's own router lists them twice; only one copy is kept here.
 
 ## Tests

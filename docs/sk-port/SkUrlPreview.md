@@ -1,4 +1,4 @@
-> Note: Sharkey UI strings are now centralized in `packages/frontend/src/utility/sk-strings.ts` (see README.md and MISSING-STRINGS.md). Any `skStrings` table mentioned below refers to that module.
+> Note: Sharkey UI strings formerly lived in `packages/frontend/src/utility/sk-strings.ts` (deleted after the migration). All ported strings now live in `locales/en-US.yml` / `locales/ja-JP.yml` and are read via `i18n.ts` / `i18n.tsx` (see `MISSING-STRINGS.md`). `skStrings` tables below describe the pre-migration wording.
 
 # SkUrlPreview
 
@@ -22,14 +22,14 @@
 - `$i` imported from `@/i` (unchanged from donor; the target's `i.ts` exports it).
 
 ## i18n
-Keys replaced by a local `skStrings` const (with a comment pointing to `MISSING-STRINGS.md`). No locale keys were added.
+Keys now live in `locales/en-US.yml` / `locales/ja-JP.yml` and are read via `i18n.ts` (migration complete; `sk-strings.ts` deleted).
 
 | Donor key | Target handling | English text |
 |---|---|---|
-| `writtenBy` | `skStrings.writtenBy` | `Written by {user}` |
-| `fetchLinkedNote` | `skStrings.fetchLinkedNote` | `Fetch linked note` |
+| `writtenBy` | `i18n.ts.writtenBy` | `Written by {user}` |
+| `fetchLinkedNote` | `i18n.ts.fetchLinkedNote` | `Fetch linked note` |
 
-Both keys exist in the donor's `sharkey-locales/en-US.yml` and are absent from the target's `locales/en-US.yml`.
+Both keys exist in the donor's `sharkey-locales/en-US.yml` and now in the target's `locales/en-US.yml` / `locales/ja-JP.yml`.
 
 Keys that exist in the target's `en-US.yml` and are used as-is: `failedToPreviewUrl`, `expandTweet`, `enablePlayer`, `disablePlayer`, `openInWindow`, `close`.
 

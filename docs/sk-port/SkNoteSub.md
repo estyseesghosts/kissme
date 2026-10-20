@@ -1,4 +1,4 @@
-> Note: Sharkey UI strings are now centralized in `packages/frontend/src/utility/sk-strings.ts` (see README.md and MISSING-STRINGS.md). Any `skStrings` table mentioned below refers to that module.
+> Note: Sharkey UI strings formerly lived in `packages/frontend/src/utility/sk-strings.ts` (deleted after the migration). All ported strings now live in `locales/en-US.yml` / `locales/ja-JP.yml` and are read via `i18n.ts` / `i18n.tsx` (see `MISSING-STRINGS.md`). `skStrings` tables below describe the pre-migration wording.
 
 # SkNoteSub.vue
 
@@ -31,13 +31,11 @@
 - **Icons.** Phosphor to Tabler: `ph-arrow-u-up-left` to `ti-arrow-back-up`, `ph-rocket-launch` to `ti-rocket`, `ph-quotes` to `ti-quote`, `ph-prohibit` to `ti-ban`, `ph-heart` to `ti-heart`, `ph-smiley` to `ti-mood-smile`, `ph-minus` to `ti-minus`, `ph-dots-three` to `ti-dots`. `ph-bold ph-lg` classes dropped. Existing `ti-paperclip`, `ti-language-hiragana`, and `ti-chevron-double-right` kept.
 - **Translation ref type.** `ref<NotesTranslateResponse | false | null>` changed to `ref<NotesTranslateResponse | null>`, matching the target `getNoteMenu` parameter type.
 
-## i18n keys replaced with local strings
+## i18n keys added (trailing Sharkey locale section; donor wording)
 
-These keys are absent from `locales/en-US.yml`. Each is in a local `skStrings` const with a comment pointing at MISSING-STRINGS.md.
-
-- `noteFooterLabel` replaced with `'Note actions'`
-- `rmboost` replaced with `'Removed boost.'`
-- `quoted` replaced with `'Quoted.'`
+- `noteFooterLabel` -> `i18n.ts.noteFooterLabel` ("Note controls")
+- `rmboost` -> `i18n.ts.rmboost` ("Unboosted.")
+- `quoted` -> `i18n.ts.quoted` ("Quoted.")
 
 Keys used and present in target: `continueThread`, `renoted`, `reactAreYouSure` (tsx), and the `ts` keys used by `getNoteMenu`.
 

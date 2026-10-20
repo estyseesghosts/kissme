@@ -8,6 +8,6 @@
 
 Pref `welcomeEntranceStyle`: `'server' | 'a'`, default `'server'`. `'server'` keeps stock behavior (server `entrancePageStyle`, default classic). `'a'` forces the Sharkey variant. `resolveEntranceStyle` in `utility/sk-static-pages.ts` is the tested decision. No settings UI yet (Phase 10).
 
-Deviations from donor: entrance A uses upstream `MkMarqueeText` (donor `MkMarquee` is slice 9.2) and `/client-assets/misskey.svg` (no `sharkey.svg` in this tree). Strings via `utility/sk-strings.ts`.
+Deviations from donor: entrance A uses upstream `MkMarqueeText` (donor `MkMarquee` is slice 9.2) and `/client-assets/misskey.svg` (no `sharkey.svg` in this tree). Strings via `i18n.ts` (trailing Sharkey locale section in both locale files; `sk-strings.ts` deleted).
 
 Not verified: rendering, unsubscribe against a backend (endpoint absent from stock Misskey), sponsors endpoint.

@@ -21,7 +21,7 @@ Approach: **gated blocks in the stock file**, not a fork. Upstream keeps everyth
 | scheduled `initialNote` | `isSchedule` notes re-open with their schedule (SkNoteSimple's edit flow) | `sk` |
 
 ## Strings
-`confirmPollEditTitle` / `confirmPollEditText` (wording written for this port; the donor does not define them in en-US.yml), `postOn`, `schedulePostList` are in `sk-strings.ts` (see `MISSING-STRINGS.md`).
+`confirmPollEditTitle` / `confirmPollEditText` (donor `_confirmPollEdit` wording), `postOn`, `schedulePostList` live in the trailing Sharkey locale section of both locale files (`i18n.ts`; `sk-strings.ts` deleted).
 
 ## Gaps
 - `notes/schedule/create`, `notes/edit`: absent from misskey-js and a stock backend. Implemented as the donor, **unverified**.

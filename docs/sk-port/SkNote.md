@@ -1,4 +1,4 @@
-> Note: Sharkey UI strings are now centralized in `packages/frontend/src/utility/sk-strings.ts` (see README.md and MISSING-STRINGS.md). Any `skStrings` table mentioned below refers to that module.
+> Note: Sharkey UI strings formerly lived in `packages/frontend/src/utility/sk-strings.ts` (deleted after the migration). All ported strings now live in `locales/en-US.yml` / `locales/ja-JP.yml` and are read via `i18n.ts` / `i18n.tsx` (see `MISSING-STRINGS.md`). `skStrings` tables below describe the pre-migration wording.
 
 # SkNote.vue port
 
@@ -41,17 +41,15 @@
 16. **Removed unused donor bits.** `MkUrlPreview` and `MkNoteSub` imports, `showTicker` computed, `readPromo()` (`promo/read`, never called from the template), `MkInstanceTicker` (see "Not ported").
 17. **Dropped non-target attributes.** `isBlock` and `isAnim` on Mfm.
 
-## i18n keys replaced with local `skStrings` (pending locales, see MISSING-STRINGS.md)
+## i18n keys added (trailing Sharkey locale section; donor wording)
 
 - `quoted`: "Quoted."
-- `rmboost`: "Boost removed."
-- `noteFooterLabel`: "Note actions"
-- `_animatedMFM.play`: "Play"
-- `_animatedMFM.stop`: "Stop"
-- `_animatedMFM._alert.text`: "Animated MFM can be resource-intensive. Play it anyway?"
-- `_animatedMFM._alert.confirm`: "Play"
-
-No locale keys added.
+- `rmboost`: "Unboosted."
+- `noteFooterLabel`: "Note controls"
+- `animatedMFM.play`: "Play MFM Animation"
+- `animatedMFM.stop`: "Stop MFM Animation"
+- `animatedMFM.alertText`: "Animated MFMs could include flashing lights and fast moving text/emojis."
+- `animatedMFM.alertConfirm`: "Animate"
 
 ## Prefs used
 

@@ -1,4 +1,4 @@
-> Note: Sharkey UI strings are now centralized in `packages/frontend/src/utility/sk-strings.ts` (see README.md and MISSING-STRINGS.md). Any `skStrings` table mentioned below refers to that module.
+> Note: Sharkey UI strings formerly lived in `packages/frontend/src/utility/sk-strings.ts` (deleted after the migration). All ported strings now live in `locales/en-US.yml` / `locales/ja-JP.yml` and are read via `i18n.ts` / `i18n.tsx` (see `MISSING-STRINGS.md`). `skStrings` tables below describe the pre-migration wording.
 
 # SkOldNoteWindow.vue
 
@@ -20,8 +20,8 @@
 - Imports use the target's `.js` suffix style (`@/preferences.js`, `@/utility/get-self-note-ids.js`).
 - `ref="window"` and `ref="specified"` kept as in donor.
 
-## i18n keys replaced with local strings
-- `i18n.ts.noteFooterLabel` (not in en-US.yml) -> `skStrings.noteFooterLabel` ("Note footer").
+## i18n keys added (trailing Sharkey locale section; donor wording)
+- `i18n.ts.noteFooterLabel` ("Note controls").
 
 ## i18n keys used as-is
 - `i18n.ts.private`, `i18n.ts._visibility[...]` (including `disableFederation`).

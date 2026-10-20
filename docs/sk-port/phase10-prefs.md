@@ -58,14 +58,14 @@ Added in 10.1: `collapseFiles`, `disableCatSpeak`, `enableFaviconNotificationDot
 
 Not ported: Sharkey's `cornerRadius` hybrid pref and the other localStorage-synced "hybrid" prefs (`fontSize`, `lang`, ...): upstream handles those differently and they belong to the theme/boot slices.
 
-Settings UI: `/settings/sharkey` is a new page (menu entry in `pages/settings/index.vue`, route `/settings/sharkey` in `router.definition.ts`). Strings are in `skStrings.skSettings` (and the existing `welcomeEntranceStyle*` keys); no locale edits. It does not use `SearchMarker`/`SearchLabel`, so the page is not in the settings search index (that index extracts `i18n.ts` references at build time and `skStrings` has none).
+Settings UI: `/settings/sharkey` is a new page (menu entry in `pages/settings/index.vue`, route `/settings/sharkey` in `router.definition.ts`). Strings live in `locales/en-US.yml` / `locales/ja-JP.yml` (`_skSettings.*` plus flat donor-canonical pref labels); `sk-strings.ts` is deleted. It does not use `SearchMarker`/`SearchLabel`, so the page is not in the settings search index (that index extracts `i18n.ts` references at build time and `skStrings` has none).
 
 ## Migration (`pref-migrate.ts`, `pref-migrate-core.ts`)
 
 - Pure logic (`planPrefMigration`, `shouldMigrateOldSettings`) lives in `pref-migrate-core.ts`; `pref-migrate.ts` does the I/O (`i/registry/*`, localStorage `miux:*`, `prefer.commit`) and exports `migrateOldSettings` and `shouldMigrateOldSettings`.
 - Gate: `compareVersions('2025.3.2-alpha.0', lastVersion) === 1` (lastVersion older). Missing or unparsable `lastVersion` does not migrate.
 - Migrates registry themes, plugins (`id` -> `installId`), deck profile and profiles (malformed entries skipped), light/dark theme and `syncDeviceDarkMode`, emoji palettes, all legacy store prefs, and the Sharkey legacy state (`noteDesign` `'sharkey'` -> `'sk'`, `followingFeed` completed with defaults, `dataSaver.urlPreview` -> `urlPreviewThumbnail`). Absent values are skipped rather than committed as defaults.
-- Differences from Sharkey: no `os.waiting` string from locales (`skStrings.settingsMigrating`, because upstream removed `settingsMigrating`); no `prefer.suppressReload/allowReload` (not in the upstream manager); upstream's delayed `unisonReload` (10 s) is kept; hybrid localStorage prefs are not migrated.
+- Differences from Sharkey: no `os.waiting` string from locales (`i18n.ts._skSettings.migrating`, because upstream removed `settingsMigrating`); no `prefer.suppressReload/allowReload` (not in the upstream manager); upstream's delayed `unisonReload` (10 s) is kept; hybrid localStorage prefs are not migrated.
 - **Call site (owned by 10.4, `boot/main-boot.ts`)**: not wired here. In `mainBoot()`, inside the `isClientUpdated` branch (the removed upstream code sat right after the `MkUpdated` popup):
 
   ```ts

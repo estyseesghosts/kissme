@@ -20,7 +20,7 @@ eslint, and SPDX.
   `components/SkMutedNote.vue` renders the placeholder and expand-to-view.
   `DynamicNote*` writes mute overrides via `utility/merge.ts` `deepAssign`.
 - **Strings.** Sharkey strings missing from `en-US.yml` are centralized in
-  `utility/sk-strings.ts`. See `MISSING-STRINGS.md` at the repo root.
+  `locales/en-US.yml` / `locales/ja-JP.yml` (trailing Sharkey sections). See `MISSING-STRINGS.md` at the repo root.
 - **Boost and quote.** `utility/boost-quote.ts` (visibility ordering, boost menu) and
   `utility/check-animated-mfm.ts` (animated MFM detection). Both have unit tests in
   `packages/frontend/test/unit/`.

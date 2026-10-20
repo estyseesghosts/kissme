@@ -12,7 +12,7 @@ Template, canvas slice renderer, seek/scroll/slider logic and styles as in the d
 - Phosphor icons became Tabler (`ti ti-eye`, `eye-off`, `player-play/pause/stop`, `download`, `alert-triangle`).
 - Layout constants and pure helpers (row number hex, channel clamp, widths, row text, scroll columns, channels in view) moved to `utility/sk-mod-player.ts` (see sk-mod-player.md).
 - Graceful degradation: if `AudioContext` is missing the component shows an error placeholder instead of constructing the player; a failed fetch/decode (`load().catch`) sets `loadError` and shows the same placeholder instead of leaving a dead player. `playPause/stop/performSeek` bail out when audio is unsupported or no buffer is loaded.
-- "Pattern Hidden" and the new error strings are local `modStrings` constants (not in en-US.yml; reported to lead for sk-strings.ts).
+- "Pattern Hidden", "Module failed to load" and "Audio playback is not supported in this browser." now live in the trailing Sharkey locale section (`i18n.ts.modPatternHidden`, `.modFailedToLoad`, `.modAudioUnsupported`).
 - `buffer` is typed `ArrayBuffer | null`.
 
 ## Prefs read

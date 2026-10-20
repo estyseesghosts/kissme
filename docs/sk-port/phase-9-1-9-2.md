@@ -18,7 +18,7 @@ Donor: Sharkey `develop` @ `752a392d3b`. Frontend only. Nothing was exercised in
 | `MkMarqueeText.vue` | Upstream, unchanged. | Statusbars (`statusbar-*.vue`), `WidgetRssTicker`, `welcome.entrance.classic.vue`. | None. |
 | `MkRadio.vue` | New. Standalone single radio. Adds `role="radio"` and keyboard (space/enter) support that the donor lacked. | No consumer yet (donor: `admin/ads.vue`, `MkPreview.vue`). | None. |
 | `MkRadios.vue` | Upstream, unchanged. It renders its own options and does not use `MkRadio`. | Settings pages. | None. |
-| `MkUrlWarningDialog.vue` | Already landed in phase 1 (slice 1.x dependency). Compared with the donor: the only differences are three strings routed through `skStrings`. Nothing to reconcile. | `utility/warning-external-website.ts`, `SkListenBrainz` links. | Pref `warnExternalUrl`. |
+| `MkUrlWarningDialog.vue` | Already landed in phase 1 (slice 1.x dependency). Compared with the donor: the only differences were three strings routed through `skStrings` (now `i18n.ts._externalNavigationWarning.*`, matching the donor structure). Nothing to reconcile. | `utility/warning-external-website.ts`, `SkListenBrainz` links. | Pref `warnExternalUrl`. |
 
 ## Marquee: which consumer uses which
 
@@ -38,7 +38,7 @@ No settings UI yet (Phase 10).
 ## Deviations from the donor
 
 - `SkOneko`: the donor added the `mousemove` listener to `document` and removed it from `window`, leaking it; now both use `document`, and the animation frame is cancelled on unmount.
-- `SkListenBrainz`: Phosphor icon replaced by `ti-player-play`; `<i18n _profile.listeningTo>` replaced by `skStrings.listeningTo`; response validated.
+- `SkListenBrainz`: Phosphor icon replaced by `ti-player-play`; `<i18n _profile.listeningTo>` replaced by `i18n.ts.listeningTo` (trailing Sharkey locale section, donor wording); response validated.
 - `SkInstanceTicker`, `SkBadgeStrip`, `MkRadio`: `--MI-radius-*` variables other than `--MI-radius` are not defined by upstream's `style.scss` (the Sharkey ones are), so these files carry literal fallbacks. Earlier Sk* files using `--MI-radius-xs` etc. have no fallback and render without a radius; follow-up for the coordinator.
 - `MkMarquee` uses an object ref for the content element instead of a string ref.
 

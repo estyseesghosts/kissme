@@ -1,4 +1,4 @@
-> Note: Sharkey UI strings are now centralized in `packages/frontend/src/utility/sk-strings.ts` (see README.md and MISSING-STRINGS.md). Any `skStrings` table mentioned below refers to that module.
+> Note: Sharkey UI strings formerly lived in `packages/frontend/src/utility/sk-strings.ts` (deleted after the migration). All ported strings now live in `locales/en-US.yml` / `locales/ja-JP.yml` and are read via `i18n.ts` / `i18n.tsx` (see `MISSING-STRINGS.md`). `skStrings` tables below describe the pre-migration wording.
 
 # SkNoteDetailed.vue (Sharkey detailed note view port)
 
@@ -34,18 +34,17 @@ Imports and components:
 17. Keymap `'o'` uses a block body. The donor's expression body caused a TS circularity error with `useTemplateRef('galleryEl')`.
 18. Unused donor imports dropped: `extractUrlFromMfm`, `MkUrlPreview`, `Paging`. Unused refs dropped: `rootComp` and `rootEl` (only the Sharkey capture used it), `pollViewer`.
 19. Icons (Phosphor to Tabler): `ph-pencil-simple` to `ti-pencil`, `ph-quotes` to `ti-quote`, `ph-heart` to `ti-heart`, `ph-smiley` to `ti-mood-smile`, `ph-play` to `ti-player-play`, `ph-stop` to `ti-player-stop`.
-20. Hard-coded English kept from the donor: `title="Edited"` and the `bot` badge text.
+20. Hard-coded English kept from the donor: the `bot` badge text. (`title="Edited"` now reads the stock `i18n.ts.edited` key.)
 
-## i18n keys replaced (local `skStrings`, no locale edits)
+## i18n keys added (trailing Sharkey locale section; donor wording)
 
-Each key is missing from `locales/en-US.yml` and is listed in `MISSING-STRINGS.md`:
 - `quoted`: "Quoted."
-- `rmboost`: "Removed renote."
-- `noteFooterLabel`: "Note actions"
-- `_animatedMFM.play`: "Play"
-- `_animatedMFM.stop`: "Stop"
-- `_animatedMFM._alert.text`: "Animated MFM may be distracting. Play it anyway?" (provisional English)
-- `_animatedMFM._alert.confirm`: "Play"
+- `rmboost`: "Unboosted."
+- `noteFooterLabel`: "Note controls"
+- `animatedMFM.play`: "Play MFM Animation"
+- `animatedMFM.stop`: "Stop MFM Animation"
+- `animatedMFM.alertText`: "Animated MFMs could include flashing lights and fast moving text/emojis."
+- `animatedMFM.alertConfirm`: "Animate"
 
 Keys used that exist in en-US: `loadConversation`, `renotedBy`, `_visibility.*` (including `disableFederation`), `private`, `edited`, `replies`, `renotes`, `_notification._types.quote`, `loadReplies`, `renoted`, `unrenote`, `reactions`, `reactAreYouSure` (`tsx`).
 

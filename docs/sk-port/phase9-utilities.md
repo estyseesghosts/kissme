@@ -17,7 +17,7 @@ All under `packages/frontend/src/utility/`. Upstream wins on collision.
 | `search-engine-map.ts` | Ported | Verbatim. No pref added; consumer is a settings UI (slice 10.1). |
 | `settings-search-index.ts` | Ported | Dropped the unused (and undeclared) `GeneratedSearchIndexItem` import. Uses upstream virtual module `search-index:settings`; upstream `inapp-search.ts` is untouched. No consumer yet. Not tested (virtual module). |
 | `show-note-on-original-instance.ts` | Already present | Upstream copy differs only by a router type cast. |
-| `show-system-account-dialog.ts` | Ported | Strings absent from the donor locale too; new `skStrings.systemAccountTitle/Description` (MISSING-STRINGS.md). |
+| `show-system-account-dialog.ts` | Ported | Strings absent from the donor locale too; new `i18n.ts.systemAccountTitle/Description` in the trailing Sharkey locale section. |
 | `stream-mock.ts` | Skipped | Upstream `stream.ts` has no websocket-disable path, so nothing would use it. Revisit if streaming can be disabled globally. |
 | `warning-external-website.ts` | Already present | Upstream copy already adapted (optional `trustedLinkUrlPatterns`). |
 

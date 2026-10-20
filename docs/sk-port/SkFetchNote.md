@@ -1,4 +1,4 @@
-> Note: Sharkey UI strings are now centralized in `packages/frontend/src/utility/sk-strings.ts` (see README.md and MISSING-STRINGS.md). Any `skStrings` table mentioned below refers to that module.
+> Note: Sharkey UI strings formerly lived in `packages/frontend/src/utility/sk-strings.ts` (deleted after the migration). All ported strings now live in `locales/en-US.yml` / `locales/ja-JP.yml` and are read via `i18n.ts` / `i18n.tsx` (see `MISSING-STRINGS.md`). `skStrings` tables below describe the pre-migration wording.
 
 # SkFetchNote.vue
 
@@ -15,8 +15,8 @@
 - `lazy: false` previously rendered immediately. It now swaps the `MkLazy` wrapper for a plain `div` (`<component :is="lazy ? MkLazy : 'div'">`), so no placeholder appears.
 - `MkLazy` is imported explicitly from `@/components/global/MkLazy.vue` to allow the dynamic `:is`.
 
-## i18n keys replaced with local strings
-- `i18n.ts.cannotLoadNote` (not in en-US.yml) -> `skStrings.cannotLoadNote` ("Cannot load note").
+## i18n keys added (trailing Sharkey locale section)
+- `i18n.ts.cannotLoadNote` (donor wording "Failed to load note"; `sk-strings.ts` deleted).
 
 ## Prefs
 - None.

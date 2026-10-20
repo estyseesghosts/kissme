@@ -7,7 +7,7 @@ Modal listing scheduled notes via `notes/schedule/list` (offset paging), each as
 
 ## Changes from the donor
 - `SkPagination` (Sharkey paging model, see SkPagination.md) and `SkNoteSimple` (which now carries the schedule actions; donor put them in `MkNoteSimple`). Dropped the donor's meaningless `:scheduled="true"` attr.
-- `i18n.ts.schedulePostList` is not in en-US.yml -> `skStrings.schedulePostList`.
+- `i18n.ts.schedulePostList` (trailing Sharkey section in both locale files; `sk-strings.ts` deleted).
 - `SkNoteSimple.vue` (upstream-coexisting, Sharkey-only file) gained the donor's edit/delete buttons for `note.isSchedule`: delete = confirm + `notes/schedule/delete`; edit = delete, then `os.post({ initialNote, renote, reply, channel })`.
 - `utility/sk-schedule-api.ts` wraps `notes/schedule/create|delete|list` through untyped aliases (tested with mocked API: `test/unit/sk-schedule-api.test.ts`).
 

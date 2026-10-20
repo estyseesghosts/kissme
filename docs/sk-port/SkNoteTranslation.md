@@ -1,4 +1,4 @@
-> Note: Sharkey UI strings are now centralized in `packages/frontend/src/utility/sk-strings.ts` (see README.md and MISSING-STRINGS.md). Any `skStrings` table mentioned below refers to that module.
+> Note: Sharkey UI strings formerly lived in `packages/frontend/src/utility/sk-strings.ts` (deleted after the migration). All ported strings now live in `locales/en-US.yml` / `locales/ja-JP.yml` and are read via `i18n.ts` / `i18n.tsx` (see `MISSING-STRINGS.md`). `skStrings` tables below describe the pre-migration wording.
 
 # SkNoteTranslation.vue
 
@@ -11,10 +11,10 @@
 - SPDX header kept.
 
 ## Deviations
-- `i18n.ts.translationFailed` is not in en-US.yml. Replaced with `skStrings.translationFailed` ("Translation failed"), a local const with a pending-locales comment.
+- `i18n.ts.translationFailed` (trailing Sharkey section in both locale files; donor wording; `sk-strings.ts` deleted).
 
-## i18n keys replaced with local strings
-- `translationFailed` -> `skStrings.translationFailed`
+## i18n keys added (trailing Sharkey locale section)
+- `translationFailed` -> `i18n.ts.translationFailed`
 
 ## i18n keys used as-is
 - `i18n.tsx.translatedFrom` (exists in en-US.yml as "Translated from {x}").
