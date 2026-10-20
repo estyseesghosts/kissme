@@ -13,10 +13,6 @@ import type { ParameterizedString } from 'i18n';
  * Move entries into locales/en-US.yml when they are settled, then remove them here.
  */
 export const skStrings = {
-	// SkUrlPreview.vue
-	writtenBy: 'Written by {user}' as ParameterizedString<'user'>,
-	fetchLinkedNote: 'Fetch linked note',
-
 	// SkNote.vue, SkNoteSub.vue, SkNoteDetailed.vue, SkNoteSimple.vue
 	quoted: 'Quoted.',
 	rmboost: 'Removed boost.',

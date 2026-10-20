@@ -3545,6 +3545,8 @@ _qr:
   mfm: "MFM"
 
 # Sharkey frontend port (see MISSING-STRINGS.md)
+writtenBy: "Written by {user}"
+fetchLinkedNote: "Fetch linked note"
 noteIsFlaggedAs: "Note is flagged: \"{cw}\""
 userIsFlaggedAs: "{name} is flagged: \"{cw}\""
 instanceIsFlaggedAs: "{name} is flagged: \"{cw}\""

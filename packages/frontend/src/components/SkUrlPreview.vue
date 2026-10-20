@@ -66,7 +66,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 		</article>
 	</component>
 
-	<I18n v-if="attributionUser" :src="skStrings.writtenBy" :class="$style.linkAttribution" tag="p">
+	<I18n v-if="attributionUser" :src="i18n.ts.writtenBy" :class="$style.linkAttribution" tag="p">
 		<template #user>
 			<MkA v-user-preview="attributionUser.id" :to="userPage(attributionUser)">
 				<MkAvatar :class="$style.linkAttributionIcon" :user="attributionUser"/>
@@ -84,7 +84,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 		</div>
 		<div v-if="showAsQuote && activityPub && !theNote && $i" :class="$style.action">
 			<MkButton :small="true" :disabled="!!fetching || fetchingTheNote" inline @click="() => refresh(true)">
-				<i class="ti ti-note"></i> {{ skStrings.fetchLinkedNote }}
+				<i class="ti ti-note"></i> {{ i18n.ts.fetchLinkedNote }}
 			</MkButton>
 		</div>
 		<div v-if="!playerEnabled && player.url" :class="$style.action">
@@ -118,7 +118,6 @@ import { warningExternalWebsite } from '@/utility/warning-external-website.js';
 import SkNoteSimple from '@/components/SkNoteSimple.vue';
 import { $i } from '@/i';
 import { userPage } from '@/filters/user.js';
-import { skStrings } from '@/utility/sk-strings.js';
 
 // Sharkey's summaly fork adds these fields; the target's @misskey-dev/summaly does not declare them.
 type SkSummalyFields = {

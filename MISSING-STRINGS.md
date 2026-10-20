@@ -24,12 +24,11 @@ Migrated (in both locale files, read via `i18n.ts`, gone from `sk-strings.ts`):
   `instanceIsFlaggedAs`, `userSaysSomethingInMutedNote`,
   `userSaysSomethingInMutedThread`, `silencedUserSaysSomething`,
   `silencedInstanceSaysSomething`) — English follows the donor wording.
+- `SkUrlPreview` (`writtenBy`, `fetchLinkedNote`) — donor wording.
 - `_skSettings.*` and flat pref labels (`clickToOpen`, `expandLongNote`, …).
 
 | Key in `skStrings` | English text | Used in |
 |---|---|---|
-| `writtenBy` | `Written by {user}` | `components/SkUrlPreview.vue` |
-| `fetchLinkedNote` | `Fetch linked note` | `components/SkUrlPreview.vue` |
 | `quoted` | `Quoted.` | `SkNote.vue`, `SkNoteSub.vue`, `SkNoteDetailed.vue` |
 | `rmboost` | `Removed boost.` | `SkNote.vue`, `SkNoteSub.vue`, `SkNoteDetailed.vue` |
 | `noteFooterLabel` | `Note actions` | `SkNote.vue`, `SkNoteSub.vue`, `SkNoteDetailed.vue`, `SkOldNoteWindow.vue` |
