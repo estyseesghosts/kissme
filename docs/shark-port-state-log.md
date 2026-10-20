@@ -16,11 +16,13 @@
 | Check | Result | Log |
 |---|---|---|
 | `pnpm --filter frontend typecheck` | PASS (exit 0) | `baseline-typecheck.log` |
-| `pnpm --filter frontend test` | FAIL: 4 failed / 148 passed (152); 1 failed file | `baseline-test.log` |
+| `pnpm --filter frontend test` | Before fix: FAIL 4/152. After fix (commit bc7f09efa8): 152/152 pass (`TZ=UTC` run also 152/152) | `baseline-test.log`, `baseline-test-utc.log` |
 | `pnpm --filter frontend build` | PASS (exit 0), postbuild ok | `baseline-build.log` |
 | `node scripts/check-spdx.mjs` | SPDX: OK | — |
 
-Failing: `test/unit/is-birthday.test.ts` (4 of 5 tests). It is timezone-dependent and pre-existing on split-project: the test builds `new Date('2024-05-15')` (UTC midnight) and expects local-date matching. On this machine (EDT, UTC-4) it fails. With `TZ=UTC` all 5 pass. Fixed nothing, per plan. Phase 1 is blocked until a decision is made on this (e.g. run tests with `TZ=UTC` in CI/harness, or fix the test/util in a separate, approved change).
+Failing before fix: `test/unit/is-birthday.test.ts` (4 of 5 tests), timezone-dependent and pre-existing on split-project.
+
+Resolution (option 2, commit bc7f09efa8): the util reads local date getters, which is correct for a birthday. The test fixtures were the bug: `new Date("YYYY-MM-DD")` is UTC midnight, the previous local day in EDT. Fixtures now use `new Date(y, m, d)`. The util is unchanged. Option 1 (`TZ=UTC`) also passed; this fix passes in every TZ tested (EDT, UTC, Asia/Tokyo).
 
 ### 0.3 Coexistence decision — recorded
 Adopted verbatim from the plan; no code changes:
