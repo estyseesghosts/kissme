@@ -311,6 +311,9 @@ export const PREF_DEF = definePreferences({
 	useSharkeyEmojiPicker: {
 		default: false,
 	},
+	useSharkeyUploader: {
+		default: false,
+	},
 	warnExternalUrl: {
 		default: true,
 	},

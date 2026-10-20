@@ -155,6 +155,7 @@ import { Autocomplete } from '@/utility/autocomplete.js';
 import * as os from '@/os.js';
 import { misskeyApi } from '@/utility/misskey-api.js';
 import { chooseDriveFile, selectFile } from '@/utility/drive.js';
+import { skSelectFiles } from '@/utility/sk-select-file.js';
 import { addMentionToText, getMissingMentions, isSelfMention, reactionAcceptanceHeaderIcon } from '@/utility/sk-post-form.js';
 import { replaceFileById } from '@/utility/sk-attaches.js';
 import { createScheduledNote, editNote } from '@/utility/sk-schedule-api.js';
@@ -554,7 +555,11 @@ function chooseFileFromDrive(ev: PointerEvent) {
 function chooseFileFrom(ev: PointerEvent) {
 	if (props.mock) return;
 
-	selectFile({ anchorElement: ev.currentTarget ?? ev.target, multiple: true, label: i18n.ts.attachFile }).then(selected => {
+	// Pref `useSharkeyUploader` (default off): Sharkey chooser (compress / original / Drive dialog / URL).
+	const chosen = prefer.s.useSharkeyUploader
+		? skSelectFiles(ev.currentTarget ?? ev.target, i18n.ts.attachFile)
+		: selectFile({ anchorElement: ev.currentTarget ?? ev.target, multiple: true, label: i18n.ts.attachFile });
+	chosen.then(selected => {
 		files.value.push(...selected);
 	});
 }
