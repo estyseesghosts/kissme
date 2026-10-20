@@ -193,6 +193,14 @@ function showFileMenu(file: Misskey.entities.DriveFile, ev: PointerEvent | Keybo
 			text: i18n.ts.preview,
 			icon: 'ti ti-photo-search',
 			action: async () => {
+				// Sharkey image path: single-image preview dialog. This component only renders when
+				// useSharkeyPostForm is on, so the stock lightbox path elsewhere is untouched.
+				if (getType(file.type) === 'image') {
+					const { dispose: disposeImg } = await os.popupAsyncWithDialog(import('@/components/MkImgPreviewDialog.vue').then(x => x.default), { file }, {
+						closed: () => disposeImg(),
+					});
+					return;
+				}
 				const constents = props.modelValue.filter(item => isPreviewable(item.type)).map<Content>(item => ({
 					id: item.id,
 					type: getType(item.type),
