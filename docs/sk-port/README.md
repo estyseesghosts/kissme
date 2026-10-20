@@ -124,6 +124,13 @@ Endpoints absent from `misskey-js` (frontend keeps the donor call; they fail on 
   `SkNoteSimple`), via untyped wrappers in `utility/sk-schedule-api.ts`. Also absent from misskey-js:
   `notes/bubble-timeline` and the `bubbleTimeline` stream channel (`MkTimeline`).
 
+Live probes against Pinetree (verified, not just untyped): `notes/bubble-timeline`,
+`notes/following`, and `i/shared-access/*` all answer `UNKNOWN_API_ENDPOINT`.
+No live UI exposes the bubble source (timeline page, deck columns, and widgets
+offer home/local/social/global only; `MkTimeline` itself is consumerless), so the
+bubble mapping in `utility/sk-timeline-query.ts` stays as tested, backend-conditional
+code with no dead UI.
+
 Fields absent from the upstream API (read through casts; behavior is a no-op when missing):
 
 - `updatedAt` (Edited marker), `isRenoted` (renote state), `isFavorited`.
