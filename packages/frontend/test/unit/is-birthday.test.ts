@@ -9,7 +9,7 @@ import { isBirthday } from '@/utility/is-birthday.js';
 
 describe('isBirthday', () => {
 	test('通常の誕生日', () => {
-		const currentDate = new Date('2024-05-15');
+		const currentDate = new Date(2024, 4, 15);
 		const result = isBirthday({
 			birthday: '2000-05-15',
 		} as Misskey.entities.UserDetailed, currentDate);
@@ -18,7 +18,7 @@ describe('isBirthday', () => {
 	});
 
 	test('誕生日ではない場合', () => {
-		const currentDate = new Date('2024-05-15');
+		const currentDate = new Date(2024, 4, 15);
 		const result = isBirthday({
 			birthday: '2000-06-20',
 		} as Misskey.entities.UserDetailed, currentDate);
@@ -27,7 +27,7 @@ describe('isBirthday', () => {
 	});
 
 	test('平年に閏日生まれを見た際に3月1日を誕生日とする', () => {
-		const currentDate = new Date('2023-03-01');
+		const currentDate = new Date(2023, 2, 1);
 		const result = isBirthday({
 			birthday: '2000-02-29',
 		} as Misskey.entities.UserDetailed, currentDate);
@@ -36,7 +36,7 @@ describe('isBirthday', () => {
 	});
 
 	test('閏年に閏日生まれを見た際に2月29日を誕生日とする', () => {
-		const currentDate = new Date('2024-02-29');
+		const currentDate = new Date(2024, 1, 29);
 		const result = isBirthday({
 			birthday: '2000-02-29',
 		} as Misskey.entities.UserDetailed, currentDate);
@@ -45,7 +45,7 @@ describe('isBirthday', () => {
 	});
 
 	test('閏年に閏日生まれを見た際に3月1日を誕生日としない', () => {
-		const currentDate = new Date('2024-03-01');
+		const currentDate = new Date(2024, 2, 1);
 		const result = isBirthday({
 			birthday: '2000-02-29',
 		} as Misskey.entities.UserDetailed, currentDate);
