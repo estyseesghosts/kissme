@@ -485,6 +485,10 @@ export interface Locale extends ILocale {
      */
     "unrenote": string;
     /**
+     * リノート（Shiftキーで公開範囲メニュー）
+     */
+    "renoteShift": string;
+    /**
      * リノートしました。
      */
     "renoted": string;

@@ -81,11 +81,10 @@ export function boostMenuItems(appearNote: Ref<Misskey.entities.Note>, renote: (
 	];
 }
 
-export function computeRenoteTooltip(note: ComputedRef<Misskey.entities.Note>): ComputedRef<string> {
-	// Sharkey switches to "unrenote" when the viewer already renoted this note (note.isRenoted, a Sharkey-only
-	// field). Misskey-js has no such field, so the tooltip is always "renote" until get-self-note-ids lands.
+export function computeRenoteTooltip(note: ComputedRef<Misskey.entities.Note & { isRenoted?: boolean }>): ComputedRef<string> {
 	return computed(() => {
-		void note.value;
-		return i18n.ts.renote;
+		if (note.value.isRenoted) return i18n.ts.unrenote;
+		if (prefer.s.showVisibilitySelectorOnBoost) return i18n.ts.renote;
+		return i18n.ts.renoteShift;
 	});
 }
