@@ -27,6 +27,8 @@ components to `i18n.ts.<key>`, and delete the entry from `sk-strings.ts`.
 | `animatedMFM.stop` | `Stop` | `SkNote.vue`, `SkNoteDetailed.vue` |
 | `animatedMFM.alertText` | `Animated MFM may be distracting. Play it anyway?` | `SkNote.vue`, `SkNoteDetailed.vue` |
 | `animatedMFM.alertConfirm` | `Play` | `SkNote.vue`, `SkNoteDetailed.vue` |
+| `postOn` | `Post on` | `components/MkScheduleEditor.vue` |
+| `schedulePostList` | `Scheduled notes` | `components/MkSchedulePostListDialog.vue`, `components/MkPostForm.vue` |
 | `translationFailed` | `Translation failed` | `components/SkNoteTranslation.vue` |
 | `cannotLoadNote` | `Cannot load note` | `components/SkFetchNote.vue` |
 | `externalWarningTitle` | `External website` | `components/MkUrlWarningDialog.vue` |

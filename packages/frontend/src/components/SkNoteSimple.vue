@@ -6,7 +6,7 @@ Simple view of a note in the Sharkey style. Used in quote renotes, link previews
 -->
 
 <template>
-<SkMutedNote :note="note" :skipMute="skipMute" :class="$style.root" @expandMute="n => emit('expandMute', n)">
+<SkMutedNote v-if="!isDeleted" :note="note" :skipMute="skipMute" :class="$style.root" @expandMute="n => emit('expandMute', n)">
 	<MkAvatar :class="$style.avatar" :user="note.user" link preview/>
 	<div :class="$style.main">
 		<SkNoteHeader :class="$style.header" :classic="true" :note="note"/>
@@ -17,6 +17,10 @@ Simple view of a note in the Sharkey style. Used in quote renotes, link previews
 			</p>
 			<div v-show="props.note.cw == null || showContent">
 				<MkSubNoteContent :hideFiles="hideFiles" :class="$style.text" :note="note" :expandAllCws="props.expandAllCws"/>
+				<div v-if="note.isSchedule" style="margin-top: 10px;">
+					<MkButton :class="$style.button" inline @click.stop.prevent="editScheduleNote()"><i class="ti ti-eraser"></i> {{ i18n.ts.edit }}</MkButton>
+					<MkButton :class="$style.button" inline danger @click.stop.prevent="deleteScheduleNote()"><i class="ti ti-trash"></i> {{ i18n.ts.delete }}</MkButton>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -33,6 +37,11 @@ import { prefer } from '@/preferences.js';
 import { setupNoteViewInterruptors } from '@/plugin.js';
 import { deepClone } from '@/utility/clone.js';
 import SkMutedNote from '@/components/SkMutedNote.vue';
+import type { PostFormProps } from '@/types/post-form.js';
+import MkButton from '@/components/MkButton.vue';
+import * as os from '@/os.js';
+import { i18n } from '@/i18n.js';
+import { deleteScheduledNote } from '@/utility/sk-schedule-api.js';
 
 const props = defineProps<{
 	note: Misskey.entities.Note & {
@@ -50,10 +59,38 @@ const emit = defineEmits<{
 }>();
 
 let showContent = ref(prefer.s.uncollapseCW);
+const isDeleted = ref(false);
 
 const note = ref(deepClone(props.note));
 
 setupNoteViewInterruptors(note, null);
+
+async function deleteScheduleNote() {
+	const { canceled } = await os.confirm({
+		type: 'warning',
+		text: i18n.ts.deleteConfirm,
+		okText: i18n.ts.delete,
+		cancelText: i18n.ts.cancel,
+	});
+	if (canceled) return;
+	await deleteScheduledNote(note.value.id);
+	isDeleted.value = true;
+}
+
+// Editing deletes the schedule entry and re-opens the composer with its content,
+// so the edited note is scheduled again from scratch (same as the donor).
+async function editScheduleNote() {
+	await deleteScheduledNote(props.note.id);
+	isDeleted.value = true;
+
+	await os.post({
+		initialNote: props.note,
+		renote: props.note.renote,
+		reply: props.note.reply,
+		channel: props.note.channel as PostFormProps['channel'],
+	});
+	emit('editScheduleNote');
+}
 
 watch(() => props.expandAllCws, (expandAllCws) => {
 	if (expandAllCws !== showContent.value) showContent.value = expandAllCws;
@@ -101,6 +138,11 @@ watch(() => props.expandAllCws, (expandAllCws) => {
 	padding: 0;
 	overflow-wrap: break-word;
 	overflow: hidden;
+}
+
+.button {
+	margin-right: 8px;
+	margin-bottom: 8px;
 }
 
 .text {

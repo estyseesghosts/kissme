@@ -37,6 +37,10 @@ export const skStrings = {
 		alertConfirm: 'Play',
 	},
 
+	// MkScheduleEditor.vue, MkSchedulePostListDialog.vue, MkPostForm.vue
+	postOn: 'Post on',
+	schedulePostList: 'Scheduled notes',
+
 	// SkNoteTranslation.vue
 	translationFailed: 'Translation failed',
 
