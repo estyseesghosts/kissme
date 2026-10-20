@@ -520,6 +520,7 @@ import type {
 	NotesGlobalTimelineResponse,
 	NotesHybridTimelineRequest,
 	NotesHybridTimelineResponse,
+	NotesLikeRequest,
 	NotesLocalTimelineRequest,
 	NotesLocalTimelineResponse,
 	NotesMentionsRequest,
@@ -1011,6 +1012,7 @@ export type Endpoints = {
 	'notes/featured': { req: NotesFeaturedRequest; res: NotesFeaturedResponse };
 	'notes/global-timeline': { req: NotesGlobalTimelineRequest; res: NotesGlobalTimelineResponse };
 	'notes/hybrid-timeline': { req: NotesHybridTimelineRequest; res: NotesHybridTimelineResponse };
+	'notes/like': { req: NotesLikeRequest; res: EmptyResponse };
 	'notes/local-timeline': { req: NotesLocalTimelineRequest; res: NotesLocalTimelineResponse };
 	'notes/mentions': { req: NotesMentionsRequest; res: NotesMentionsResponse };
 	'notes/polls/recommendation': { req: NotesPollsRecommendationRequest; res: NotesPollsRecommendationResponse };

@@ -358,6 +358,88 @@ describe('Endpoints', () => {
 		});
 	});
 
+	describe('notes/like', () => {
+		test('いいねできる', async () => {
+			const bobPost = await post(bob, { text: 'hi' });
+
+			const res = await api('notes/like', {
+				noteId: bobPost.id,
+			}, alice);
+
+			assert.strictEqual(res.status, 204);
+
+			const resNote = await api('notes/show', {
+				noteId: bobPost.id,
+			}, alice);
+
+			assert.strictEqual(resNote.status, 200);
+			// ReactionService normalizes '❤️' (U+2764 U+FE0F) to '❤' (U+2764)
+			assert.strictEqual(resNote.body.reactions['❤'], 1);
+		});
+
+		test('overrideで別のリアクションを付けられる', async () => {
+			const bobPost = await post(bob, { text: 'hi' });
+
+			const res = await api('notes/like', {
+				noteId: bobPost.id,
+				override: '🚀',
+			}, alice);
+
+			assert.strictEqual(res.status, 204);
+
+			const resNote = await api('notes/show', {
+				noteId: bobPost.id,
+			}, alice);
+
+			assert.strictEqual(resNote.status, 200);
+			assert.strictEqual(resNote.body.reactions['🚀'], 1);
+		});
+
+		test('二重にいいねすると取り消される', async () => {
+			const bobPost = await post(bob, { text: 'hi' });
+
+			const first = await api('notes/like', {
+				noteId: bobPost.id,
+			}, alice);
+			assert.strictEqual(first.status, 204);
+
+			const second = await api('notes/like', {
+				noteId: bobPost.id,
+			}, alice);
+			assert.strictEqual(second.status, 204);
+
+			const resNote = await api('notes/show', {
+				noteId: bobPost.id,
+			}, alice);
+
+			assert.strictEqual(resNote.status, 200);
+			assert.deepStrictEqual(resNote.body.reactions, {});
+		});
+
+		test('存在しない投稿にはいいねできない', async () => {
+			const res = await api('notes/like', {
+				noteId: '000000000000000000000000',
+			}, alice);
+
+			assert.strictEqual(res.status, 400);
+			assert.ok(res.body);
+			assert.strictEqual(castAsError(res.body).error.code, 'NO_SUCH_NOTE');
+		});
+
+		test('リノートにいいねできない', async () => {
+			const bobNote = await post(bob, { text: 'hi' });
+			const bobRenote = await post(bob, { renoteId: bobNote.id });
+
+			const res = await api('notes/like', {
+				noteId: bobRenote.id,
+			}, alice);
+
+			assert.strictEqual(res.status, 400);
+			assert.ok(res.body);
+			assert.strictEqual(castAsError(res.body).error.code, 'CANNOT_REACT_TO_RENOTE');
+		});
+	});
+
 	describe('following/create', () => {
 		test('フォローできる', async () => {
 			const res = await api('following/create', {

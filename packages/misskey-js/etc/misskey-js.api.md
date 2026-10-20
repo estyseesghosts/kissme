@@ -2054,6 +2054,7 @@ declare namespace entities {
         NotesGlobalTimelineResponse,
         NotesHybridTimelineRequest,
         NotesHybridTimelineResponse,
+        NotesLikeRequest,
         NotesLocalTimelineRequest,
         NotesLocalTimelineResponse,
         NotesMentionsRequest,
@@ -3022,6 +3023,9 @@ type NotesHybridTimelineRequest = operations['notes___hybrid-timeline']['request
 
 // @public (undocumented)
 type NotesHybridTimelineResponse = operations['notes___hybrid-timeline']['responses']['200']['content']['application/json'];
+
+// @public (undocumented)
+type NotesLikeRequest = operations['notes___like']['requestBody']['content']['application/json'];
 
 // @public (undocumented)
 type NotesLocalTimelineRequest = operations['notes___local-timeline']['requestBody']['content']['application/json'];
