@@ -138,3 +138,27 @@ Deferred: settings UI for `mutedEmojis`, `useSharkeyEmojiPicker` and earlier pre
 Exit criteria:
 - Phase 4 ("Sharkey players render gated by MIME + prefs; stock lightbox path untouched"): **implemented, unverified live**. Gating is by `classifySkMedia` (unit-tested) and the nsfw/dataSaver/confirm prefs; stock lightbox files and `FILE_TYPE_BROWSERSAFE` are unmodified. Players, the sensitive gate and unsupported-MIME fallback are not exercised in a browser.
 - Phase 5 ("react/unreact, custom emoji perms, muted hidden with unmute; picker alias-prefix search, recent/pinned, folders"): **implemented, unverified live**. Permission/mute rules and alias-prefix search are unit-tested; react/unreact paths and the picker UI are not exercised.
+
+
+## Phase 6 — implementation (verification by direction: no backend or browser smoke)
+
+Pins unchanged (base `split-project`, donor Sharkey `develop` @ `752a392d3b`). Phase 5 head was `e0547de28f`.
+
+Commits on split-project:
+- `8e99298b93` 6.2: `SkDriveSelectDialog` (+ stories impl).
+- `002f09015d` 6.1: `sk-upload`, `sk-select-file`, `upload/compress-config` (+ `sk-compress-config.test.ts`), pref `useSharkeyUploader`, gated call in `MkPostForm`.
+- Docs commit (HEAD): `docs/sk-port/sk-upload-pipeline.md`, `SkDriveSelectDialog.md`, README and this log.
+
+Gate on the final tree: typecheck exit 0; frontend tests 33 files / 276 passed; eslint --quiet clean on touched files; SPDX OK; `pnpm --filter frontend build` completed (postbuild index.html generated). Not run: any backend/browser/live check. Intermediate commits were not individually gated.
+
+Decisions:
+- Upstream `utility/drive.ts`, `use-uploader.ts`, `MkDriveFileSelectDialog`, `MkDriveFolderSelectDialog` untouched; Sharkey variants are `sk*` exports. Upstream `utility/isWebpSupported.ts` reused instead of copying the donor's.
+- Gate: pref `useSharkeyUploader` (default off), consumed by the `MkPostForm` attach button only.
+- `selectCompressionConfig(mime, webp, animated)` split out as the pure, tested selector.
+- `genId()` replaces `uuid`; dialog adapted to upstream `MkDrive` events (`changeSelectedFiles/Folders`). No new locale strings (`i18n.ts.compress` exists).
+
+Deferred: settings UI for `useSharkeyUploader` (Phase 10); `skUploads` queue has no UI consumer; dialog has no double-click confirm (upstream MkDrive no longer emits `selected`); typed `isForImport` in misskey-js.
+
+Exit criteria:
+- 6.1 ("choose from PC, choose from Drive, compressed upload returns DriveFile"): **implemented, unverified live**. Compression selection is unit-tested; chooser, multipart POST and Drive picker are not exercised.
+- 6.2 ("single/multi select, folder nav"): **implemented, unverified live**; behavior is inherited from upstream `MkDrive`.

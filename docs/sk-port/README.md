@@ -73,6 +73,15 @@ eslint, and SPDX.
 | `SkReactionsViewer.vue`, `SkReactionsViewer.reaction.vue`, `utility/sk-reaction-rules.ts`, `utility/sk-emoji-mute.ts` | [SkReactionsViewer.md](SkReactionsViewer.md), [SkReactionsViewer.reaction.md](SkReactionsViewer.reaction.md), [sk-reaction-rules.md](sk-reaction-rules.md), [sk-emoji-mute.md](sk-emoji-mute.md) | `note: Note` prop. Used by `SkNote*`; `MkNote*` keep the stock viewer. Rules tested. |
 | `SkEmojiPicker.vue`, `utility/sk-emoji-search.ts` | [SkEmojiPicker.md](SkEmojiPicker.md) | Coexisting picker, swapped in by `MkEmojiPickerDialog` behind `useSharkeyEmojiPicker`. Search util tested. |
 
+### Phase 6 additions
+
+| Component / utility | Doc | State |
+|---|---|---|
+| `utility/sk-upload.ts`, `utility/sk-select-file.ts`, `utility/upload/compress-config.ts` | [sk-upload-pipeline.md](sk-upload-pipeline.md) | Coexisting chooser + uploader + queue state. Reached only from `MkPostForm` attach when pref `useSharkeyUploader` is on. Compression selection tested. |
+| `SkDriveSelectDialog.vue` (+ stories) | [SkDriveSelectDialog.md](SkDriveSelectDialog.md) | Unified file/folder picker; upstream Drive select dialogs untouched. |
+
+Pref added in Phase 6: `useSharkeyUploader` (default `false`, no settings UI yet; Phase 10). Upstream touched (additive): `components/MkPostForm.vue` (attach chooser gated by the pref), `preferences/def.ts`. Gaps: no double-click confirm in the dialog; `isForImport` URL upload untyped; nothing exercised live.
+
 Prefs added in Phase 4/5 (all with no settings UI yet; Phase 10): `mutedEmojis` (`string[]`, default `[]`), `useSharkeyEmojiPicker` (default `false`). Media and reaction components are used only by the `Sk*` note design, which is itself gated by `noteDesign`.
 
 Upstream files touched in Phase 4/5 (additive): `frontend-shared/js/const.ts` (new exports only; `FILE_TYPE_BROWSERSAFE` unchanged), `components/MkEmojiPickerDialog.vue` (pref-gated component swap), `components/SkPostFormAttaches.vue` (image preview dialog), `vite.config.ts` (ruffle external + `_RUFFLE_VERSION_`), `@types/global.d.ts`, `eslint.config.js`, `scripts/check-spdx.mjs` (exempts vendored libopenmpt, ruffle types, chiptune2).
