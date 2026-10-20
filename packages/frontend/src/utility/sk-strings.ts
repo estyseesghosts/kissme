@@ -76,4 +76,12 @@ export const skStrings = {
 
 	// sk-like.ts (written for this port; the donor's like() is fire-and-forget and has no wording)
 	likeNotSupported: 'This server does not support likes yet.',
+
+	// following-feed-utils.ts, SkRemoteFollowersWarning.vue (Phase 7)
+	mutuals: 'Mutuals',
+	showBots: 'Show bots in timeline',
+	showQuotes: 'Show quotes',
+	showReplies: 'Show replies',
+	showNonPublicNotes: 'Show non-public',
+	remoteFollowersWarning: 'Remote followers may have incomplete or outdated activity',
 } as const;

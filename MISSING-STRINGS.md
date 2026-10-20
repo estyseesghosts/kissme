@@ -56,6 +56,12 @@ Phase 4 additions. The last column notes where the wording comes from.
 | `modAudioUnsupported` | `Audio playback is not supported in this browser.` | `components/SkModPlayer.vue` (written for this port, donor has none) |
 | `imageLacksDescription` | `Image lacks descriptive text` | `components/SkMediaImage.vue` (donor (hard-coded)) |
 | `likeNotSupported` | `This server does not support likes yet.` | `utility/sk-like.ts` (written for this port, donor has none) |
+| `mutuals` | `Mutuals` | `utility/following-feed-utils.ts`, `components/SkRemoteFollowersWarning.vue` (donor) |
+| `showBots` | `Show bots in timeline` | `utility/following-feed-utils.ts`, `components/SkRemoteFollowersWarning.vue` (donor) |
+| `showQuotes` | `Show quotes` | `utility/following-feed-utils.ts`, `components/SkRemoteFollowersWarning.vue` (donor) |
+| `showReplies` | `Show replies` | `utility/following-feed-utils.ts`, `components/SkRemoteFollowersWarning.vue` (donor) |
+| `showNonPublicNotes` | `Show non-public` | `utility/following-feed-utils.ts`, `components/SkRemoteFollowersWarning.vue` (donor) |
+| `remoteFollowersWarning` | `Remote followers may have incomplete or outdated activity` | `utility/following-feed-utils.ts`, `components/SkRemoteFollowersWarning.vue` (donor) |
 
 ## Not strings, but related
 

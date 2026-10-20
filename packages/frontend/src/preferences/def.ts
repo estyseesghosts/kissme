@@ -18,6 +18,8 @@ import type { ImageFramePreset } from '@/utility/image-frame-renderer/ImageFrame
 import { genId } from '@/utility/id.js';
 import { DEFAULT_DEVICE_KIND } from '@/utility/device-kind.js';
 import { deepEqual } from '@/utility/deep-equal.js';
+import { defaultFollowingFeedState } from '@/types/following-feed.js';
+import type { FollowingFeedState } from '@/types/following-feed.js';
 
 /** サウンド設定 */
 export type SoundStore = {
@@ -312,6 +314,12 @@ export const PREF_DEF = definePreferences({
 		default: false,
 	},
 	useSharkeyUploader: {
+		default: false,
+	},
+	followingFeed: {
+		default: defaultFollowingFeedState as FollowingFeedState,
+	},
+	showFollowingFeedNav: {
 		default: false,
 	},
 	warnExternalUrl: {
