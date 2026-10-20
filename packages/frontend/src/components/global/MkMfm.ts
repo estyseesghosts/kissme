@@ -19,6 +19,7 @@ import MkCode from '@/components/MkCode.vue';
 import MkCodeInline from '@/components/MkCodeInline.vue';
 import MkGoogle from '@/components/MkGoogle.vue';
 import MkSparkle from '@/components/MkSparkle.vue';
+import SkFormula from '@/components/SkFormula.vue';
 import CkFollowMouse from '@/components/CkFollowMouse.vue';
 import MkA from '@/components/global/MkA.vue';
 import { prefer } from '@/preferences.js';
@@ -484,11 +485,17 @@ export default function (props: MfmProps, { emit }: { emit: SetupContext<MfmEven
 			}
 
 			case 'mathInline': {
-				return [h('code', token.props.formula)];
+				return [h('bdi', h(SkFormula, {
+					formula: token.props.formula,
+					block: false,
+				}))];
 			}
 
 			case 'mathBlock': {
-				return [h('code', token.props.formula)];
+				return [h('bdi', { class: 'block' }, h(SkFormula, {
+					formula: token.props.formula,
+					block: true,
+				}))];
 			}
 
 			case 'search': {
