@@ -3001,6 +3001,15 @@ export type paths = {
          */
         post: operations['notes'];
     };
+    '/notes/bubble-timeline': {
+        /**
+         * notes/bubble-timeline
+         * @description No description provided.
+         *
+         *     **Credential required**: *No*
+         */
+        post: operations['notes___bubble-timeline'];
+    };
     '/notes/children': {
         /**
          * notes/children
@@ -3117,6 +3126,15 @@ export type paths = {
          *     **Credential required**: *No*
          */
         post: operations['notes___featured'];
+    };
+    '/notes/following': {
+        /**
+         * notes/following
+         * @description No description provided.
+         *
+         *     **Credential required**: *Yes* / **Permission**: *read:account*
+         */
+        post: operations['notes___following'];
     };
     '/notes/global-timeline': {
         /**
@@ -4043,6 +4061,9 @@ export type components = {
             }[];
             isBot?: boolean;
             isCat?: boolean;
+            mandatoryCW: string | null;
+            rejectQuotes?: boolean;
+            bypassSilence: boolean;
             requireSigninToViewContents?: boolean;
             makeNotesFollowersOnlyBefore?: number | null;
             makeNotesHiddenBefore?: number | null;
@@ -4053,6 +4074,7 @@ export type components = {
                 iconUrl: string | null;
                 faviconUrl: string | null;
                 themeColor: string | null;
+                mandatoryCW: string | null;
             };
             emojis: {
                 [key: string]: string;
@@ -4448,12 +4470,20 @@ export type components = {
              * @example xxxxxxxxxx
              */
             id: string;
+            /**
+             * Format: id
+             * @example xxxxxxxxxx
+             */
+            threadId: string;
             /** Format: date-time */
             createdAt: string;
+            /** Format: date-time */
+            updatedAt?: string;
             /** Format: date-time */
             deletedAt?: string | null;
             text: string | null;
             cw?: string | null;
+            mandatoryCW?: string | null;
             /** Format: id */
             userId: string;
             user: components['schemas']['UserLite'];
@@ -4487,6 +4517,11 @@ export type components = {
                     votes: number;
                 }[];
             } | null;
+            isMutingThread: boolean;
+            isMutingNote: boolean;
+            isFavorited: boolean;
+            isRenoted: boolean;
+            bypassSilence: boolean;
             emojis?: {
                 [key: string]: string;
             };
@@ -4519,6 +4554,7 @@ export type components = {
             url?: string;
             reactionAndUserPairCache?: string[];
             clippedCount?: number;
+            processErrors?: string[] | null;
             hasPoll?: boolean;
             myReaction?: string | null;
         };
@@ -5161,7 +5197,10 @@ export type components = {
             infoUpdatedAt: string | null;
             /** Format: date-time */
             latestRequestReceivedAt: string | null;
+            rejectQuotes: boolean;
             moderationNote?: string | null;
+            isBubbled: boolean;
+            mandatoryCW: string | null;
         };
         GalleryPost: {
             /**
@@ -5354,6 +5393,7 @@ export type components = {
         RolePolicies: {
             gtlAvailable: boolean;
             ltlAvailable: boolean;
+            btlAvailable: boolean;
             canPublicNote: boolean;
             mentionLimit: number;
             canInvite: boolean;
@@ -29373,6 +29413,93 @@ export interface operations {
             };
         };
     };
+    'notes___bubble-timeline': {
+        requestBody: {
+            content: {
+                'application/json': {
+                    /** @default false */
+                    withFiles?: boolean;
+                    /** @default true */
+                    withBots?: boolean;
+                    /** @default true */
+                    withRenotes?: boolean;
+                    /** @default 10 */
+                    limit?: number;
+                    /** Format: misskey:id */
+                    sinceId?: string;
+                    /** Format: misskey:id */
+                    untilId?: string;
+                    sinceDate?: number;
+                    untilDate?: number;
+                };
+            };
+        };
+        responses: {
+            /** @description OK (with results) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Note'][];
+                };
+            };
+            /** @description Client error */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Error'];
+                };
+            };
+            /** @description Authentication error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Error'];
+                };
+            };
+            /** @description Forbidden error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Error'];
+                };
+            };
+            /** @description I'm Ai */
+            418: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Error'];
+                };
+            };
+            /** @description Too many requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Error'];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Error'];
+                };
+            };
+        };
+    };
     notes___children: {
         requestBody: {
             content: {
@@ -30372,6 +30499,102 @@ export interface operations {
             };
         };
     };
+    notes___following: {
+        requestBody: {
+            content: {
+                'application/json': {
+                    /**
+                     * @default following
+                     * @enum {string}
+                     */
+                    list?: 'following' | 'followers' | 'mutuals';
+                    /** @default false */
+                    filesOnly?: boolean;
+                    /** @default false */
+                    includeNonPublic?: boolean;
+                    /** @default false */
+                    includeReplies?: boolean;
+                    /** @default false */
+                    includeQuotes?: boolean;
+                    /** @default true */
+                    includeBots?: boolean;
+                    /** @default 10 */
+                    limit?: number;
+                    /** Format: misskey:id */
+                    sinceId?: string;
+                    /** Format: misskey:id */
+                    untilId?: string;
+                    sinceDate?: number;
+                    untilDate?: number;
+                };
+            };
+        };
+        responses: {
+            /** @description OK (with results) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Note'][];
+                };
+            };
+            /** @description Client error */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Error'];
+                };
+            };
+            /** @description Authentication error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Error'];
+                };
+            };
+            /** @description Forbidden error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Error'];
+                };
+            };
+            /** @description I'm Ai */
+            418: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Error'];
+                };
+            };
+            /** @description Too many requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Error'];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Error'];
+                };
+            };
+        };
+    };
     'notes___global-timeline': {
         requestBody: {
             content: {
@@ -31211,6 +31434,9 @@ export interface operations {
                      * @default null
                      */
                     channelId?: string | null;
+                    /** @enum {string|null} */
+                    filetype?: 'image' | 'video' | 'audio' | 'module' | 'flash' | null;
+                    order?: string;
                 };
             };
         };
