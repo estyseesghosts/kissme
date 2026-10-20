@@ -15,7 +15,7 @@ const base = {
 	text: null,
 	cw: null,
 	hasPoll: false,
-	fileIds: [],
+	fileIds: [] as string[],
 } as const;
 
 describe('SkLatestNote.keyFor', () => {

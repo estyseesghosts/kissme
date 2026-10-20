@@ -290,15 +290,15 @@ entity fields. Donor: Sharkey (`endpoints/notes/*`, `core/entities/*`,
 | --- | --- | --- | --- |
 | Note | `threadId` | string (id) | `note.threadId ?? note.id`; the conversation root. |
 | Note | `updatedAt` | date-time, optional | `note.updatedAt`; absent when never edited. |
-| Note | `mandatoryCW` | string \| null, optional | Forced CW for this note. **Depends on workstream E** (`Note.mandatoryCW` column); currently reads the property defensively with `TODO(workstream E)` and yields `null` until the column lands. |
+| Note | `mandatoryCW` | string \| null, optional | Forced CW for this note (`Note.mandatoryCW`; resolved at integration — direct read). |
 | Note | `isMutingThread` | boolean | Viewer mutes the note's thread (`threadId ∈` viewer's thread mutes). |
-| Note | `isMutingNote` | boolean | Viewer mutes this exact note. **Depends on workstream C** (`NoteThreadMuting.isPostMute`); currently always `false`, marked `TODO(workstream C)`. |
+| Note | `isMutingNote` | boolean | Viewer mutes this exact note (`NoteThreadMuting` rows with `isPostMute = true`; resolved at integration). |
 | Note | `isFavorited` | boolean | Viewer favorited the note (batched via `noteFavoritesRepository` in `packMany`, `existsBy` in `pack`). Anonymous → `false`. |
 | Note | `isRenoted` | boolean | Viewer pure-renoted the note (batched in `packMany`, `getExists` in `pack`). Anonymous → `false`. |
 | Note | `bypassSilence` | boolean | `true` when the viewer authored the note, the viewer follows the author, or an ancestor note in the pack already bypasses (self-reply/self-renote propagate the outer value). |
 | Note | `processErrors` | string[], optional, detail only | Non-fatal processing errors (translation key or raw string). |
-| UserLite | `mandatoryCW` | string \| null | Forced CW for all notes by this user. **Depends on workstream E** (`User.mandatoryCW`); `TODO(workstream E)`, `null` until then. |
-| UserLite | `rejectQuotes` | boolean, optional | Quotes of this user's notes are downgraded. **Depends on workstream E** (`User.rejectQuotes`); `TODO(workstream E)`, `false` until then. |
+| UserLite | `mandatoryCW` | string \| null | Forced CW for all notes by this user (`User.mandatoryCW`; resolved at integration). |
+| UserLite | `rejectQuotes` | boolean, optional | Quotes of this user's notes are downgraded (`User.rejectQuotes`; resolved at integration). |
 | UserLite | `bypassSilence` | boolean | `isMe \|\| relation.isFollowing`. Relations are now fetched for Lite packs too (batched in `packMany`). |
 | UserLite.instance | `mandatoryCW` | string \| null | Instance-wide forced CW (`Instance.mandatoryCW`). |
 | FederationInstance | `isBubbled` | boolean | `UtilityService.isBubbledHost(host)` (suffix match against `meta.bubbleInstances`). |

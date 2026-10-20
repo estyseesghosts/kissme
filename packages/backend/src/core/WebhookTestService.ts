@@ -378,8 +378,7 @@ export class WebhookTestService {
 			deletedAt: null,
 			text: note.text,
 			cw: note.cw,
-			// TODO(workstream E): use note.mandatoryCW directly once the Note.mandatoryCW column lands.
-			mandatoryCW: (note as unknown as { mandatoryCW?: string | null }).mandatoryCW ?? null,
+			mandatoryCW: note.mandatoryCW ?? null,
 			userId: note.userId,
 			user: await this.toPackedUserLite(note.user ?? generateDummyUser()),
 			replyId: note.replyId,
@@ -440,9 +439,8 @@ export class WebhookTestService {
 			})),
 			isBot: user.isBot,
 			isCat: user.isCat,
-			// TODO(workstream E): use user.mandatoryCW / user.rejectQuotes directly once the User columns land.
-			mandatoryCW: (user as unknown as { mandatoryCW?: string | null }).mandatoryCW ?? null,
-			rejectQuotes: (user as unknown as { rejectQuotes?: boolean }).rejectQuotes ?? false,
+			mandatoryCW: user.mandatoryCW ?? null,
+			rejectQuotes: user.rejectQuotes ?? false,
 			bypassSilence: false,
 			emojis: await this.customEmojiService.populateEmojis(user.emojis, user.host),
 			onlineStatus: 'active',

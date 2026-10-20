@@ -408,14 +408,12 @@ export class NoteEntityService implements OnModuleInit {
 
 		const threadId = note.threadId ?? note.id;
 		const [mutedThreads, mutedNotes, isFavorited, isRenoted] = await Promise.all([
-			// mutedThreads
-			// TODO(workstream C): filter to thread mutes (isPostMute = false) once NoteThreadMuting.isPostMute lands.
+			// mutedThreads (thread-wide mutes only; post mutes live in mutedNotes)
 			opts._hint_?.mutedThreads
-				?? (meId ? this.noteThreadMutingsRepository.find({ where: { userId: meId }, select: { threadId: true } }).then(rs => new Set(rs.map(r => r.threadId))) : new Set<string>()),
-			// mutedNotes
-			// TODO(workstream C): populate from NoteThreadMuting.isPostMute post-mutes once the column lands.
+				?? (meId ? this.noteThreadMutingsRepository.find({ where: { userId: meId, isPostMute: false }, select: { threadId: true } }).then(rs => new Set(rs.map(r => r.threadId))) : new Set<string>()),
+			// mutedNotes (single-note mutes only)
 			opts._hint_?.mutedNotes
-				?? new Set<string>(),
+				?? (meId ? this.noteThreadMutingsRepository.find({ where: { userId: meId, isPostMute: true }, select: { threadId: true } }).then(rs => new Set(rs.map(r => r.threadId))) : new Set<string>()),
 			// isFavorited
 			opts._hint_?.favoriteNotes?.has(note.id)
 				?? (meId ? this.noteFavoritesRepository.existsBy({ userId: meId, noteId: note.id }) : false),
@@ -445,8 +443,7 @@ export class NoteEntityService implements OnModuleInit {
 			user: packedUsers?.get(note.userId) ?? this.userEntityService.pack(note.user ?? note.userId, me),
 			text: text,
 			cw: note.cw,
-			// TODO(workstream E): use note.mandatoryCW directly once the Note.mandatoryCW column lands.
-			mandatoryCW: (note as unknown as { mandatoryCW?: string | null }).mandatoryCW ?? null,
+			mandatoryCW: note.mandatoryCW ?? null,
 			visibility: note.visibility,
 			localOnly: note.localOnly,
 			reactionAcceptance: note.reactionAcceptance,
@@ -596,9 +593,9 @@ export class NoteEntityService implements OnModuleInit {
 			}
 		}
 
-		const [mutedThreads, favoriteNotes, renotedNotes] = meId ? await Promise.all([
-			// TODO(workstream C): filter to thread mutes (isPostMute = false) once NoteThreadMuting.isPostMute lands.
-			this.noteThreadMutingsRepository.find({ where: { userId: meId }, select: { threadId: true } }).then(rs => new Set(rs.map(r => r.threadId))),
+		const [mutedThreads, mutedNotes, favoriteNotes, renotedNotes] = meId ? await Promise.all([
+			this.noteThreadMutingsRepository.find({ where: { userId: meId, isPostMute: false }, select: { threadId: true } }).then(rs => new Set(rs.map(r => r.threadId))),
+			this.noteThreadMutingsRepository.find({ where: { userId: meId, isPostMute: true }, select: { threadId: true } }).then(rs => new Set(rs.map(r => r.threadId))),
 			this.noteFavoritesRepository.find({ where: { userId: meId, noteId: In(notes.map(n => n.id)) }, select: { noteId: true } }).then(fs => new Set(fs.map(f => f.noteId))),
 			this.notesRepository.createQueryBuilder('note')
 				.select('note.renoteId', 'renoteId')
@@ -613,10 +610,7 @@ export class NoteEntityService implements OnModuleInit {
 				.andWhere({ userId: meId, renoteId: In(notes.map(n => n.id)) })
 				.getRawMany<{ renoteId: string }>()
 				.then(ns => new Set(ns.map(n => n.renoteId))),
-		]) : [new Set<string>(), new Set<string>(), new Set<string>()];
-
-		// TODO(workstream C): populate from NoteThreadMuting.isPostMute post-mutes once the column lands.
-		const mutedNotes = new Set<string>();
+		]) : [new Set<string>(), new Set<string>(), new Set<string>(), new Set<string>()];
 
 		await this.customEmojiService.prefetchEmojis(this.aggregateNoteEmojis(notes));
 		// TODO: 本当は renote とか reply がないのに renoteId とか replyId があったらここで解決しておく

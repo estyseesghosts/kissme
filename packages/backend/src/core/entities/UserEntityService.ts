@@ -502,9 +502,8 @@ export class UserEntityService implements OnModuleInit {
 			}))) : [],
 			isBot: user.isBot,
 			isCat: user.isCat,
-			// TODO(workstream E): use user.mandatoryCW / user.rejectQuotes directly once the User columns land.
-			mandatoryCW: (user as unknown as { mandatoryCW?: string | null }).mandatoryCW ?? null,
-			rejectQuotes: (user as unknown as { rejectQuotes?: boolean }).rejectQuotes ?? false,
+			mandatoryCW: user.mandatoryCW ?? null,
+			rejectQuotes: user.rejectQuotes ?? false,
 			bypassSilence: bypassSilence,
 			requireSigninToViewContents: user.requireSigninToViewContents === false ? undefined : true,
 			makeNotesFollowersOnlyBefore: user.makeNotesFollowersOnlyBefore ?? undefined,
