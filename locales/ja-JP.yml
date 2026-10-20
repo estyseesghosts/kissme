@@ -3389,6 +3389,9 @@ _search:
   postFrom: "投稿日時from"
   postTo: "投稿日時to"
 
+_processErrors:
+  quoteUnavailable: "引用の処理に失敗しました。この投稿には必要な情報が不足している可能性があります。"
+  attachmentFailed: "利用できない添付ファイルがあるため表示できません。"
 _serverSetupWizard:
   installCompleted: "Misskeyのインストールが完了しました！"
   firstCreateAccount: "まずは、管理者アカウントを作成しましょう。"

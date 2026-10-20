@@ -19,6 +19,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 					</div>
 					<div class="_margin _gaps_s">
 						<MkRemoteCaution v-if="note.user.host != null" :href="note.url ?? note.uri"/>
+						<SkErrorList :errors="processErrors"/>
 						<DynamicNoteDetailed :key="note.id" :note="note" :initialTab="initialTab" :class="$style.note"/>
 					</div>
 					<div v-if="clips && clips.length > 0" class="_margin">
@@ -51,6 +52,7 @@ import { host } from '@@/js/config.js';
 import DynamicNoteDetailed from '@/components/DynamicNoteDetailed.vue';
 import MkNotesTimeline from '@/components/MkNotesTimeline.vue';
 import MkRemoteCaution from '@/components/MkRemoteCaution.vue';
+import SkErrorList from '@/components/SkErrorList.vue';
 import MkButton from '@/components/MkButton.vue';
 import { misskeyApi } from '@/utility/misskey-api.js';
 import { definePage } from '@/page.js';
@@ -74,6 +76,8 @@ const props = defineProps<{
 
 const note = ref<null | Misskey.entities.Note>(CTX_NOTE);
 const clips = ref<Misskey.entities.Clip[]>();
+// processErrors is a Sharkey backend field that misskey-js does not type.
+const processErrors = computed(() => (note.value as (Misskey.entities.Note & { processErrors?: string[] | null }) | null)?.processErrors);
 const showPrev = ref<'user' | 'channel' | false>(false);
 const showNext = ref<'user' | 'channel' | false>(false);
 const initialTab = computed<'reactions' | 'replies' | 'renotes' | undefined>(() => {

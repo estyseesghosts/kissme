@@ -3286,6 +3286,9 @@ _search:
   serverHostPlaceholder: "Example: misskey.example.com"
   postFrom: "Date posted from"
   postTo: "Date posted to"
+_processErrors:
+  quoteUnavailable: "Unable to process quote. This post may be missing context."
+  attachmentFailed: "One or more media attachments are unavailable and cannot be shown."
 _serverSetupWizard:
   installCompleted: "Misskey installation is now complete!"
   firstCreateAccount: "To begin, create an administrator account."

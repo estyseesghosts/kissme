@@ -12674,6 +12674,16 @@ export interface Locale extends ILocale {
          */
         "postTo": string;
     };
+    "_processErrors": {
+        /**
+         * 引用の処理に失敗しました。この投稿には必要な情報が不足している可能性があります。
+         */
+        "quoteUnavailable": string;
+        /**
+         * 利用できない添付ファイルがあるため表示できません。
+         */
+        "attachmentFailed": string;
+    };
     "_serverSetupWizard": {
         /**
          * Misskeyのインストールが完了しました！
