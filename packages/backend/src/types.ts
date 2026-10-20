@@ -44,6 +44,7 @@ export const notificationTypes = [
 	'exportCompleted',
 	'login',
 	'createToken',
+	'sharedAccessLogin',
 	'app',
 	'test',
 ] as const;
