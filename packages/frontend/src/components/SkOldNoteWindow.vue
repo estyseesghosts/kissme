@@ -46,7 +46,7 @@ Displays an old version of an edited note.
 					<a v-if="appearNote.renote != null" :class="$style.rn">RN:</a>
 					<SkNoteTranslation :note="note" :translation="translation" :translating="translating"></SkNoteTranslation>
 					<div v-if="appearNote.files && appearNote.files.length > 0">
-						<MkMediaList :mediaList="appearNote.files"/>
+						<SkMediaList :mediaList="appearNote.files"/>
 					</div>
 					<MkPoll v-if="appearNote.poll" :noteId="appearNote.id" :multiple="appearNote.poll.multiple" :expiresAt="appearNote.poll.expiresAt" :choices="appearNote.poll.choices" :author="appearNote.user" :emojiUrls="appearNote.emojis" :class="$style.poll"/>
 					<div class="_gaps_s" style="margin-top: 6px;" @click.stop>
@@ -83,7 +83,7 @@ import { inject, onMounted, ref, shallowRef, computed } from 'vue';
 import * as mfm from 'mfm-js';
 import * as Misskey from 'misskey-js';
 import MkNoteSimple from '@/components/MkNoteSimple.vue';
-import MkMediaList from '@/components/MkMediaList.vue';
+import SkMediaList from '@/components/SkMediaList.vue';
 import MkCwButton from '@/components/MkCwButton.vue';
 import MkWindow from '@/components/MkWindow.vue';
 import MkPoll from '@/components/MkPoll.vue';

@@ -114,7 +114,7 @@ Detailed view of a note in the Sharkey style. Used when opening a note onto its 
 				<MkButton v-if="!allowAnim && animated" :class="$style.playMFMButton" :small="true" @click="animatedMFM()" @click.stop><i class="ti ti-player-play"></i> {{ skStrings.animatedMFM.play }}</MkButton>
 				<MkButton v-else-if="!prefer.s.animatedMfm && allowAnim && animated" :class="$style.playMFMButton" :small="true" @click="animatedMFM()" @click.stop><i class="ti ti-player-stop"></i> {{ skStrings.animatedMFM.stop }}</MkButton>
 				<div v-if="appearNote.files && appearNote.files.length > 0">
-					<MkMediaList ref="galleryEl" :mediaList="appearNote.files"/>
+					<SkMediaList ref="galleryEl" :mediaList="appearNote.files"/>
 				</div>
 				<MkPoll
 					v-if="appearNote.poll"
@@ -141,14 +141,13 @@ Detailed view of a note in the Sharkey style. Used when opening a note onto its 
 				<MkTime :time="appearNote.createdAt" mode="detail" colored/>
 			</MkA>
 		</div>
-		<MkReactionsViewer
+		<SkReactionsViewer
 			v-if="appearNote.reactionAcceptance !== 'likeOnly'"
 			ref="reactionsViewer"
 			style="margin-top: 6px;"
-			:reactions="$appearNote.reactions"
-			:reactionEmojis="$appearNote.reactionEmojis"
-			:myReaction="$appearNote.myReaction"
-			:noteId="appearNote.id"
+			:note="reactionNote"
+			:mutedEmojis="prefer.s.mutedEmojis"
+			@toggleEmojiMute="onToggleEmojiMute"
 		/>
 		<footer :class="$style.footer" class="_gaps _h_gaps" tabindex="0" role="group" :aria-label="skStrings.noteFooterLabel">
 			<button class="_button" :class="$style.noteFooterButton" @click="reply()">
@@ -263,9 +262,10 @@ import type { Keymap } from '@/utility/hotkey.js';
 import type { Visibility } from '@/utility/boost-quote.js';
 import SkNoteSub from '@/components/SkNoteSub.vue';
 import SkNoteSimple from '@/components/SkNoteSimple.vue';
-import MkReactionsViewer from '@/components/MkReactionsViewer.vue';
+import SkReactionsViewer from '@/components/SkReactionsViewer.vue';
+import { onToggleEmojiMute } from '@/utility/sk-emoji-mute.js';
 import MkReactionsViewerDetails from '@/components/MkReactionsViewer.details.vue';
-import MkMediaList from '@/components/MkMediaList.vue';
+import SkMediaList from '@/components/SkMediaList.vue';
 import MkCwButton from '@/components/MkCwButton.vue';
 import MkPoll from '@/components/MkPoll.vue';
 import MkUsersTooltip from '@/components/MkUsersTooltip.vue';
@@ -341,6 +341,8 @@ const likeButton = useTemplateRef('likeButton');
 // isRenoted and updatedAt are Sharkey backend fields that misskey-js does not type, so they are added here.
 type SkAppearNote = Misskey.entities.Note & { isRenoted?: boolean; updatedAt?: string | null };
 const appearNote = computed(() => (getAppearNote(note.value) ?? note.value) as SkAppearNote);
+// SkReactionsViewer wants a whole Note; overlay the live-captured reaction fields on it
+const reactionNote = computed(() => ({ ...appearNote.value, ...$appearNote }) as Misskey.entities.Note);
 const galleryEl = useTemplateRef('galleryEl');
 const isMyRenote = $i && ($i.id === note.value.userId);
 const showContent = ref(prefer.s.uncollapseCW);

@@ -31,7 +31,7 @@ For example, when viewing a reply on the timeline, SkNoteSub will be used to dis
 					<MkSubNoteContent :class="$style.text" :note="note" :translating="translating" :translation="translation" :expandAllCws="props.expandAllCws"/>
 				</div>
 			</div>
-			<MkReactionsViewer ref="reactionsViewer" :reactions="$note.reactions" :reactionEmojis="$note.reactionEmojis" :myReaction="$note.myReaction" :noteId="appearNote.id"/>
+			<SkReactionsViewer ref="reactionsViewer" :note="reactionNote" :mutedEmojis="prefer.s.mutedEmojis" @toggleEmojiMute="onToggleEmojiMute"/>
 			<footer :class="$style.footer" class="_gaps _h_gaps" tabindex="0" role="group" :aria-label="skStrings.noteFooterLabel">
 				<button class="_button" :class="$style.noteFooterButton" @click="reply()">
 					<i class="ti ti-arrow-back-up"></i>
@@ -101,7 +101,8 @@ import type { Visibility } from '@/utility/boost-quote.js';
 import type { OpenOnRemoteOptions } from '@/utility/please-login.js';
 import SkNoteSub from '@/components/SkNoteSub.vue';
 import SkNoteHeader from '@/components/SkNoteHeader.vue';
-import MkReactionsViewer from '@/components/MkReactionsViewer.vue';
+import SkReactionsViewer from '@/components/SkReactionsViewer.vue';
+import { onToggleEmojiMute } from '@/utility/sk-emoji-mute.js';
 import MkSubNoteContent from '@/components/MkSubNoteContent.vue';
 import MkCwButton from '@/components/MkCwButton.vue';
 import { notePage } from '@/filters/note.js';
@@ -161,6 +162,8 @@ const note = ref(deepClone(props.note));
 // isRenoted is a Sharkey field that the Misskey Note entity does not declare.
 type SkNote = Misskey.entities.Note & { isRenoted?: boolean };
 const appearNote = computed<SkNote>(() => getAppearNote(note.value) ?? note.value);
+// SkReactionsViewer wants a whole Note; overlay the live-captured reaction fields on it
+const reactionNote = computed(() => ({ ...appearNote.value, ...$note }) as Misskey.entities.Note);
 
 const canRenote = computed(() => ['public', 'home'].includes(appearNote.value.visibility) || appearNote.value.userId === $i?.id);
 const hideLine = computed(() => props.detail);

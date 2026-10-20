@@ -95,7 +95,7 @@ Displays a note in the Sharkey style. Used to show the "main" note in a given co
 						<MkButton v-else-if="!prefer.s.animatedMfm && allowAnim && animated" :class="$style.playMFMButton" :small="true" @click="animatedMFM()" @click.stop><i class="ti ti-player-stop"></i> {{ skStrings.animatedMFM.stop }}</MkButton>
 					</div>
 					<div v-if="appearNote.files && appearNote.files.length > 0">
-						<MkMediaList ref="galleryEl" :mediaList="appearNote.files" :user="appearNote.user" @click.stop/>
+						<SkMediaList ref="galleryEl" :mediaList="appearNote.files" :user="appearNote.user" @click.stop/>
 					</div>
 					<MkPoll
 						v-if="appearNote.poll"
@@ -121,21 +121,20 @@ Displays a note in the Sharkey style. Used to show the "main" note in a given co
 				</div>
 				<MkA v-if="appearNote.channel && !inChannel" :class="$style.channel" :to="`/channels/${appearNote.channel.id}`"><i class="ti ti-device-tv"></i> {{ appearNote.channel.name }}</MkA>
 			</div>
-			<MkReactionsViewer
+			<SkReactionsViewer
 				v-if="appearNote.reactionAcceptance !== 'likeOnly'"
 				style="margin-top: 6px;"
-				:noteId="appearNote.id"
-				:reactions="$appearNote.reactions"
-				:reactionEmojis="$appearNote.reactionEmojis"
-				:myReaction="$appearNote.myReaction"
+				:note="reactionNote"
+				:mutedEmojis="prefer.s.mutedEmojis"
 				:maxNumber="16"
+				@toggleEmojiMute="onToggleEmojiMute"
 				@click.stop
 				@mockUpdateMyReaction="emitUpdReaction"
 			>
 				<template #more>
 					<MkA :to="`/notes/${appearNote.id}/reactions`" :class="[$style.reactionOmitted]">{{ i18n.ts.more }}</MkA>
 				</template>
-			</MkReactionsViewer>
+			</SkReactionsViewer>
 			<footer :class="$style.footer" class="_gaps _h_gaps" tabindex="0" role="group" :aria-label="skStrings.noteFooterLabel">
 				<button :class="$style.footerButton" class="_button" @click.stop @click="reply()">
 					<i class="ti ti-arrow-back-up"></i>
@@ -210,9 +209,10 @@ import SkNoteSimple from '@/components/SkNoteSimple.vue';
 import SkNoteTranslation from '@/components/SkNoteTranslation.vue';
 import SkUrlPreviewGroup from '@/components/SkUrlPreviewGroup.vue';
 import SkMutedNote from '@/components/SkMutedNote.vue';
-import MkReactionsViewer from '@/components/MkReactionsViewer.vue';
+import SkReactionsViewer from '@/components/SkReactionsViewer.vue';
+import { onToggleEmojiMute } from '@/utility/sk-emoji-mute.js';
 import MkReactionsViewerDetails from '@/components/MkReactionsViewer.details.vue';
-import MkMediaList from '@/components/MkMediaList.vue';
+import SkMediaList from '@/components/SkMediaList.vue';
 import MkCwButton from '@/components/MkCwButton.vue';
 import MkPoll from '@/components/MkPoll.vue';
 import MkUsersTooltip from '@/components/MkUsersTooltip.vue';
@@ -310,6 +310,8 @@ const quoteButton = useTemplateRef('quoteButton');
 const likeButton = useTemplateRef('likeButton');
 const galleryEl = useTemplateRef('galleryEl');
 const appearNote = computed<SkNote>(() => (getAppearNote(note.value) ?? note.value) as SkNote);
+// SkReactionsViewer wants a whole Note; overlay the live-captured reaction fields on it
+const reactionNote = computed(() => ({ ...appearNote.value, ...$appearNote }) as Misskey.entities.Note);
 
 // Reactive reaction/poll state (updated by the note's stream capture) - mirrors MkNote's $appearNote.
 const { $note: $appearNote, subscribe: subscribeManuallyToNoteCapture } = useNoteCapture({
