@@ -274,6 +274,34 @@ export const PREF_DEF = definePreferences({
 	noteDesign: {
 		default: 'misskey' as 'misskey' | 'sk',
 	},
+	// Sharkey-style note options (Sk* components). Defaults match Sharkey.
+	showTranslationButtonInNoteFooter: {
+		default: false,
+	},
+	clickToOpen: {
+		default: true,
+	},
+	collapseNotesRepliedTo: {
+		default: false,
+	},
+	numberOfReplies: {
+		default: 5,
+	},
+	showVisibilitySelectorOnBoost: {
+		default: true,
+	},
+	uncollapseCW: {
+		default: false,
+	},
+	visibilityOnBoost: {
+		default: 'public' as 'public' | 'home' | 'followers',
+	},
+	autoloadConversation: {
+		default: true,
+	},
+	like: {
+		default: null as string | null,
+	},
 	emojiPickerScale: {
 		default: 2,
 	},
