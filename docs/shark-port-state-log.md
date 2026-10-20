@@ -80,3 +80,32 @@ Phase 1 exit criteria, as stated in the plan:
 
 Documentation: docs/sk-port/README.md (index, wiring, upstream touches, known gaps) and per-component docs.
 Strings: MISSING-STRINGS.md; all centralized in packages/frontend/src/utility/sk-strings.ts.
+
+## Phase 2 and 3 — implementation (verification by direction: no backend or browser smoke)
+
+Pins unchanged (base `split-project`, donor Sharkey `develop` @ `752a392d3b`). Phase 1 head was `15365ea8ed`.
+
+Commits on split-project:
+- `4f1680a34f` 2.1 + 2.4: `MkNotes`, `MkDateSeparatedList`, `SkDateSeparatedList`, `SkTransitionGroup`, `SkPagination`, `types/date-separated-list.ts`; date-separate tests.
+- `23c061f66d` 2.2: `MkTimeline`, `utility/sk-timeline-query.ts` (+ tests for all 11 sources), prefs `showGapBetweenNotesInTimeline`, `disableStreamingTimeline`.
+- `d6c1149e1e` 2.3: `MkNotifications`.
+- `6ff3600656` 3.1: `MkScheduleEditor`, `MkSchedulePostListDialog`, `sk-schedule*.ts` (+ tests), `SkNoteSimple` schedule actions.
+- `79230bb49e` dependency-only: `vuedraggable` 4.1.0.
+- `3cc480839a` 3.3: `SkPostFormAttaches`, `sk-attaches.ts` (+ tests).
+- `e352886ae5` 3.2: `MkPostForm` Sharkey options behind pref `useSharkeyPostForm`, `sk-post-form.ts` (+ tests).
+
+Gate at HEAD (`e352886ae5`): typecheck exit 0; frontend tests 26 files / 222 passed; eslint `--quiet` clean on touched files; SPDX OK.
+Not run: `pnpm build`, any backend/browser/live check, ja-JP changes (none made).
+
+Decisions:
+- 2.4 pagination: vendored the Sharkey paging model as `SkPagination` (consumers pass `Paging`, and `MkTimeline`/`MkNotifications` use its imperative `prepend`/`reload`); upstream pagination untouched; `SkNoteDetailed` keeps the upstream `Paginator`.
+- Live reply append: not needed by `MkTimeline` (donor never used `use-note-capture` there), so upstream `composables/use-note-capture.ts` is unchanged and no Sk variant was written. Still a gap in `SkNoteSub`/`SkNoteDetailed`.
+- 3.2: gated blocks in the stock `MkPostForm` (pref `useSharkeyPostForm`), not a fork; upstream drafts, `scheduledAt`, tour, `useUploader` kept; Sharkey `scheduleNote` and upstream `scheduledAt` are mutually exclusive.
+- Donor deviations: `mentions` timeline now builds a query (donor built null); schedule timestamps built from explicit parts; `MkTimeline` uses a ref for its pagination query.
+
+Deferred: settings UI for the three new prefs (Phase 10); persisting `scheduleNote` in local drafts; consumer pages for `MkTimeline`/`MkNotes`/`MkNotifications` (later phases); `notes/*` typings in misskey-js (out of scope).
+
+Exit criteria:
+- Phase 2 ("Sharkey lists coexist with upstream timelines; no consumer broken"): **met by construction, not verified live**. All new files coexist; no upstream list/pagination component was modified; typecheck and tests green.
+- Phase 3 ("scheduling works against `notes/schedule/*`, PostForm options present, attaches drag+replace"): scheduling **implemented, unverified against a backend** (endpoints absent from misskey-js and stock backend); PostForm options **implemented** behind a default-off pref; drag+replace **implemented, not exercised in a browser**.
+

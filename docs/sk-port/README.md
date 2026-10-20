@@ -46,6 +46,21 @@ eslint, and SPDX.
 | `MkUrlWarningDialog.vue` | (this file) | New. External-link warning (Phase 9.2 dependency). |
 | `SkNoteHeader.vue`, `SkMutedNote.vue` | (this file) | Ported in slice 1.1 / 1.2. |
 
+### Phase 2 and 3 additions
+
+| Component / utility | Doc | State |
+|---|---|---|
+| `SkPagination.vue` (+ `types/date-separated-list.ts`) | [SkPagination.md](SkPagination.md) | Vendored Sharkey `Paging` model, renamed. Upstream `MkPagination`/`IPaginator` untouched. |
+| `SkTransitionGroup.vue`, `SkDateSeparatedList.vue`, `MkDateSeparatedList.vue`, `MkNotes.vue` | [SkTransitionGroup.md](SkTransitionGroup.md), [SkDateSeparatedList.md](SkDateSeparatedList.md), [MkDateSeparatedList.md](MkDateSeparatedList.md), [MkNotes.md](MkNotes.md) | Ported. No consumer pages yet. |
+| `MkTimeline.vue`, `utility/sk-timeline-query.ts` | [MkTimeline.md](MkTimeline.md) | Ported; query builder unit-tested. |
+| `MkNotifications.vue` | [MkNotifications.md](MkNotifications.md) | Ported thin wrapper. |
+| `MkScheduleEditor.vue`, `utility/sk-schedule.ts` | [MkScheduleEditor.md](MkScheduleEditor.md) | Ported; date/time logic unit-tested. |
+| `MkSchedulePostListDialog.vue`, `utility/sk-schedule-api.ts` | [MkSchedulePostListDialog.md](MkSchedulePostListDialog.md) | Ported; `notes/schedule/*` unverified. `SkNoteSimple` gained the edit/delete schedule actions. |
+| `SkPostFormAttaches.vue`, `utility/sk-attaches.ts` | [SkPostFormAttaches.md](SkPostFormAttaches.md) | Ported (new dependency `vuedraggable`). |
+| `MkPostForm.vue` (edited), `utility/sk-post-form.ts` | [MkPostForm.md](MkPostForm.md) | Sharkey options behind pref `useSharkeyPostForm` (default off). |
+
+Prefs added in Phase 2/3: `showGapBetweenNotesInTimeline`, `disableStreamingTimeline`, `useSharkeyPostForm` (all default `false`, none has a settings UI yet; Phase 10).
+
 Upstream components changed (additive, default behavior unchanged):
 
 - `components/MkSubNoteContent.vue`: optional `translation`, `translating`, `hideFiles`,
@@ -76,8 +91,9 @@ Endpoints absent from `misskey-js` (frontend keeps the donor call; they fail on 
   Called through an untyped alias of `misskeyApi`.
 - `notes/versions` — the edit-history menu (`get-note-versions-menu.ts`). Failure degrades to an
   empty menu.
-- `notes/schedule/create|delete|list` — Phase 3. Schedule props exist on `SkNoteSimple`; nothing
-  calls these yet.
+- `notes/schedule/create|delete|list`, `notes/edit` — Phase 3 (`MkPostForm`, `MkSchedulePostListDialog`,
+  `SkNoteSimple`), via untyped wrappers in `utility/sk-schedule-api.ts`. Also absent from misskey-js:
+  `notes/bubble-timeline` and the `bubbleTimeline` stream channel (`MkTimeline`).
 
 Fields absent from the upstream API (read through casts; behavior is a no-op when missing):
 
