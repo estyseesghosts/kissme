@@ -200,6 +200,7 @@ const props = withDefaults(defineProps<{
 });
 
 const emit = defineEmits<{
+	(ev: 'selected', v: Misskey.entities.DriveFile | Misskey.entities.DriveFolder): void;
 	(ev: 'changeSelectedFiles', v: Misskey.entities.DriveFile[]): void;
 	(ev: 'changeSelectedFolders', v: (Misskey.entities.DriveFolder | null)[]): void;
 	(ev: 'cd', v: Misskey.entities.DriveFolder | null): void;
@@ -521,7 +522,7 @@ function onFileClick(ev: PointerEvent, file: Misskey.entities.DriveFile) {
 			}
 		} else {
 			if (isAlreadySelected) {
-				//emit('selected', file);
+				emit('selected', file);
 			} else {
 				selectedFiles.value = [file];
 			}
@@ -541,7 +542,7 @@ function chooseFolder(folderToChoose: Misskey.entities.DriveFolder) {
 		}
 	} else {
 		if (isAlreadySelected) {
-			//emit('selected', folderToChoose);
+			emit('selected', folderToChoose);
 		} else {
 			selectedFolders.value = [folderToChoose];
 		}

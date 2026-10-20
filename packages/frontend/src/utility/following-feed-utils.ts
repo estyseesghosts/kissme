@@ -25,9 +25,9 @@ export function followingTabName(tab: FollowingFeedTab | null | undefined): stri
 }
 
 export function followingTabIcon(tab: FollowingFeedTab | null | undefined): string {
-	if (tab === followersTab) return 'ph-user ph-bold ph-lg';
-	if (tab === mutualsTab) return 'ph-user-switch ph-bold ph-lg';
-	return 'ph-user-check ph-bold ph-lg';
+	if (tab === followersTab) return 'ti ti-user';
+	if (tab === mutualsTab) return 'ti ti-users';
+	return 'ti ti-user-check';
 }
 
 interface StorageInterface {

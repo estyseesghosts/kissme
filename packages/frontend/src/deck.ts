@@ -4,7 +4,8 @@
  */
 
 import { notificationTypes } from 'misskey-js';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import type { Ref } from 'vue';
 import { EventEmitter } from 'eventemitter3';
 import { i18n } from './i18n.js';
 import type { BasicTimelineType } from '@/timelines.js';
@@ -47,6 +48,7 @@ export const columnTypes = [
 	'direct',
 	'roleTimeline',
 	'chat',
+	'following',
 ] as const;
 
 export type ColumnType = typeof columnTypes[number];
@@ -329,6 +331,12 @@ export function updateColumn(id: Column['id'], column: Partial<Column>) {
 	newColumns[columnIndex] = currentColumn;
 	columns.value = newColumns;
 	saveCurrentDeckProfile();
+}
+
+export function getColumn<TColumn extends Column>(id: Column['id']): Ref<TColumn> {
+	return computed(() => {
+		return columns.value.find(c => c.id === id) as TColumn;
+	});
 }
 
 export function switchProfileMenu(ev: PointerEvent) {

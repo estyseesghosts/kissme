@@ -19,14 +19,13 @@ import { prefer } from '@/preferences.js';
 import { genId } from '@/utility/id.js';
 import { globalEvents } from '@/events.js';
 
-export type SkUploading = {
+type SkUploading = {
 	id: string;
 	name: string;
 	progressMax: number | undefined;
 	progressValue: number | undefined;
 	img: string;
 };
-export const skUploads = ref<SkUploading[]>([]);
 
 const mimeTypeMap = {
 	'image/webp': 'webp',
@@ -65,11 +64,8 @@ export function skUploadFile(
 			progressValue: undefined,
 			img: window.URL.createObjectURL(file),
 		});
-		skUploads.value.push(ctx);
-
 		const finish = () => {
 			window.URL.revokeObjectURL(ctx.img);
-			skUploads.value = skUploads.value.filter(x => x.id !== id);
 		};
 
 		(async () => {

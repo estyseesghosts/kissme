@@ -126,10 +126,11 @@ Endpoints absent from `misskey-js` (frontend keeps the donor call; they fail on 
 
 Live probes against Pinetree (verified, not just untyped): `notes/bubble-timeline`,
 `notes/following`, and `i/shared-access/*` all answer `UNKNOWN_API_ENDPOINT`.
-No live UI exposes the bubble source (timeline page, deck columns, and widgets
-offer home/local/social/global only; `MkTimeline` itself is consumerless), so the
-bubble mapping in `utility/sk-timeline-query.ts` stays as tested, backend-conditional
-code with no dead UI.
+The bubble mapping, its only consumer (`MkTimeline`), and the consumerless
+`MkNotifications` wrapper were removed; deck columns and the timeline page offer
+home/local/social/global only, so there is no dead UI. `following` deck columns
+are served by the ported `following-column.vue` instead (backed by the existing
+following-feed utilities).
 
 Fields absent from the upstream API (read through casts; behavior is a no-op when missing):
 

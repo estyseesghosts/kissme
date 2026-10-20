@@ -25,6 +25,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 		:initialFolder="initialFolder"
 		@changeSelectedFiles="onChangeFiles"
 		@changeSelectedFolders="onChangeFolders"
+		@selected="ok()"
 	/>
 </MkModalWindow>
 </template>
