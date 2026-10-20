@@ -16,6 +16,7 @@ import { UserWebhookDeliverProcessorService } from './processors/UserWebhookDeli
 import { SystemWebhookDeliverProcessorService } from './processors/SystemWebhookDeliverProcessorService.js';
 import { EndedPollNotificationProcessorService } from './processors/EndedPollNotificationProcessorService.js';
 import { PostScheduledNoteProcessorService } from './processors/PostScheduledNoteProcessorService.js';
+import { ScheduleNotePostProcessorService } from './processors/ScheduleNotePostProcessorService.js';
 import { DeliverProcessorService } from './processors/DeliverProcessorService.js';
 import { InboxProcessorService } from './processors/InboxProcessorService.js';
 import { DeleteDriveFilesProcessorService } from './processors/DeleteDriveFilesProcessorService.js';
@@ -88,6 +89,7 @@ export class QueueProcessorService implements OnApplicationShutdown {
 	private objectStorageQueueWorker: Bull.Worker;
 	private endedPollNotificationQueueWorker: Bull.Worker;
 	private postScheduledNoteQueueWorker: Bull.Worker;
+	private scheduleNotePostQueueWorker: Bull.Worker;
 
 	constructor(
 		@Inject(DI.config)
@@ -99,6 +101,7 @@ export class QueueProcessorService implements OnApplicationShutdown {
 		private systemWebhookDeliverProcessorService: SystemWebhookDeliverProcessorService,
 		private endedPollNotificationProcessorService: EndedPollNotificationProcessorService,
 		private postScheduledNoteProcessorService: PostScheduledNoteProcessorService,
+		private scheduleNotePostProcessorService: ScheduleNotePostProcessorService,
 		private deliverProcessorService: DeliverProcessorService,
 		private inboxProcessorService: InboxProcessorService,
 		private deleteDriveFilesProcessorService: DeleteDriveFilesProcessorService,
@@ -540,6 +543,30 @@ export class QueueProcessorService implements OnApplicationShutdown {
 			});
 		}
 		//#endregion
+
+		//#region schedule note post
+		{
+			const logger = this.logger.createSubLogger('schedule-note-post');
+
+			this.scheduleNotePostQueueWorker = new Bull.Worker(QUEUE.SCHEDULE_NOTE_POST, (job) => {
+				return runQueueJob(
+					this.telemetryService,
+					'Queue: ScheduleNotePost',
+					() => this.scheduleNotePostProcessorService.process(job),
+					err => {
+						logger.error(`failed(${err.name}: ${err.message}) id=${job.id}`, { job: renderJob(job), e: renderError(err) });
+						this.telemetryService.captureMessage(`Queue: ScheduleNotePost: ${err.name}: ${err.message}`, {
+							level: 'error',
+							extra: { job, err },
+						});
+					},
+				);
+			}, {
+				...baseWorkerOptions(this.config, QUEUE.SCHEDULE_NOTE_POST),
+				autorun: false,
+			});
+		}
+		//#endregion
 	}
 
 	@bindThis
@@ -555,6 +582,7 @@ export class QueueProcessorService implements OnApplicationShutdown {
 			this.objectStorageQueueWorker.run(),
 			this.endedPollNotificationQueueWorker.run(),
 			this.postScheduledNoteQueueWorker.run(),
+			this.scheduleNotePostQueueWorker.run(),
 		]);
 	}
 
@@ -571,6 +599,7 @@ export class QueueProcessorService implements OnApplicationShutdown {
 			this.objectStorageQueueWorker.close(),
 			this.endedPollNotificationQueueWorker.close(),
 			this.postScheduledNoteQueueWorker.close(),
+			this.scheduleNotePostQueueWorker.close(),
 		]);
 	}
 

@@ -109,6 +109,10 @@ export type EndedPollNotificationJobData = {
 	noteId: MiNote['id'];
 };
 
+export type ScheduleNotePostJobData = {
+	scheduleNoteId: string;
+};
+
 export type PostScheduledNoteJobData = {
 	noteDraftId: string;
 };
