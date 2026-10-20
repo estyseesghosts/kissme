@@ -94,6 +94,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 			<FormSection v-if="!isSystem">
 				<div class="_gaps">
+					<MkSwitch v-model="silenced" @update:modelValue="toggleSilence">{{ i18n.ts.silence }}</MkSwitch>
 					<MkSwitch v-model="suspended" @update:modelValue="toggleSuspend">{{ i18n.ts.suspend }}</MkSwitch>
 
 					<div>
@@ -368,6 +369,20 @@ async function toggleSuspend(v: boolean) {
 		suspended.value = !v;
 	} else {
 		await misskeyApi(v ? 'admin/suspend-user' : 'admin/unsuspend-user', { userId: user.value.id });
+		await refreshUser();
+	}
+}
+
+async function toggleSilence(v: boolean) {
+	const confirm = await os.confirm({
+		type: 'warning',
+		text: v ? i18n.ts.silenceConfirm : i18n.ts.unsilenceConfirm,
+	});
+	if (confirm.canceled) {
+		silenced.value = !v;
+	} else {
+		// admin/silence-user and admin/unsilence-user are absent from misskey-js.
+		await (misskeyApi as unknown as (endpoint: string, body: object) => Promise<unknown>)(v ? 'admin/silence-user' : 'admin/unsilence-user', { userId: user.value.id });
 		await refreshUser();
 	}
 }

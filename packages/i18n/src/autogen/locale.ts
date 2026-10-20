@@ -2769,6 +2769,22 @@ export interface Locale extends ILocale {
      */
     "warnExternalUrl": string;
     /**
+     * CWを強制する
+     */
+    "mandatoryCW": string;
+    /**
+     * このユーザーのすべての投稿にコンテンツ警告を付けます。強制された警告は、投稿者自身のCWと区別できるようワードミュートのように表示されます。
+     */
+    "mandatoryCWDescription": string;
+    /**
+     * CWを強制する
+     */
+    "mandatoryCWForNote": string;
+    /**
+     * この投稿に追加のコンテンツ警告を付けます。強制された警告は、投稿者自身のCWと区別できるようワードミュートのように表示されます。
+     */
+    "mandatoryCWForNoteDescription": string;
+    /**
      * テーマエディター
      */
     "themeEditor": string;
@@ -11417,8 +11433,16 @@ export interface Locale extends ILocale {
              * ダイレクトメッセージ
              */
             "chat": string;
+            /**
+             * フォロー
+             */
+            "following": string;
         };
     };
+    /**
+     * フォロー関係を選択…
+     */
+    "selectFollowRelationship": string;
     "_dialog": {
         /**
          * 最大文字数を超えています！ 現在 {current} / 制限 {max}

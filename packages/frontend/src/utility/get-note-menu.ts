@@ -164,6 +164,30 @@ export function getCopyNoteLinkMenu(note: Misskey.entities.Note, text: string): 
 	};
 }
 
+// admin/cw-note is a Sharkey endpoint absent from misskey-js (and from a stock Misskey
+// backend). On backends without it the dialog reports the API error honestly.
+export function getMandatoryCWMenu(note: Misskey.entities.Note & { mandatoryCW?: string | null }): MenuItem {
+	return {
+		icon: 'ti ti-alert-triangle',
+		text: i18n.ts.mandatoryCWForNote,
+		action: async () => {
+			const result = await os.inputText({
+				type: 'text',
+				title: i18n.ts.mandatoryCWForNote,
+				text: i18n.ts.mandatoryCWForNoteDescription,
+				default: note.mandatoryCW ?? '',
+			});
+
+			if (result.canceled) return;
+
+			await (os.apiWithDialog as unknown as (endpoint: string, body: object) => Promise<unknown>)('admin/cw-note', {
+				noteId: note.id,
+				cw: result.result || null,
+			});
+		},
+	};
+}
+
 function getNoteEmbedCodeMenu(note: Misskey.entities.Note, text: string): MenuItem | undefined {
 	if (note.url != null || note.uri != null) return undefined;
 	if (['specified', 'followers'].includes(note.visibility)) return undefined;
@@ -515,6 +539,9 @@ export function getNoteMenu(props: {
 
 		if (appearNote.userId === $i.id || $i.isModerator || $i.isAdmin) {
 			menuItems.push({ type: 'divider' });
+			if ($i.isModerator || $i.isAdmin) {
+				menuItems.push(getMandatoryCWMenu(appearNote));
+			}
 			if (appearNote.userId === $i.id) {
 				menuItems.push({
 					icon: 'ti ti-edit',

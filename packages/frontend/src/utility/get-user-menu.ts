@@ -94,6 +94,25 @@ export function getUserMenu(user: Misskey.entities.UserDetailed, router: Router 
 		});
 	}
 
+	// admin/cw-user is a Sharkey endpoint absent from misskey-js (and from a stock Misskey
+	// backend). On backends without it the dialog reports the API error honestly.
+	async function setMandatoryCW() {
+		const mandatoryCW = (user as Misskey.entities.UserDetailed & { mandatoryCW?: string | null }).mandatoryCW;
+		const result = await os.inputText({
+			type: 'text',
+			title: i18n.ts.mandatoryCW,
+			text: i18n.ts.mandatoryCWDescription,
+			default: mandatoryCW ?? '',
+		});
+
+		if (result.canceled) return;
+
+		await (os.apiWithDialog as unknown as (endpoint: string, body: object) => Promise<unknown>)('admin/cw-user', {
+			userId: user.id,
+			cw: result.result || null,
+		});
+	}
+
 	async function reportAbuse() {
 		const { dispose } = await os.popupAsyncWithDialog(import('@/components/MkAbuseReportWindow.vue').then(x => x.default), {
 			user: user,
@@ -164,6 +183,10 @@ export function getUserMenu(user: Misskey.entities.UserDetailed, router: Router 
 					},
 				});
 			},
+		}, {
+			icon: 'ti ti-alert-triangle',
+			text: i18n.ts.mandatoryCW,
+			action: setMandatoryCW,
 		}, { type: 'divider' });
 	}
 
