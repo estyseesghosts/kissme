@@ -152,7 +152,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 		<hr>
 
 		<MkFolder v-if="prefer.s.showAttributionDomains">
-			<template #label>{{ skStrings.attributionDomains }}</template>
+			<template #label>{{ i18n.ts.attributionDomains }}</template>
 			<XAttributionDomains/>
 		</MkFolder>
 
@@ -190,7 +190,6 @@ import MkInfo from '@/components/MkInfo.vue';
 import MkTextarea from '@/components/MkTextarea.vue';
 import { genId } from '@/utility/id.js';
 import XAttributionDomains from '@/pages/settings/profile.attribution-domains-setting.vue';
-import { skStrings } from '@/utility/sk-strings.js';
 import { prefer } from '@/preferences.js';
 
 const $i = ensureSignin();

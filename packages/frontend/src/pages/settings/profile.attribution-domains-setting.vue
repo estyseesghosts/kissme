@@ -6,11 +6,11 @@ SPDX-License-Identifier: AGPL-3.0-only
 <template>
 <div class="_gaps_m">
 	<MkTextarea v-model="attributionDomains" :spellcheck="false">
-		<template #label>{{ skStrings.attributionDomains }}</template>
+		<template #label>{{ i18n.ts.attributionDomains }}</template>
 		<template #caption>
-			{{ skStrings.attributionDomainsDescription }}
+			{{ i18n.ts.attributionDomainsDescription }}
 			<br/>
-			{{ skStrings.attributionDomainsTutorial }}
+			{{ i18n.ts.attributionDomainsTutorial }}
 			<code>{{ tutorialTag }}</code>
 		</template>
 	</MkTextarea>
@@ -28,7 +28,6 @@ import { ensureSignin } from '@/i.js';
 import { misskeyApi } from '@/utility/misskey-api.js';
 import { i18n } from '@/i18n.js';
 import * as os from '@/os.js';
-import { skStrings } from '@/utility/sk-strings.js';
 import { parseAttributionDomains, isValidAttributionDomainList } from '@/utility/sk-attribution-domains.js';
 
 const $i = ensureSignin();

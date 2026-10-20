@@ -60,6 +60,12 @@ Migrated (in both locale files, read via `i18n.ts`, gone from `sk-strings.ts`):
   `wordMuteTestTest`, `wordMuteTestNoResults`, `wordMuteTestNoMatch`,
   `wordMuteTestMatch`, `wordMuteTestInvalid`) in `SkPatternTest` — port
   wording kept (donor structures this tester differently).
+- Attribution domains (`attributionDomains`, `attributionDomainsDescription`,
+  `attributionDomainsTutorial`, `attributionDomainsUnsupported`) in
+  `settings/profile` + `attribution-domains-setting` — first two follow the
+  donor wording, latter two keep the port wording (donor has none).
+  `attributionDomainsUnsupported` is currently unused (kept for the
+  backend-gap UI).
 
 Remaining (phases 1–3 are fully migrated):
 
@@ -67,10 +73,6 @@ Phase 4 additions. The last column notes where the wording comes from.
 
 | Key in `skStrings` | English text | Used in |
 |---|---|---|
-| `attributionDomains` | `Attribution domains` | `profile.attribution-domains-setting` (donor) |
-| `attributionDomainsDescription` | `Websites listed here may credit you as an author. Enter one domain per line.` | `profile.attribution-domains-setting` (donor) |
-| `attributionDomainsTutorial` | `Add this tag to the website to be credited:` | `profile.attribution-domains-setting` (donor) |
-| `attributionDomainsUnsupported` | `This server does not support attribution domains.` | `profile.attribution-domains-setting` (donor) |
 | `aboutSharkey` | `About Sharkey` | `about-sharkey page title` (Phase 9.3) |
 | `aboutSharkeyDescription` | `Sharkey is open-source software forked from Misskey.` | `about-sharkey` (Phase 9.3) |
 | `aboutSharkeySource` | `Source code (Sharkey)` | `about-sharkey` (Phase 9.3) |

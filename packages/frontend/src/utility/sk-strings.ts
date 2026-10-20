@@ -14,12 +14,6 @@ import type { ParameterizedString } from 'i18n';
  */
 export const skStrings = {
 
-	// profile.attribution-domains-setting.vue (Phase 8.3)
-	attributionDomains: 'Attribution domains',
-	attributionDomainsDescription: 'Websites listed here may credit you as an author. Enter one domain per line.',
-	attributionDomainsTutorial: 'Add this tag to the website to be credited:',
-	attributionDomainsUnsupported: 'This server does not support attribution domains.',
-
 	// about-sharkey.vue, unsubscribe.vue (Phase 9.3)
 	aboutSharkey: 'About Sharkey',
 	aboutSharkeyDescription: 'Sharkey is open-source software forked from Misskey.',
