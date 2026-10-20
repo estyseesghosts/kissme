@@ -162,3 +162,25 @@ Deferred: settings UI for `useSharkeyUploader` (Phase 10); `skUploads` queue has
 Exit criteria:
 - 6.1 ("choose from PC, choose from Drive, compressed upload returns DriveFile"): **implemented, unverified live**. Compression selection is unit-tested; chooser, multipart POST and Drive picker are not exercised.
 - 6.2 ("single/multi select, folder nav"): **implemented, unverified live**; behavior is inherited from upstream `MkDrive`.
+
+
+## Phase 7 — implementation (verification by direction: no backend or browser smoke)
+
+Pins unchanged (base `split-project`, donor Sharkey `develop` @ `752a392d3b`). Phase 6 head was `1d1adb8b66`.
+
+Commits on split-project: see `git log` (7.1 utils/types/prefs/tests, 7.2 components/pages/routes/nav, docs).
+
+Gate on the final tree: typecheck exit 0; frontend tests 34 files / 282 passed; eslint --quiet clean on touched files; SPDX and `pnpm --filter frontend build` results recorded in the final report. Not run: any backend/browser/live check.
+
+Decisions:
+- Donor has no `utility/following-feed.ts`; nothing to port. Donor page names do not collide with upstream, so they are kept.
+- Prefs `followingFeed` (state) and `showFollowingFeedNav` (default off) added to `def.ts`; nav entry `skFollowingFeed` is hidden unless the pref is on.
+- Routes added minimally in `router.definition.ts` (`loginRequired`, deduped from the donor's double listing); Phase 10.3 to consolidate.
+- `MkLazy` left untouched; the detail pane is a `div` and visibility is read from computed style.
+- `notes/following` cast through `keyof Endpoints` (absent from misskey-js).
+- Strings via `skStrings` (6 new keys, MISSING-STRINGS.md).
+
+Deferred: settings UI for the two prefs (Phase 10); route consolidation (10.3); typed `notes/following` in misskey-js.
+
+Exit criteria:
+- Phase 7 ("feed loads per followed user, select switches detail, remote warning shows where applicable"): **implemented, unverified live**. Tab/state/menu logic is unit-tested; list loading, selection and the warning are not exercised, and the endpoint is not in stock Misskey.

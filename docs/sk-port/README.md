@@ -161,3 +161,9 @@ Dependency and typing notes:
 - `eslint --quiet` on all 19 touched files: clean.
 - `node scripts/check-spdx.mjs`: `SPDX: OK`.
 - Not run: browser smoke or any backend-backed check, by direction.
+
+### Phase 7 additions
+
+| Component / utility | Doc | State |
+|---|---|---|
+| `types/following-feed.ts`, `utility/following-feed-utils.ts`, `SkRemoteFollowersWarning.vue`, `SkFollowingFeedEntry.vue`, `SkFollowingRecentNotes.vue`, `SkUserRecentNotes.vue`, `pages/following-feed.vue`, `pages/user/recent-notes.vue` | [following-feed.md](following-feed.md) | Ported. Routes `/following-feed[/:userId]`; nav entry behind pref `showFollowingFeedNav` (default off). `notes/following` is absent from misskey-js and stock Misskey. |
