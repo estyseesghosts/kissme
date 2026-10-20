@@ -67,6 +67,12 @@ export class UtilityService {
 	}
 
 	@bindThis
+	public isBubbledHost(host: string | null): boolean {
+		if (host == null) return false;
+		return this.meta.bubbleInstances.some(x => `.${host.toLowerCase()}`.endsWith(`.${x}`));
+	}
+
+	@bindThis
 	public concatNoteContentsForKeyWordCheck(content: {
 		cw?: string | null;
 		text?: string | null;

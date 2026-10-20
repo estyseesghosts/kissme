@@ -6,7 +6,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { MoreThan } from 'typeorm';
 import { DI } from '@/di-symbols.js';
-import type { DriveFilesRepository, NotesRepository, PagesRepository, UserProfilesRepository, UsersRepository } from '@/models/_.js';
+import type { DriveFilesRepository, LatestNotesRepository, NotesRepository, PagesRepository, UserProfilesRepository, UsersRepository } from '@/models/_.js';
 import type Logger from '@/logger.js';
 import { DriveService } from '@/core/DriveService.js';
 import type { MiDriveFile } from '@/models/DriveFile.js';
@@ -32,6 +32,9 @@ export class DeleteAccountProcessorService {
 
 		@Inject(DI.notesRepository)
 		private notesRepository: NotesRepository,
+
+		@Inject(DI.latestNotesRepository)
+		private latestNotesRepository: LatestNotesRepository,
 
 		@Inject(DI.driveFilesRepository)
 		private driveFilesRepository: DriveFilesRepository,
@@ -84,6 +87,8 @@ export class DeleteAccountProcessorService {
 					await this.searchService.unindexNote(note);
 				}
 			}
+
+			await this.latestNotesRepository.delete({ userId: user.id });
 
 			this.logger.succ('All of notes deleted');
 		}

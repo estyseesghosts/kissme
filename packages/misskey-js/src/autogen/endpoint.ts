@@ -505,6 +505,8 @@ import type {
 	MyAppsResponse,
 	NotesRequest,
 	NotesResponse,
+	NotesBubbleTimelineRequest,
+	NotesBubbleTimelineResponse,
 	NotesChildrenRequest,
 	NotesChildrenResponse,
 	NotesClipsRequest,
@@ -526,6 +528,8 @@ import type {
 	NotesFavoritesDeleteRequest,
 	NotesFeaturedRequest,
 	NotesFeaturedResponse,
+	NotesFollowingRequest,
+	NotesFollowingResponse,
 	NotesGlobalTimelineRequest,
 	NotesGlobalTimelineResponse,
 	NotesHybridTimelineRequest,
@@ -1015,6 +1019,7 @@ export type Endpoints = {
 	'mute/list': { req: MuteListRequest; res: MuteListResponse };
 	'my/apps': { req: MyAppsRequest; res: MyAppsResponse };
 	'notes': { req: NotesRequest; res: NotesResponse };
+	'notes/bubble-timeline': { req: NotesBubbleTimelineRequest; res: NotesBubbleTimelineResponse };
 	'notes/children': { req: NotesChildrenRequest; res: NotesChildrenResponse };
 	'notes/clips': { req: NotesClipsRequest; res: NotesClipsResponse };
 	'notes/conversation': { req: NotesConversationRequest; res: NotesConversationResponse };
@@ -1028,6 +1033,7 @@ export type Endpoints = {
 	'notes/favorites/create': { req: NotesFavoritesCreateRequest; res: EmptyResponse };
 	'notes/favorites/delete': { req: NotesFavoritesDeleteRequest; res: EmptyResponse };
 	'notes/featured': { req: NotesFeaturedRequest; res: NotesFeaturedResponse };
+	'notes/following': { req: NotesFollowingRequest; res: NotesFollowingResponse };
 	'notes/global-timeline': { req: NotesGlobalTimelineRequest; res: NotesGlobalTimelineResponse };
 	'notes/hybrid-timeline': { req: NotesHybridTimelineRequest; res: NotesHybridTimelineResponse };
 	'notes/like': { req: NotesLikeRequest; res: EmptyResponse };

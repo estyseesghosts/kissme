@@ -154,6 +154,31 @@ export class MiInstance {
 	})
 	public infoUpdatedAt: Date | null;
 
+	@Column('boolean', {
+		nullable: false,
+		default: false,
+		comment: 'True if this instance is part of the local bubble.',
+	})
+	public isBubbled: boolean;
+
+	/**
+	 * If true, quote posts from this instance will be downgraded to normal posts.
+	 * The quote will be stripped and a process error will be generated.
+	 */
+	@Column('boolean', {
+		default: false,
+	})
+	public rejectQuotes: boolean;
+
+	/**
+	 * Specifies a Content Warning that should be forcibly applied to all notes from this instance
+	 * If null (default), then no Content Warning is applied.
+	 */
+	@Column('text', {
+		nullable: true,
+	})
+	public mandatoryCW: string | null;
+
 	@Column('varchar', {
 		length: 16384, default: '',
 	})

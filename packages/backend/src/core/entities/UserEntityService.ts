@@ -431,13 +431,15 @@ export class UserEntityService implements OnModuleInit {
 			: null;
 
 		let relation: UserRelation | null = null;
-		if (meId && !isMe && isDetailed) {
+		if (meId && !isMe) {
 			if (opts.userRelations) {
 				relation = opts.userRelations.get(user.id) ?? null;
 			} else {
 				relation = await this.getRelation(meId, user.id);
 			}
 		}
+
+		const bypassSilence = isMe || !!relation?.isFollowing;
 
 		let memo: string | null = null;
 		if (isDetailed && meId) {
@@ -500,6 +502,10 @@ export class UserEntityService implements OnModuleInit {
 			}))) : [],
 			isBot: user.isBot,
 			isCat: user.isCat,
+			// TODO(workstream E): use user.mandatoryCW / user.rejectQuotes directly once the User columns land.
+			mandatoryCW: (user as unknown as { mandatoryCW?: string | null }).mandatoryCW ?? null,
+			rejectQuotes: (user as unknown as { rejectQuotes?: boolean }).rejectQuotes ?? false,
+			bypassSilence: bypassSilence,
 			requireSigninToViewContents: user.requireSigninToViewContents === false ? undefined : true,
 			makeNotesFollowersOnlyBefore: user.makeNotesFollowersOnlyBefore ?? undefined,
 			makeNotesHiddenBefore: user.makeNotesHiddenBefore ?? undefined,
@@ -510,6 +516,7 @@ export class UserEntityService implements OnModuleInit {
 				iconUrl: instance.iconUrl,
 				faviconUrl: instance.faviconUrl,
 				themeColor: instance.themeColor,
+				mandatoryCW: instance.mandatoryCW,
 			} : undefined) : undefined,
 			emojis: this.customEmojiService.populateEmojis(user.emojis, user.host),
 			onlineStatus: this.getOnlineStatus(user),
@@ -682,6 +689,11 @@ export class UserEntityService implements OnModuleInit {
 		let userRelations: Map<MiUser['id'], UserRelation> = new Map();
 		let userMemos: Map<MiUser['id'], string | null> = new Map();
 		let pinNotes: Map<MiUser['id'], MiUserNotePining[]> = new Map();
+
+		const liteMeId = me ? me.id : null;
+		if ((options?.schema == null || options?.schema === 'UserLite') && liteMeId && _userIds.length > 0) {
+			userRelations = await this.getRelations(liteMeId, _userIds);
+		}
 
 		if (options?.schema !== 'UserLite') {
 			profilesMap = await this.userProfilesRepository.findBy({ userId: In(_userIds) })

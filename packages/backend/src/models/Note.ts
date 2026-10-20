@@ -27,6 +27,12 @@ export class MiNote {
 	@PrimaryColumn(id())
 	public id: string;
 
+	@Column('timestamp with time zone', {
+		comment: 'The update time of the Note.',
+		default: null,
+	})
+	public updatedAt: Date | null;
+
 	@Index()
 	@Column({
 		...id(),
@@ -205,6 +211,17 @@ export class MiNote {
 		default: false,
 	})
 	public hasPoll: boolean;
+
+	/**
+	 * List of non-fatal errors encountered while processing (creating or updating) this note.
+	 * Entries can be a translation key (which will be queried from the "_processErrors" section) or a raw string.
+	 * Errors will be displayed to the user when viewing the note.
+	 */
+	@Column('text', {
+		array: true,
+		nullable: true,
+	})
+	public processErrors: string[] | null;
 
 	@Index()
 	@Column({

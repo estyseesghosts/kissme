@@ -115,6 +115,18 @@ export const packedUserLiteSchema = {
 			type: 'boolean',
 			nullable: false, optional: true,
 		},
+		mandatoryCW: {
+			type: 'string',
+			nullable: true, optional: false,
+		},
+		rejectQuotes: {
+			type: 'boolean',
+			nullable: false, optional: true,
+		},
+		bypassSilence: {
+			type: 'boolean',
+			nullable: false, optional: false,
+		},
 		requireSigninToViewContents: {
 			type: 'boolean',
 			nullable: false, optional: true,
@@ -152,6 +164,10 @@ export const packedUserLiteSchema = {
 					nullable: true, optional: false,
 				},
 				themeColor: {
+					type: 'string',
+					nullable: true, optional: false,
+				},
+				mandatoryCW: {
 					type: 'string',
 					nullable: true, optional: false,
 				},

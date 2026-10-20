@@ -78,6 +78,7 @@ import { MiUserList } from '@/models/UserList.js';
 import { MiUserListFavorite } from '@/models/UserListFavorite.js';
 import { MiUserListMembership } from '@/models/UserListMembership.js';
 import { MiUserMemo } from '@/models/UserMemo.js';
+import { SkLatestNote } from '@/models/LatestNote.js';
 import { MiUserNotePining } from '@/models/UserNotePining.js';
 import { MiUserPending } from '@/models/UserPending.js';
 import { MiUserProfile } from '@/models/UserProfile.js';
@@ -173,6 +174,7 @@ export {
 	MiChatApproval,
 	MiBubbleGameRecord,
 	MiReversiGame,
+	SkLatestNote,
 };
 
 export type AbuseUserReportsRepository = Repository<MiAbuseUserReport> & MiRepository<MiAbuseUserReport>;
@@ -253,3 +255,4 @@ export type ChatRoomInvitationsRepository = Repository<MiChatRoomInvitation> & M
 export type ChatApprovalsRepository = Repository<MiChatApproval> & MiRepository<MiChatApproval>;
 export type BubbleGameRecordsRepository = Repository<MiBubbleGameRecord> & MiRepository<MiBubbleGameRecord>;
 export type ReversiGamesRepository = Repository<MiReversiGame> & MiRepository<MiReversiGame>;
+export type LatestNotesRepository = Repository<SkLatestNote> & MiRepository<SkLatestNote>;
