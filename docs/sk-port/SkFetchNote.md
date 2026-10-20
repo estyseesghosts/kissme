@@ -25,4 +25,6 @@
 - `notes/show` (`{ noteId }`). Present in misskey-js.
 
 ## Not ported
-- Nothing.
+- The donor's only consumer (`pages/admin/modlog.ModLog.vue`) is not ported,
+  so this component currently has no consumer. Kept as tested, consumerless
+  code (same status as `SkBadgeStrip`) rather than deleted.
