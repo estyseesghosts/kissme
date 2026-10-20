@@ -39,7 +39,6 @@ import { computed, onActivated, onMounted, onUnmounted, ref, useTemplateRef, wat
 import type { PageMetadata } from '@/page.js';
 import type { SuperMenuDef } from '@/components/MkSuperMenu.vue';
 import { i18n } from '@/i18n.js';
-import { skStrings } from '@/utility/sk-strings.js';
 import MkInfo from '@/components/MkInfo.vue';
 import MkSuperMenu from '@/components/MkSuperMenu.vue';
 import { $i } from '@/i.js';
@@ -165,7 +164,7 @@ const menuDef = computed<SuperMenuDef[]>(() => [{
 		active: currentPage.value?.route.name === 'other',
 	}, {
 		icon: 'ti ti-fish',
-		text: skStrings.skSettings.title,
+		text: i18n.ts._skSettings.title,
 		to: '/settings/sharkey',
 		active: currentPage.value?.route.name === 'sharkey',
 	}],

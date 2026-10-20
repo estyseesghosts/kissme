@@ -122,11 +122,6 @@ export const skStrings = {
 	unsubscribeError: 'Could not unsubscribe. The link may be invalid or expired.',
 	unsubscribeSuccess: 'You have been unsubscribed.',
 
-	// welcome.entrance.a.vue, preferences (Phase 9.3)
-	welcomeEntranceStyle: 'Entrance page style',
-	welcomeEntranceStyleServer: 'Server default',
-	welcomeEntranceStyleA: 'Sharkey (A)',
-
 	// show-system-account-dialog.ts (Phase 9.4; not in the donor locale either)
 	systemAccountTitle: 'System account',
 	systemAccountDescription: 'This is a system account used by the server. It cannot be interacted with.',
@@ -182,46 +177,5 @@ export const skStrings = {
 			border: { title: 'Border', description: 'Draw a border around the content.' },
 			plain: { title: 'Plain', description: 'Deactivates the effects of all MFM contained within this MFM effect.' },
 		},
-	},
-	// pref-migrate.ts (Phase 10.2; upstream removed i18n.ts.settingsMigrating)
-	settingsMigrating: 'Migrating settings. Please wait...',
-
-	// pages/settings/sharkey.vue (Phase 10.1)
-	skSettings: {
-		title: 'Sharkey features',
-		description: 'Opt-in Sharkey features. Everything here is off or matches stock Misskey unless noted.',
-		sectionNotes: 'Notes',
-		sectionTimeline: 'Timeline',
-		sectionComposing: 'Composing and media',
-		sectionNavigation: 'Navigation and pages',
-		sectionSafety: 'Safety',
-		noteDesign: 'Note design',
-		noteDesignMisskey: 'Misskey',
-		noteDesignSharkey: 'Sharkey',
-		expandLongNote: 'Expand long notes by default',
-		clickToOpen: 'Click a note to open it',
-		collapseNotesRepliedTo: 'Collapse notes that are replied to',
-		numberOfReplies: 'Number of replies shown under a note',
-		showVisibilitySelectorOnBoost: 'Choose visibility when boosting',
-		visibilityOnBoost: 'Default boost visibility',
-		uncollapseCW: 'Always expand content warnings',
-		autoloadConversation: 'Load the conversation automatically',
-		showTickerOnReplies: 'Show the instance ticker on replies',
-		like: 'Like emoji',
-		likeDescription: 'The emoji used by the like button. Leave empty for the default.',
-		mutedEmojis: 'Muted emojis',
-		mutedEmojisDescription: 'Reactions with these emojis are hidden. Enter one emoji per line.',
-		showGapBetweenNotesInTimeline: 'Show gaps between notes in timelines',
-		disableStreamingTimeline: 'Disable live updates in timelines',
-		useSharkeyPostForm: 'Use Sharkey post form options',
-		useSharkeyEmojiPicker: 'Use the Sharkey emoji picker',
-		useSharkeyUploader: 'Use the Sharkey file uploader',
-		showFollowingFeedNav: 'Show the following feed in the navigation',
-		showWordMuteTester: 'Show the word mute tester',
-		showAttributionDomains: 'Show attribution domains in profile settings',
-		oneko: 'Oneko (a cat that follows your cursor)',
-		warnExternalUrl: 'Warn before opening external links',
-		trustedDomains: 'Trusted domains',
-		trustedDomainsDescription: 'Links to these domains open without a warning. Enter one domain per line.',
 	},
 } as const;

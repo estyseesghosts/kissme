@@ -105,12 +105,17 @@ Phase 4 additions. The last column notes where the wording comes from.
 
 All `skStrings` keys above now also exist in `locales/ja-JP.yml` under the same names (Japanese only; Crowdin propagates). Components still read `skStrings`.
 
-## Phase 10.1/10.2
+## Phase 10.1/10.2 — MIGRATED to locale files
 
-| Key | English | Used by |
-|---|---|---|
-| `settingsMigrating` | `Migrating settings. Please wait...` | `pref-migrate.ts` (upstream removed the locale key) |
-| `skSettings.*` (title, description, 5 section labels, 21 pref labels/captions) | see `utility/sk-strings.ts` | `pages/settings/sharkey.vue`, `pages/settings/index.vue`. Added after the 10.6 ja-JP pass, so not yet in `ja-JP.yml`. |
+The `skSettings.*`, `welcomeEntranceStyle*`, and `settingsMigrating` keys above now live in
+`locales/en-US.yml` and `locales/ja-JP.yml` (`_skSettings.*` section, plus flat donor-canonical
+pref labels such as `collapseNotesRepliedTo`, `showVisibilitySelectorOnBoost`,
+`numberOfReplies`). `pages/settings/sharkey.vue`, `pages/settings/index.vue`, and
+`pref-migrate.ts` read `i18n.ts`, and the entries are deleted from `sk-strings.ts`.
+The flat pref labels double as the settings rows added for the former dead prefs
+(`collapseFiles`, `disableCatSpeak`, `enableFaviconNotificationDot`,
+`notificationClickable`, `searchEngine`, `warnMissingAltText`,
+`showTranslationButtonInNoteFooter`).
 
 ## Not strings, but related
 

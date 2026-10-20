@@ -19,7 +19,7 @@ import { deckStore } from '@/ui/deck/deck-store.js';
 import { unisonReload } from '@/utility/unison-reload.js';
 import { genId } from '@/utility/id.js';
 import * as os from '@/os.js';
-import { skStrings } from '@/utility/sk-strings.js';
+import { i18n } from '@/i18n.js';
 
 export { shouldMigrateOldSettings };
 
@@ -35,7 +35,7 @@ function readCold<T>(key: string): T | undefined {
 
 // TODO: そのうち消す
 export function migrateOldSettings(): void {
-	os.waiting({ text: skStrings.settingsMigrating });
+	os.waiting({ text: i18n.ts._skSettings.migrating });
 
 	store.loaded.then(async () => {
 		const registryThemes = await misskeyApi('i/registry/get', { scope: ['client'], key: 'themes' }).catch(() => null);

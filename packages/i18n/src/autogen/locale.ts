@@ -2665,6 +2665,106 @@ export interface Locale extends ILocale {
      */
     "permissions": string;
     /**
+     * クリックしてノートを開く
+     */
+    "clickToOpen": string;
+    /**
+     * 長い投稿を常に展開する
+     */
+    "expandLongNote": string;
+    /**
+     * 返信元のノートを折りたたむ
+     */
+    "collapseNotesRepliedTo": string;
+    /**
+     * ファイルを折りたたむ
+     */
+    "collapseFiles": string;
+    /**
+     * CWを展開する
+     */
+    "uncollapseCW": string;
+    /**
+     * 会話スレッドを自動で読み込む
+     */
+    "autoloadConversation": string;
+    /**
+     * 返信にサーバー情報を表示する
+     */
+    "showTickerOnReplies": string;
+    /**
+     * スレッド内の返信数
+     */
+    "numberOfReplies": string;
+    /**
+     * この数値を大きくすると、より多くの返信が表示されます。この値を大きくしすぎると、UIが窮屈になって読みにくくなることがあります。
+     */
+    "numberOfRepliesDescription": string;
+    /**
+     * 公開範囲セレクターを表示
+     */
+    "showVisibilitySelectorOnBoost": string;
+    /**
+     * 無効の場合、以下で設定したデフォルトの公開範囲が使用され、セレクターは表示されません。
+     */
+    "showVisibilitySelectorOnBoostDescription": string;
+    /**
+     * デフォルトのブースト公開範囲
+     */
+    "visibilityOnBoost": string;
+    /**
+     * 猫の話し方を無効にする
+     */
+    "disableCatSpeak": string;
+    /**
+     * 検索MFMの検索エンジン
+     */
+    "searchEngine": string;
+    /**
+     * カスタム
+     */
+    "searchEngineOther": string;
+    /**
+     * カスタム検索エンジン URI
+     */
+    "searchEngineCusomURI": string;
+    /**
+     * カスタム検索エンジンのURIは、"https://www.google.com/search?q=\{query}" や "https://www.google.com/search?q=%s" のような形式で入力する必要があります。
+     */
+    "searchEngineCustomURIDescription": ParameterizedString<"query">;
+    /**
+     * 未読の通知があるときにタブのアイコンを目立たせる
+     */
+    "enableFaviconNotificationDot": string;
+    /**
+     * 通知ポップアップのクリックを許可
+     */
+    "allowClickingNotifications": string;
+    /**
+     * ノートのアクションメニューに「翻訳」を追加する
+     */
+    "showTranslationButtonInNoteFooter": string;
+    /**
+     * 代替テキストがないファイルが添付されています。すべての添付ファイルに代替テキストを含むようにしてください。
+     */
+    "thisPostIsMissingAltText": string;
+    /**
+     * やめる
+     */
+    "thisPostIsMissingAltTextCancel": string;
+    /**
+     * このまま投稿
+     */
+    "thisPostIsMissingAltTextIgnore": string;
+    /**
+     * にゃんこフレンド :3
+     */
+    "oneko": string;
+    /**
+     * 外部URLを開く際に警告を表示する
+     */
+    "warnExternalUrl": string;
+    /**
      * テーマエディター
      */
     "themeEditor": string;
@@ -12687,6 +12787,120 @@ export interface Locale extends ILocale {
          * 利用できない添付ファイルがあるため表示できません。
          */
         "attachmentFailed": string;
+    };
+    "_skSettings": {
+        /**
+         * Sharkeyの機能
+         */
+        "title": string;
+        /**
+         * オプトインのSharkey機能。特に記載がない限り、ここではすべてオフ、または素のMisskeyと同じ動作です。
+         */
+        "description": string;
+        /**
+         * 設定を移行しています。しばらくお待ちください…
+         */
+        "migrating": string;
+        /**
+         * ノート
+         */
+        "sectionNotes": string;
+        /**
+         * タイムライン
+         */
+        "sectionTimeline": string;
+        /**
+         * 投稿とメディア
+         */
+        "sectionComposing": string;
+        /**
+         * ナビゲーションとページ
+         */
+        "sectionNavigation": string;
+        /**
+         * 安全性
+         */
+        "sectionSafety": string;
+        /**
+         * ノートのデザイン
+         */
+        "noteDesign": string;
+        /**
+         * Misskey
+         */
+        "noteDesignMisskey": string;
+        /**
+         * Sharkey
+         */
+        "noteDesignSharkey": string;
+        /**
+         * タイムラインのノート間に余白を表示する
+         */
+        "showGapBetweenNotesInTimeline": string;
+        /**
+         * タイムラインのライブ更新を無効にする
+         */
+        "disableStreamingTimeline": string;
+        /**
+         * いいねの絵文字
+         */
+        "like": string;
+        /**
+         * いいねボタンに使う絵文字。空欄でデフォルトになります。
+         */
+        "likeDescription": string;
+        /**
+         * ミュートする絵文字
+         */
+        "mutedEmojis": string;
+        /**
+         * これらの絵文字のリアクションを隠します。1行に1つずつ入力してください。
+         */
+        "mutedEmojisDescription": string;
+        /**
+         * Sharkeyの投稿フォームオプションを使う
+         */
+        "useSharkeyPostForm": string;
+        /**
+         * Sharkeyの絵文字ピッカーを使う
+         */
+        "useSharkeyEmojiPicker": string;
+        /**
+         * Sharkeyのファイルアップローダーを使う
+         */
+        "useSharkeyUploader": string;
+        /**
+         * ナビゲーションにフォロー中フィードを表示する
+         */
+        "showFollowingFeedNav": string;
+        /**
+         * ワードミュートテスターを表示する
+         */
+        "showWordMuteTester": string;
+        /**
+         * プロフィール設定に帰属ドメインを表示する
+         */
+        "showAttributionDomains": string;
+        /**
+         * 信頼済みドメイン
+         */
+        "trustedDomains": string;
+        /**
+         * これらのドメインへのリンクは警告なしで開きます。1行に1つずつ入力してください。
+         */
+        "trustedDomainsDescription": string;
+        /**
+         * エントランスページのスタイル
+         */
+        "welcomeEntranceStyle": string;
+        /**
+         * サーバーのデフォルト
+         */
+        "welcomeEntranceStyleServer": string;
+        /**
+         * Sharkey (A)
+         */
+        "welcomeEntranceStyleA": string;
     };
     "_serverSetupWizard": {
         /**

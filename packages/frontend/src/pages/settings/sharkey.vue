@@ -5,27 +5,27 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 <template>
 <div class="_gaps_m">
-	<MkInfo>{{ skStrings.skSettings.description }}</MkInfo>
+	<MkInfo>{{ i18n.ts._skSettings.description }}</MkInfo>
 
 	<FormSection>
-		<template #label>{{ skStrings.skSettings.sectionNotes }}</template>
+		<template #label>{{ i18n.ts._skSettings.sectionNotes }}</template>
 		<div class="_gaps_m">
 			<MkRadios
 				v-model="noteDesign"
 				:options="[
-					{ value: 'misskey', label: skStrings.skSettings.noteDesignMisskey },
-					{ value: 'sk', label: skStrings.skSettings.noteDesignSharkey },
+					{ value: 'misskey', label: i18n.ts._skSettings.noteDesignMisskey },
+					{ value: 'sk', label: i18n.ts._skSettings.noteDesignSharkey },
 				]"
 			>
-				<template #label>{{ skStrings.skSettings.noteDesign }}</template>
+				<template #label>{{ i18n.ts._skSettings.noteDesign }}</template>
 			</MkRadios>
-			<MkPreferenceContainer k="expandLongNote"><MkSwitch v-model="expandLongNote">{{ skStrings.skSettings.expandLongNote }}</MkSwitch></MkPreferenceContainer>
-			<MkPreferenceContainer k="clickToOpen"><MkSwitch v-model="clickToOpen">{{ skStrings.skSettings.clickToOpen }}</MkSwitch></MkPreferenceContainer>
-			<MkPreferenceContainer k="collapseNotesRepliedTo"><MkSwitch v-model="collapseNotesRepliedTo">{{ skStrings.skSettings.collapseNotesRepliedTo }}</MkSwitch></MkPreferenceContainer>
-			<MkPreferenceContainer k="uncollapseCW"><MkSwitch v-model="uncollapseCW">{{ skStrings.skSettings.uncollapseCW }}</MkSwitch></MkPreferenceContainer>
-			<MkPreferenceContainer k="autoloadConversation"><MkSwitch v-model="autoloadConversation">{{ skStrings.skSettings.autoloadConversation }}</MkSwitch></MkPreferenceContainer>
-			<MkPreferenceContainer k="showTickerOnReplies"><MkSwitch v-model="showTickerOnReplies">{{ skStrings.skSettings.showTickerOnReplies }}</MkSwitch></MkPreferenceContainer>
-			<MkPreferenceContainer k="showVisibilitySelectorOnBoost"><MkSwitch v-model="showVisibilitySelectorOnBoost">{{ skStrings.skSettings.showVisibilitySelectorOnBoost }}</MkSwitch></MkPreferenceContainer>
+			<MkPreferenceContainer k="expandLongNote"><MkSwitch v-model="expandLongNote">{{ i18n.ts.expandLongNote }}</MkSwitch></MkPreferenceContainer>
+			<MkPreferenceContainer k="clickToOpen"><MkSwitch v-model="clickToOpen">{{ i18n.ts.clickToOpen }}</MkSwitch></MkPreferenceContainer>
+			<MkPreferenceContainer k="collapseNotesRepliedTo"><MkSwitch v-model="collapseNotesRepliedTo">{{ i18n.ts.collapseNotesRepliedTo }}</MkSwitch></MkPreferenceContainer>
+			<MkPreferenceContainer k="uncollapseCW"><MkSwitch v-model="uncollapseCW">{{ i18n.ts.uncollapseCW }}</MkSwitch></MkPreferenceContainer>
+			<MkPreferenceContainer k="autoloadConversation"><MkSwitch v-model="autoloadConversation">{{ i18n.ts.autoloadConversation }}</MkSwitch></MkPreferenceContainer>
+			<MkPreferenceContainer k="showTickerOnReplies"><MkSwitch v-model="showTickerOnReplies">{{ i18n.ts.showTickerOnReplies }}</MkSwitch></MkPreferenceContainer>
+			<MkPreferenceContainer k="showVisibilitySelectorOnBoost"><MkSwitch v-model="showVisibilitySelectorOnBoost">{{ i18n.ts.showVisibilitySelectorOnBoost }}</MkSwitch></MkPreferenceContainer>
 			<MkPreferenceContainer k="visibilityOnBoost">
 				<MkRadios
 					v-model="visibilityOnBoost"
@@ -35,74 +35,74 @@ SPDX-License-Identifier: AGPL-3.0-only
 						{ value: 'followers', label: i18n.ts._visibility.followers },
 					]"
 				>
-					<template #label>{{ skStrings.skSettings.visibilityOnBoost }}</template>
+					<template #label>{{ i18n.ts.visibilityOnBoost }}</template>
 				</MkRadios>
 			</MkPreferenceContainer>
 			<MkPreferenceContainer k="numberOfReplies">
 				<MkInput v-model="numberOfReplies" type="number" :min="0" :max="50">
-					<template #label>{{ skStrings.skSettings.numberOfReplies }}</template>
+					<template #label>{{ i18n.ts.numberOfReplies }}</template>
 				</MkInput>
 			</MkPreferenceContainer>
 			<MkPreferenceContainer k="like">
 				<MkInput v-model="like">
-					<template #label>{{ skStrings.skSettings.like }}</template>
-					<template #caption>{{ skStrings.skSettings.likeDescription }}</template>
+					<template #label>{{ i18n.ts._skSettings.like }}</template>
+					<template #caption>{{ i18n.ts._skSettings.likeDescription }}</template>
 				</MkInput>
 			</MkPreferenceContainer>
 			<MkPreferenceContainer k="mutedEmojis">
 				<MkTextarea v-model="mutedEmojisText" :spellcheck="false" @update:modelValue="commitMutedEmojis">
-					<template #label>{{ skStrings.skSettings.mutedEmojis }}</template>
-					<template #caption>{{ skStrings.skSettings.mutedEmojisDescription }}</template>
+					<template #label>{{ i18n.ts._skSettings.mutedEmojis }}</template>
+					<template #caption>{{ i18n.ts._skSettings.mutedEmojisDescription }}</template>
 				</MkTextarea>
 			</MkPreferenceContainer>
 				</div>
 		</FormSection>
 
 		<FormSection>
-			<template #label>{{ skStrings.skSettings.sectionTimeline }}</template>
+			<template #label>{{ i18n.ts._skSettings.sectionTimeline }}</template>
 		<div class="_gaps_m">
-			<MkPreferenceContainer k="showGapBetweenNotesInTimeline"><MkSwitch v-model="showGapBetweenNotesInTimeline">{{ skStrings.skSettings.showGapBetweenNotesInTimeline }}</MkSwitch></MkPreferenceContainer>
-			<MkPreferenceContainer k="disableStreamingTimeline"><MkSwitch v-model="disableStreamingTimeline">{{ skStrings.skSettings.disableStreamingTimeline }}</MkSwitch></MkPreferenceContainer>
+			<MkPreferenceContainer k="showGapBetweenNotesInTimeline"><MkSwitch v-model="showGapBetweenNotesInTimeline">{{ i18n.ts._skSettings.showGapBetweenNotesInTimeline }}</MkSwitch></MkPreferenceContainer>
+			<MkPreferenceContainer k="disableStreamingTimeline"><MkSwitch v-model="disableStreamingTimeline">{{ i18n.ts._skSettings.disableStreamingTimeline }}</MkSwitch></MkPreferenceContainer>
 				</div>
 		</FormSection>
 
 		<FormSection>
-			<template #label>{{ skStrings.skSettings.sectionComposing }}</template>
+			<template #label>{{ i18n.ts._skSettings.sectionComposing }}</template>
 		<div class="_gaps_m">
-			<MkPreferenceContainer k="useSharkeyPostForm"><MkSwitch v-model="useSharkeyPostForm">{{ skStrings.skSettings.useSharkeyPostForm }}</MkSwitch></MkPreferenceContainer>
-			<MkPreferenceContainer k="useSharkeyEmojiPicker"><MkSwitch v-model="useSharkeyEmojiPicker">{{ skStrings.skSettings.useSharkeyEmojiPicker }}</MkSwitch></MkPreferenceContainer>
-			<MkPreferenceContainer k="useSharkeyUploader"><MkSwitch v-model="useSharkeyUploader">{{ skStrings.skSettings.useSharkeyUploader }}</MkSwitch></MkPreferenceContainer>
+			<MkPreferenceContainer k="useSharkeyPostForm"><MkSwitch v-model="useSharkeyPostForm">{{ i18n.ts._skSettings.useSharkeyPostForm }}</MkSwitch></MkPreferenceContainer>
+			<MkPreferenceContainer k="useSharkeyEmojiPicker"><MkSwitch v-model="useSharkeyEmojiPicker">{{ i18n.ts._skSettings.useSharkeyEmojiPicker }}</MkSwitch></MkPreferenceContainer>
+			<MkPreferenceContainer k="useSharkeyUploader"><MkSwitch v-model="useSharkeyUploader">{{ i18n.ts._skSettings.useSharkeyUploader }}</MkSwitch></MkPreferenceContainer>
 				</div>
 		</FormSection>
 
 		<FormSection>
-			<template #label>{{ skStrings.skSettings.sectionNavigation }}</template>
+			<template #label>{{ i18n.ts._skSettings.sectionNavigation }}</template>
 		<div class="_gaps_m">
-			<MkPreferenceContainer k="showFollowingFeedNav"><MkSwitch v-model="showFollowingFeedNav">{{ skStrings.skSettings.showFollowingFeedNav }}</MkSwitch></MkPreferenceContainer>
-			<MkPreferenceContainer k="showWordMuteTester"><MkSwitch v-model="showWordMuteTester">{{ skStrings.skSettings.showWordMuteTester }}</MkSwitch></MkPreferenceContainer>
-			<MkPreferenceContainer k="showAttributionDomains"><MkSwitch v-model="showAttributionDomains">{{ skStrings.skSettings.showAttributionDomains }}</MkSwitch></MkPreferenceContainer>
-			<MkPreferenceContainer k="oneko"><MkSwitch v-model="oneko">{{ skStrings.skSettings.oneko }}</MkSwitch></MkPreferenceContainer>
+			<MkPreferenceContainer k="showFollowingFeedNav"><MkSwitch v-model="showFollowingFeedNav">{{ i18n.ts._skSettings.showFollowingFeedNav }}</MkSwitch></MkPreferenceContainer>
+			<MkPreferenceContainer k="showWordMuteTester"><MkSwitch v-model="showWordMuteTester">{{ i18n.ts._skSettings.showWordMuteTester }}</MkSwitch></MkPreferenceContainer>
+			<MkPreferenceContainer k="showAttributionDomains"><MkSwitch v-model="showAttributionDomains">{{ i18n.ts._skSettings.showAttributionDomains }}</MkSwitch></MkPreferenceContainer>
+			<MkPreferenceContainer k="oneko"><MkSwitch v-model="oneko">{{ i18n.ts.oneko }}</MkSwitch></MkPreferenceContainer>
 			<MkPreferenceContainer k="welcomeEntranceStyle">
 				<MkRadios
 					v-model="welcomeEntranceStyle"
 					:options="[
-						{ value: 'server', label: skStrings.welcomeEntranceStyleServer },
-						{ value: 'a', label: skStrings.welcomeEntranceStyleA },
+						{ value: 'server', label: i18n.ts._skSettings.welcomeEntranceStyleServer },
+						{ value: 'a', label: i18n.ts._skSettings.welcomeEntranceStyleA },
 					]"
 				>
-					<template #label>{{ skStrings.welcomeEntranceStyle }}</template>
+					<template #label>{{ i18n.ts._skSettings.welcomeEntranceStyle }}</template>
 				</MkRadios>
 			</MkPreferenceContainer>
 				</div>
 		</FormSection>
 
 		<FormSection>
-			<template #label>{{ skStrings.skSettings.sectionSafety }}</template>
+			<template #label>{{ i18n.ts._skSettings.sectionSafety }}</template>
 		<div class="_gaps_m">
-			<MkPreferenceContainer k="warnExternalUrl"><MkSwitch v-model="warnExternalUrl">{{ skStrings.skSettings.warnExternalUrl }}</MkSwitch></MkPreferenceContainer>
+			<MkPreferenceContainer k="warnExternalUrl"><MkSwitch v-model="warnExternalUrl">{{ i18n.ts.warnExternalUrl }}</MkSwitch></MkPreferenceContainer>
 			<MkTextarea v-model="trustedDomainsText" :spellcheck="false" @update:modelValue="commitTrustedDomains">
-				<template #label>{{ skStrings.skSettings.trustedDomains }}</template>
-				<template #caption>{{ skStrings.skSettings.trustedDomainsDescription }}</template>
+				<template #label>{{ i18n.ts._skSettings.trustedDomains }}</template>
+				<template #caption>{{ i18n.ts._skSettings.trustedDomainsDescription }}</template>
 			</MkTextarea>
 				</div>
 		</FormSection>
@@ -121,7 +121,6 @@ SPDX-License-Identifier: AGPL-3.0-only
 	import { i18n } from '@/i18n.js';
 	import { definePage } from '@/page.js';
 	import { prefer } from '@/preferences.js';
-	import { skStrings } from '@/utility/sk-strings.js';
 	import { parseSkPrefLines } from '@/utility/sk-pref-lines.js';
 
 	const noteDesign = prefer.model('noteDesign');
@@ -165,7 +164,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 	const headerTabs = computed(() => []);
 
 	definePage(() => ({
-		title: skStrings.skSettings.title,
+		title: i18n.ts._skSettings.title,
 		icon: 'ti ti-fish',
 	}));
 	</script>
