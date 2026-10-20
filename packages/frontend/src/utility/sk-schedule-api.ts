@@ -14,7 +14,13 @@ import * as os from '@/os.js';
 type UntypedApi = (endpoint: string, body: object, token?: string | null) => Promise<unknown>;
 
 const api = misskeyApi as unknown as UntypedApi;
-const apiWithDialog = os.apiWithDialog as unknown as UntypedApi;
+
+// os.apiWithDialog is resolved lazily: this module is imported (through MkPostForm and
+// MkSchedulePostListDialog) during os.js initialization, so reading it eagerly throws
+// `Cannot access 'apiWithDialog' before initialization` in native-ESM dev (white screen).
+function apiWithDialog(endpoint: string, body: object): Promise<unknown> {
+	return (os.apiWithDialog as unknown as UntypedApi)(endpoint, body);
+}
 
 /** Same body as `notes/create`, plus `scheduleNote: { scheduledAt }`. */
 export function createScheduledNote(body: object, token?: string | null): Promise<unknown> {
