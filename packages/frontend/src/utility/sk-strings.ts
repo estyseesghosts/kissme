@@ -14,16 +14,6 @@ import type { ParameterizedString } from 'i18n';
  */
 export const skStrings = {
 
-	// SkFlashPlayer.vue (wording from the donor's sharkey-locales _flash.*)
-	flashContentHidden: 'Flash Content Hidden',
-	flashPoweredByRuffle: 'Powered by Ruffle.',
-	flashArbitraryCodeExecutionWarning: 'Always be wary of arbitrary code execution!',
-	flashFailedToLoad: 'Flash Content Failed To Load:',
-	flashIsLoading: 'Flash Content Is Loading',
-	flashLoadingRufflePlayer: 'Loading Ruffle player',
-	flashLoadingFlashFile: 'Loading Flash file',
-	flashCspError: 'raw.esm.sh could not be accessed, meaning this instance\'s Content Security Policy is likely out of date. Please contact your instance administrators.',
-
 	// SkModPlayer.vue (patternHidden is hard-coded in the donor; the other two are written for this port, the donor has no wording)
 	modPatternHidden: 'Pattern Hidden',
 	modFailedToLoad: 'Module failed to load',

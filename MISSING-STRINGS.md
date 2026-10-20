@@ -37,6 +37,10 @@ Migrated (in both locale files, read via `i18n.ts`, gone from `sk-strings.ts`):
   `MkUrlWarningDialog` — aligned to the donor's nested key structure and
   wording (replacing the port's flat `externalWarning*` keys and the
   `.replace('{host}')` hack with `i18n.tsx` params).
+- Flash player (`flashContentHidden`, `flashPoweredByRuffle`,
+  `flashArbitraryCodeExecutionWarning`, `flashFailedToLoad`, `flashIsLoading`,
+  `flashLoadingRufflePlayer`, `flashLoadingFlashFile`, `flashCspError`) in
+  `SkFlashPlayer` — donor wording, flat keys as in the ja-JP tail.
 - `_skSettings.*` and flat pref labels (`clickToOpen`, `expandLongNote`, …).
 
 | Key in `skStrings` | English text | Used in |
@@ -46,14 +50,6 @@ Phase 4 additions. The last column notes where the wording comes from.
 
 | Key in `skStrings` | English text | Used in |
 |---|---|---|
-| `flashContentHidden` | `Flash Content Hidden` | `components/SkFlashPlayer.vue` (donor) |
-| `flashPoweredByRuffle` | `Powered by Ruffle.` | `components/SkFlashPlayer.vue` (donor) |
-| `flashArbitraryCodeExecutionWarning` | `Always be wary of arbitrary code execution!` | `components/SkFlashPlayer.vue` (donor) |
-| `flashFailedToLoad` | `Flash Content Failed To Load:` | `components/SkFlashPlayer.vue` (donor) |
-| `flashIsLoading` | `Flash Content Is Loading` | `components/SkFlashPlayer.vue` (donor) |
-| `flashLoadingRufflePlayer` | `Loading Ruffle player` | `components/SkFlashPlayer.vue` (donor) |
-| `flashLoadingFlashFile` | `Loading Flash file` | `components/SkFlashPlayer.vue` (donor) |
-| `flashCspError` | `raw.esm.sh could not be accessed, meaning this instance's Content Security Policy is likely out of date. Please contact your instance administrators.` | `components/SkFlashPlayer.vue` (donor) |
 | `modPatternHidden` | `Pattern Hidden` | `components/SkModPlayer.vue` (donor (hard-coded)) |
 | `modFailedToLoad` | `Module failed to load` | `components/SkModPlayer.vue` (written for this port, donor has none) |
 | `modAudioUnsupported` | `Audio playback is not supported in this browser.` | `components/SkModPlayer.vue` (written for this port, donor has none) |

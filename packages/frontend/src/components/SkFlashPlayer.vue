@@ -67,17 +67,16 @@ import MkEllipsis from '@/components/global/MkEllipsis.vue';
 import MkLoading from '@/components/global/MkLoading.vue';
 import { i18n } from '@/i18n.js';
 import { prefer } from '@/preferences.js';
-import { skStrings } from '@/utility/sk-strings.js';
 
 const flashStrings = {
-	contentHidden: skStrings.flashContentHidden,
-	poweredByRuffle: skStrings.flashPoweredByRuffle,
-	arbitraryCodeExecutionWarning: skStrings.flashArbitraryCodeExecutionWarning,
-	failedToLoad: skStrings.flashFailedToLoad,
-	isLoading: skStrings.flashIsLoading,
-	loadingRufflePlayer: skStrings.flashLoadingRufflePlayer,
-	loadingFlashFile: skStrings.flashLoadingFlashFile,
-	cspError: skStrings.flashCspError,
+	contentHidden: i18n.ts.flashContentHidden,
+	poweredByRuffle: i18n.ts.flashPoweredByRuffle,
+	arbitraryCodeExecutionWarning: i18n.ts.flashArbitraryCodeExecutionWarning,
+	failedToLoad: i18n.ts.flashFailedToLoad,
+	isLoading: i18n.ts.flashIsLoading,
+	loadingRufflePlayer: i18n.ts.flashLoadingRufflePlayer,
+	loadingFlashFile: i18n.ts.flashLoadingFlashFile,
+	cspError: i18n.ts.flashCspError,
 };
 
 const props = defineProps<{
