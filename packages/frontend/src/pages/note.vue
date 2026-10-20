@@ -19,7 +19,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 					</div>
 					<div class="_margin _gaps_s">
 						<MkRemoteCaution v-if="note.user.host != null" :href="note.url ?? note.uri"/>
-						<MkNoteDetailed :key="note.id" v-model:note="note" :initialTab="initialTab" :class="$style.note"/>
+						<DynamicNoteDetailed :key="note.id" :note="note" :initialTab="initialTab" :class="$style.note"/>
 					</div>
 					<div v-if="clips && clips.length > 0" class="_margin">
 						<div style="font-weight: bold; padding: 12px;">{{ i18n.ts.clip }}</div>
@@ -48,7 +48,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 import { computed, watch, ref, markRaw } from 'vue';
 import * as Misskey from 'misskey-js';
 import { host } from '@@/js/config.js';
-import MkNoteDetailed from '@/components/MkNoteDetailed.vue';
+import DynamicNoteDetailed from '@/components/DynamicNoteDetailed.vue';
 import MkNotesTimeline from '@/components/MkNotesTimeline.vue';
 import MkRemoteCaution from '@/components/MkRemoteCaution.vue';
 import MkButton from '@/components/MkButton.vue';
