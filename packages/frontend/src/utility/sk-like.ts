@@ -47,22 +47,43 @@ export function alertLikeUnsupported(): Promise<void> {
  * directions); the stream echo of the same change is deduped downstream.
  * Backends without the endpoint get an honest dialog instead of a fake.
  */
-export async function likeNoteWithFeedback(note: Pick<Misskey.entities.Note, 'id'> & { isFavorited?: boolean }, override: string | null, localMyReaction: string | null | undefined): Promise<void> {
+// Rapid like/unlike presses on the same note must not interleave: each press
+// re-reads the note, so overlapping runs can sync from stale state and emit
+// out of order. Chain per-note so every press fully settles before the next.
+const pendingLikes = new Map<string, Promise<void>>();
+
+export function likeNoteWithFeedback(note: Pick<Misskey.entities.Note, 'id'> & { isFavorited?: boolean }, override: string | null, getLocalReaction: () => string | null | undefined): Promise<void> {
+	const prev = pendingLikes.get(note.id) ?? Promise.resolve();
+	const task = prev.catch(() => undefined).then(() => runLike(note, override, getLocalReaction));
+	pendingLikes.set(note.id, task);
+	const release = () => {
+		if (pendingLikes.get(note.id) === task) pendingLikes.delete(note.id);
+	};
+	task.then(release, release);
+	return task;
+}
+
+async function runLike(note: Pick<Misskey.entities.Note, 'id'> & { isFavorited?: boolean }, override: string | null, getLocalReaction: () => string | null | undefined): Promise<void> {
 	const outcome = await likeNote(note.id, override);
 	if (outcome !== 'liked') {
 		await alertLikeUnsupported();
 		return;
 	}
 	// Re-read: the like may have set a reaction, toggled one off, or (on a
-	// pure-favorite backend) set no reaction at all.
+	// pure-favorite backend) set no reaction at all. The local reaction is
+	// read at execution time so a queued press sees the previous press's
+	// settled state.
 	try {
 		const fresh = await api('notes/show', { noteId: note.id }) as { myReaction?: string | null; isFavorited?: boolean };
 		note.isFavorited = fresh.isFavorited ?? true;
 		if (!$i) return;
 		if (fresh.myReaction) {
 			noteEvents.emit(`reacted:${note.id}`, { userId: $i.id, reaction: fresh.myReaction });
-		} else if (localMyReaction) {
-			noteEvents.emit(`unreacted:${note.id}`, { userId: $i.id, reaction: localMyReaction });
+		} else {
+			const localMyReaction = getLocalReaction();
+			if (localMyReaction) {
+				noteEvents.emit(`unreacted:${note.id}`, { userId: $i.id, reaction: localMyReaction });
+			}
 		}
 	} catch {
 		// The like itself succeeded; a failed refresh must not break the flow.

@@ -241,7 +241,7 @@ function react(): void {
 	if (appearNote.value.reactionAcceptance === 'likeOnly') {
 		sound.playMisskeySfx('reaction');
 
-		void likeNoteWithFeedback(appearNote.value, defaultLike.value, $note.myReaction);
+		void likeNoteWithFeedback(appearNote.value, defaultLike.value, () => $note.myReaction);
 		const el = reactButton.value as HTMLElement | null | undefined;
 		if (el) {
 			const rect = el.getBoundingClientRect();
@@ -285,7 +285,7 @@ function like(): void {
 	pleaseLogin({ openOnRemote: pleaseLoginContext.value });
 	showMovedDialog();
 	sound.playMisskeySfx('reaction');
-	void likeNoteWithFeedback(appearNote.value, defaultLike.value, $note.myReaction);
+	void likeNoteWithFeedback(appearNote.value, defaultLike.value, () => $note.myReaction);
 	const el = likeButton.value as HTMLElement | null | undefined;
 	if (el) {
 		const rect = el.getBoundingClientRect();
