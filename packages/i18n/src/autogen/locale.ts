@@ -145,6 +145,18 @@ export interface Locale extends ILocale {
      */
     "loggingIn": string;
     /**
+     * 共有アクセスでログイン
+     */
+    "loginWithSharedAccess": string;
+    /**
+     * 共有アクセスが許可されたアカウントはありません
+     */
+    "noSharedAccess": string;
+    /**
+     * このサーバーは共有アクセスに対応していません
+     */
+    "sharedAccessUnsupported": string;
+    /**
      * ログアウト
      */
     "logout": string;
@@ -2169,6 +2181,10 @@ export interface Locale extends ILocale {
      */
     "existingAccount": string;
     /**
+     * 共有アカウント
+     */
+    "sharedAccount": string;
+    /**
      * 再生成
      */
     "regenerate": string;
@@ -2632,6 +2648,18 @@ export interface Locale extends ILocale {
      * ポストを展開する
      */
     "expandTweet": string;
+    /**
+     * 展開する
+     */
+    "expand": string;
+    /**
+     * 折りたたむ
+     */
+    "collapse": string;
+    /**
+     * 権限
+     */
+    "permissions": string;
     /**
      * テーマエディター
      */

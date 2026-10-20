@@ -26,7 +26,7 @@ import MkButton from '@/components/MkButton.vue';
 import * as os from '@/os.js';
 import { misskeyApi } from '@/utility/misskey-api.js';
 import { $i } from '@/i.js';
-import { switchAccount, removeAccount, login, getAccountWithSigninDialog, getAccountWithSignupDialog, getAccounts } from '@/accounts.js';
+import { switchAccount, removeAccount, login, getAccountWithSharedAccessDialog, getAccountWithSigninDialog, getAccountWithSignupDialog, getAccounts } from '@/accounts.js';
 import { i18n } from '@/i18n.js';
 import { definePage } from '@/page.js';
 import MkUserCardMini from '@/components/MkUserCardMini.vue';
@@ -61,7 +61,18 @@ function addAccount(ev: PointerEvent) {
 	}, {
 		text: i18n.ts.createAccount,
 		action: () => { createAccount(); },
+	}, {
+		text: i18n.ts.sharedAccount,
+		action: () => { addSharedAccount(); },
 	}], ev.currentTarget ?? ev.target);
+}
+
+function addSharedAccount() {
+	getAccountWithSharedAccessDialog().then((res) => {
+		if (res != null) {
+			os.success();
+		}
+	});
 }
 
 function addExistingAccount() {

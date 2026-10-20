@@ -323,6 +323,15 @@ export async function getAccountMenu(opts: {
 						}
 					});
 				},
+			}, {
+				text: i18n.ts.sharedAccount,
+				action: () => {
+					getAccountWithSharedAccessDialog().then((res) => {
+						if (res != null) {
+							success();
+						}
+					});
+				},
 			}],
 		}, {
 			type: 'link',
@@ -345,6 +354,24 @@ export function getAccountWithSigninDialog(): Promise<{ id: string, token: strin
 	return new Promise((resolve) => {
 		const { dispose } = popup(defineAsyncComponent(() => import('@/components/MkSigninDialog.vue')), {}, {
 			done: async (res: Misskey.entities.SigninFlowResponse & { finished: true }) => {
+				const user = await fetchAccount(res.i, res.id, true);
+				await addAccount(host, user, res.i);
+				resolve({ id: res.id, token: res.i });
+			},
+			cancelled: () => {
+				resolve(null);
+			},
+			closed: () => {
+				dispose();
+			},
+		});
+	});
+}
+
+export function getAccountWithSharedAccessDialog(): Promise<{ id: string, token: string } | null> {
+	return new Promise((resolve) => {
+		const { dispose } = popup(defineAsyncComponent(() => import('@/components/SkSigninSharedAccessDialog.vue')), {}, {
+			done: async (res: { id: string, i: string }) => {
 				const user = await fetchAccount(res.i, res.id, true);
 				await addAccount(host, user, res.i);
 				resolve({ id: res.id, token: res.i });
