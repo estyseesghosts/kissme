@@ -82,7 +82,13 @@ export const userImportableEntities = ['antenna', 'blocking', 'customEmoji', 'fo
 export const moderationLogTypes = [
 	'updateServerSettings',
 	'suspend',
+	'approve',
+	'decline',
 	'unsuspend',
+	'setMandatoryCW',
+	'setMandatoryCWForNote',
+	'silenceUser',
+	'unSilenceUser',
 	'updateUserNote',
 	'addCustomEmoji',
 	'updateCustomEmoji',
@@ -148,6 +154,41 @@ export type ModerationLogPayloads = {
 		userHost: string | null;
 	};
 	unsuspend: {
+		userId: string;
+		userUsername: string;
+		userHost: string | null;
+	};
+	approve: {
+		userId: string;
+		userUsername: string;
+		userHost: string | null;
+	};
+	decline: {
+		userId: string;
+		userUsername: string;
+		userHost: string | null;
+	};
+	setMandatoryCW: {
+		newCW: string | null;
+		oldCW: string | null;
+		userId: string;
+		userUsername: string;
+		userHost: string | null;
+	};
+	setMandatoryCWForNote: {
+		newCW: string | null;
+		oldCW: string | null;
+		noteId: string;
+		noteUserId: string;
+		noteUserUsername: string;
+		noteUserHost: string | null;
+	};
+	silenceUser: {
+		userId: string;
+		userUsername: string;
+		userHost: string | null;
+	};
+	unSilenceUser: {
 		userId: string;
 		userUsername: string;
 		userHost: string | null;

@@ -17,6 +17,7 @@ const base: MiNote = {
 	text: null,
 	name: null,
 	cw: null,
+	mandatoryCW: null,
 	userId: 'some-user-id',
 	user: null,
 	localOnly: false,

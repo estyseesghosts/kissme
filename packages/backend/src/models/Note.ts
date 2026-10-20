@@ -77,6 +77,12 @@ export class MiNote {
 	})
 	public cw: string | null;
 
+	@Column('text', {
+		nullable: true,
+		comment: 'Content Warning forcibly attached to the note by moderators.',
+	})
+	public mandatoryCW: string | null;
+
 	@Column({
 		...id(),
 		comment: 'The ID of author.',
