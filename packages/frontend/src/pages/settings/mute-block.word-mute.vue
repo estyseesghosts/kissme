@@ -12,6 +12,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 		</MkTextarea>
 	</div>
 	<MkButton primary inline :disabled="!changed" @click="save()"><i class="ti ti-device-floppy"></i> {{ i18n.ts.save }}</MkButton>
+	<SkPatternTest v-if="prefer.s.showWordMuteTester" :mutedWords="mutedWords"/>
 </div>
 </template>
 
@@ -19,6 +20,8 @@ SPDX-License-Identifier: AGPL-3.0-only
 import { ref, watch } from 'vue';
 import MkTextarea from '@/components/MkTextarea.vue';
 import MkButton from '@/components/MkButton.vue';
+import SkPatternTest from '@/components/SkPatternTest.vue';
+import { prefer } from '@/preferences.js';
 import * as os from '@/os.js';
 import { i18n } from '@/i18n.js';
 
