@@ -3576,6 +3576,8 @@ flashCspError: "raw.esm.sh could not be accessed, meaning this instance's Conten
 modPatternHidden: "Pattern Hidden"
 modFailedToLoad: "Module failed to load"
 modAudioUnsupported: "Audio playback is not supported in this browser."
+imageLacksDescription: "Image lacks descriptive text"
+likeNotSupported: "This server does not support likes yet."
 noteIsFlaggedAs: "Note is flagged: \"{cw}\""
 userIsFlaggedAs: "{name} is flagged: \"{cw}\""
 instanceIsFlaggedAs: "{name} is flagged: \"{cw}\""

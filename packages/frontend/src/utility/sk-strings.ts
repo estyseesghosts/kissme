@@ -14,12 +14,6 @@ import type { ParameterizedString } from 'i18n';
  */
 export const skStrings = {
 
-	// SkMediaImage.vue (hard-coded in the donor)
-	imageLacksDescription: 'Image lacks descriptive text',
-
-	// sk-like.ts (written for this port; the donor's like() is fire-and-forget and has no wording)
-	likeNotSupported: 'This server does not support likes yet.',
-
 	// following-feed-utils.ts, SkRemoteFollowersWarning.vue (Phase 7)
 	mutuals: 'Mutuals',
 	showBots: 'Show bots in timeline',

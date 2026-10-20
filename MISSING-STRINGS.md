@@ -44,6 +44,9 @@ Migrated (in both locale files, read via `i18n.ts`, gone from `sk-strings.ts`):
 - Tracker player (`modPatternHidden`, `modFailedToLoad`, `modAudioUnsupported`)
   in `SkModPlayer` — donor hard-coded English for the first, port wording kept
   for the other two (donor has none).
+- Media alt-text hint (`imageLacksDescription`) in `SkMediaImage` and the
+  honest-like fallback (`likeNotSupported`) in `sk-like.ts` — donor hard-coded
+  English for the former, port wording for the latter.
 - `_skSettings.*` and flat pref labels (`clickToOpen`, `expandLongNote`, …).
 
 | Key in `skStrings` | English text | Used in |
@@ -53,8 +56,6 @@ Phase 4 additions. The last column notes where the wording comes from.
 
 | Key in `skStrings` | English text | Used in |
 |---|---|---|
-| `imageLacksDescription` | `Image lacks descriptive text` | `components/SkMediaImage.vue` (donor (hard-coded)) |
-| `likeNotSupported` | `This server does not support likes yet.` | `utility/sk-like.ts` (written for this port, donor has none) |
 | `mutuals` | `Mutuals` | `utility/following-feed-utils.ts`, `components/SkRemoteFollowersWarning.vue` (donor) |
 | `showBots` | `Show bots in timeline` | `utility/following-feed-utils.ts`, `components/SkRemoteFollowersWarning.vue` (donor) |
 | `showQuotes` | `Show quotes` | `utility/following-feed-utils.ts`, `components/SkRemoteFollowersWarning.vue` (donor) |

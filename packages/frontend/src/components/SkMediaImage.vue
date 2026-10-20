@@ -59,7 +59,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 		<div :class="$style.indicators">
 			<div v-if="['image/gif', 'image/apng'].includes(image.type)" :class="$style.indicator" @click.stop>GIF</div>
 			<div v-if="image.comment" :class="$style.indicator" @click.stop>ALT</div>
-			<div v-if="!image.comment" :class="$style.indicator" :title="skStrings.imageLacksDescription" @click.stop><i class="ti ti-pencil" aria-hidden="true"></i></div>
+			<div v-if="!image.comment" :class="$style.indicator" :title="i18n.ts.imageLacksDescription" @click.stop><i class="ti ti-pencil" aria-hidden="true"></i></div>
 			<div v-if="image.isSensitive" :class="$style.indicator" style="color: var(--MI_THEME-warn);" :title="i18n.ts.sensitive" @click.stop><i class="ti ti-eye-exclamation"></i></div>
 		</div>
 		<button :class="[$style.menu, $style.menuBottom]" class="_button" @click.stop="showMenu"><i class="ti ti-dots" style="vertical-align: middle;" aria-hidden="true"></i></button>
@@ -80,7 +80,6 @@ import * as os from '@/os.js';
 import { prefer } from '@/preferences.js';
 import { shouldHideFileByDefault, canRevealFile } from '@/utility/sensitive-file.js';
 import { getFileMenu } from '@/utility/get-file-menu.js';
-import { skStrings } from '@/utility/sk-strings.js';
 
 const props = withDefaults(defineProps<{
 	image: Misskey.entities.DriveFile;

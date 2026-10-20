@@ -8,7 +8,7 @@ import { misskeyApi } from '@/utility/misskey-api.js';
 import * as os from '@/os.js';
 import { noteEvents } from '@/composables/use-note-capture.js';
 import { $i } from '@/i.js';
-import { skStrings } from '@/utility/sk-strings.js';
+import { i18n } from '@/i18n.js';
 
 /**
  * `notes/like` is a Sharkey-only endpoint, absent from misskey-js (and from
@@ -36,7 +36,7 @@ export async function likeNote(noteId: string, override: string | null, token?: 
 export function alertLikeUnsupported(): Promise<void> {
 	return os.alert({
 		type: 'info',
-		text: skStrings.likeNotSupported,
+		text: i18n.ts.likeNotSupported,
 	});
 }
 
