@@ -39,6 +39,23 @@ components to `i18n.ts.<key>`, and delete the entry from `sk-strings.ts`.
 
 Note: the two `confirmPollEdit*` texts are not in the donor's en-US.yml either (the donor references `_confirmPollEdit`); the wording above is written for this port, not copied.
 
+Phase 4 additions. The last column notes where the wording comes from.
+
+| Key in `skStrings` | English text | Used in |
+|---|---|---|
+| `flashContentHidden` | `Flash Content Hidden` | `components/SkFlashPlayer.vue` (donor) |
+| `flashPoweredByRuffle` | `Powered by Ruffle.` | `components/SkFlashPlayer.vue` (donor) |
+| `flashArbitraryCodeExecutionWarning` | `Always be wary of arbitrary code execution!` | `components/SkFlashPlayer.vue` (donor) |
+| `flashFailedToLoad` | `Flash Content Failed To Load:` | `components/SkFlashPlayer.vue` (donor) |
+| `flashIsLoading` | `Flash Content Is Loading` | `components/SkFlashPlayer.vue` (donor) |
+| `flashLoadingRufflePlayer` | `Loading Ruffle player` | `components/SkFlashPlayer.vue` (donor) |
+| `flashLoadingFlashFile` | `Loading Flash file` | `components/SkFlashPlayer.vue` (donor) |
+| `flashCspError` | `raw.esm.sh could not be accessed, meaning this instance's Content Security Policy is likely out of date. Please contact your instance administrators.` | `components/SkFlashPlayer.vue` (donor) |
+| `modPatternHidden` | `Pattern Hidden` | `components/SkModPlayer.vue` (donor (hard-coded)) |
+| `modFailedToLoad` | `Module failed to load` | `components/SkModPlayer.vue` (written for this port, donor has none) |
+| `modAudioUnsupported` | `Audio playback is not supported in this browser.` | `components/SkModPlayer.vue` (written for this port, donor has none) |
+| `imageLacksDescription` | `Image lacks descriptive text` | `components/SkMediaImage.vue` (donor (hard-coded)) |
+
 ## Not strings, but related
 
 - `expandLongNote` pref: now in `preferences/def.ts` (default `false`, Sharkey default).

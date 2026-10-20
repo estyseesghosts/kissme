@@ -54,6 +54,80 @@ https://github.com/sindresorhus/file-type/blob/main/core.js
 https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Containers
 */
 
+// sharkey: types the Sharkey media components additionally treat as browser-displayable.
+// Kept out of FILE_TYPE_BROWSERSAFE on purpose, because the stock lightbox (isPreviewable) and
+// the embed media list read that list and their behavior must not change.
+export const FILE_TYPE_BROWSERSAFE_SHARKEY = [
+	'image/jxl',
+	// MKV files
+	'video/x-matroska',
+];
+
+export const FILE_TYPE_TRACKER_MODULES = [
+	'audio/mod',
+	'audio/x-mod',
+	'audio/s3m',
+	'audio/x-s3m',
+	'audio/xm',
+	'audio/x-xm',
+	'audio/it',
+	'audio/x-it',
+];
+
+export const FILE_EXT_TRACKER_MODULES = [
+	'mod',
+	's3m',
+	'xm',
+	'it',
+	'mptm',
+	'stm',
+	'nst',
+	'm15',
+	'stk',
+	'wow',
+	'ult',
+	'669',
+	'mtm',
+	'med',
+	'far',
+	'mdl',
+	'ams',
+	'dsm',
+	'amf',
+	'okt',
+	'dmf',
+	'ptm',
+	'psm',
+	'mt2',
+	'dbm',
+	'digi',
+	'imf',
+	'j2b',
+	'gdm',
+	'umx',
+	'plm',
+	'mo3',
+	'xpk',
+	'ppm',
+	'mmcmp',
+];
+
+export const FILE_TYPE_FLASH_CONTENT = [
+	'application/x-shockwave-flash',
+	'application/vnd.adobe.flash.movie',
+];
+
+export const FILE_EXT_FLASH_CONTENT = [
+	'swf',
+];
+
+/*
+https://github.com/sindresorhus/file-type/blob/main/supported.js
+https://github.com/sindresorhus/file-type/blob/main/core.js
+https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Containers
+*/
+
+
 export const MFM_TAGS = ['tada', 'jelly', 'twitch', 'shake', 'spin', 'jump', 'bounce', 'flip', 'x2', 'x3', 'x4', 'scale', 'position', 'fg', 'bg', 'border', 'font', 'blur', 'rainbow', 'sparkle', 'rotate', 'ruby', 'unixtime'];
 export const MFM_PARAMS: Record<typeof MFM_TAGS[number], string[]> = {
 	tada: ['speed=', 'delay='],

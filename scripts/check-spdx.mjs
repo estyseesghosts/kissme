@@ -98,6 +98,8 @@ function isTargetPath(file) {
 	if (name.includes('eslint')) return false;
 	// vendored third-party code (BSD-3-Clause, see its LICENSE); not ours to relabel
 	if (file.includes('packages/frontend/src/utility/libopenmpt/')) return false;
+	// vendored Ruffle type declarations and chiptune2 (MIT), ported from Sharkey
+	if (file.includes('packages/frontend/src/types/ruffle/') || file.endsWith('packages/frontend/src/utility/chiptune2.ts')) return false;
 	if (EXCLUDED_CONFIG_EXTENSIONS.has(ext) && name.endsWith(`.config${ext}`)) return false;
 
 	return isRegularFile(file);
