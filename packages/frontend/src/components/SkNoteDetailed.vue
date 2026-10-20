@@ -284,7 +284,7 @@ import { getNoteClipMenu, getNoteMenu } from '@/utility/get-note-menu.js';
 import { translateNote } from '@/utility/translate-note.js';
 import { getNoteVersionsMenu } from '@/utility/get-note-versions-menu.js';
 import { checkAnimationFromMfm } from '@/utility/check-animated-mfm.js';
-import { useNoteCapture } from '@/composables/use-note-capture.js';
+import { noteEvents, useNoteCapture } from '@/composables/use-note-capture.js';
 import { deepClone } from '@/utility/clone.js';
 import { useTooltip } from '@/composables/use-tooltip.js';
 import { claimAchievement } from '@/utility/achievements.js';
@@ -307,6 +307,7 @@ import SkUrlPreviewGroup from '@/components/SkUrlPreviewGroup.vue';
 import { showNoteOnOriginalInstance } from '@/utility/show-note-on-original-instance.js';
 import { Paginator } from '@/utility/paginator.js';
 import { skStrings } from '@/utility/sk-strings.js';
+import { likeNoteWithFeedback } from '@/utility/sk-like.js';
 
 const props = withDefaults(defineProps<{
 	note: Misskey.entities.Note;
@@ -368,10 +369,6 @@ function rejectsQuotes(user: object | null | undefined): boolean {
 	return (user as { rejectQuotes?: unknown } | null | undefined)?.rejectQuotes === true;
 }
 
-// notes/like is a Sharkey endpoint and is not in misskey-js Endpoints.
-// It is called through an untyped alias of misskeyApi; the request itself is unchanged from the donor.
-const misskeyApiUntyped = misskeyApi as unknown as (endpoint: string, data: Record<string, unknown>) => Promise<unknown>;
-
 // Live reaction and poll state comes from the Misskey capture composable.
 const { $note: $appearNote, subscribe: subscribeManuallyToNoteCapture } = useNoteCapture({
 	note: appearNote.value,
@@ -422,6 +419,8 @@ provide(DI.mfmEmojiReactCallback, (reaction) => {
 	misskeyApi('notes/reactions/create', {
 		noteId: appearNote.value.id,
 		reaction: reaction,
+	}).then(() => {
+		if ($i) noteEvents.emit(`reacted:${appearNote.value.id}`, { userId: $i.id, reaction });
 	});
 });
 
@@ -630,10 +629,7 @@ function react(): void {
 	if (appearNote.value.reactionAcceptance === 'likeOnly') {
 		sound.playMisskeySfx('reaction');
 
-		misskeyApiUntyped('notes/like', {
-			noteId: appearNote.value.id,
-			override: defaultLike.value,
-		});
+		void likeNoteWithFeedback(appearNote.value, defaultLike.value);
 		const el = reactButton.value;
 		if (el && prefer.s.animation) {
 			const rect = el.getBoundingClientRect();
@@ -660,6 +656,9 @@ function react(): void {
 			misskeyApi('notes/reactions/create', {
 				noteId: appearNote.value.id,
 				reaction: reaction,
+			}).then(() => {
+				// Immediate local update (stock MkNote parity); the stream echo is deduped.
+				if ($i) noteEvents.emit(`reacted:${appearNote.value.id}`, { userId: $i.id, reaction });
 			});
 			if (appearNote.value.text && appearNote.value.text.length > 100 && (Date.now() - new Date(appearNote.value.createdAt).getTime() < 1000 * 3)) {
 				claimAchievement('reactWithoutRead');
@@ -674,10 +673,7 @@ function like(): void {
 	pleaseLogin({ openOnRemote: pleaseLoginContext.value });
 	showMovedDialog();
 	sound.playMisskeySfx('reaction');
-	misskeyApiUntyped('notes/like', {
-		noteId: appearNote.value.id,
-		override: defaultLike.value,
-	});
+	void likeNoteWithFeedback(appearNote.value, defaultLike.value);
 	const el = likeButton.value as HTMLElement | null | undefined;
 	if (el) {
 		const rect = el.getBoundingClientRect();
@@ -694,6 +690,8 @@ function undoReact(targetNote: Misskey.entities.Note): void {
 	if (!oldReaction) return;
 	misskeyApi('notes/reactions/delete', {
 		noteId: targetNote.id,
+	}).then(() => {
+		if ($i) noteEvents.emit(`unreacted:${targetNote.id}`, { userId: $i.id, reaction: oldReaction });
 	});
 }
 

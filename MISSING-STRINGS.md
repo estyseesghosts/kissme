@@ -55,6 +55,7 @@ Phase 4 additions. The last column notes where the wording comes from.
 | `modFailedToLoad` | `Module failed to load` | `components/SkModPlayer.vue` (written for this port, donor has none) |
 | `modAudioUnsupported` | `Audio playback is not supported in this browser.` | `components/SkModPlayer.vue` (written for this port, donor has none) |
 | `imageLacksDescription` | `Image lacks descriptive text` | `components/SkMediaImage.vue` (donor (hard-coded)) |
+| `likeNotSupported` | `This server does not support likes yet.` | `utility/sk-like.ts` (written for this port, donor has none) |
 
 ## Not strings, but related
 

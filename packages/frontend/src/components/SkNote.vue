@@ -234,7 +234,7 @@ import { i18n } from '@/i18n.js';
 import { getAbuseNoteMenu, getCopyNoteLinkMenu, getNoteClipMenu, getNoteMenu } from '@/utility/get-note-menu.js';
 import { translateNote } from '@/utility/translate-note.js';
 import { getNoteVersionsMenu } from '@/utility/get-note-versions-menu.js';
-import { useNoteCapture } from '@/composables/use-note-capture.js';
+import { noteEvents, useNoteCapture } from '@/composables/use-note-capture.js';
 import { useTooltip } from '@/composables/use-tooltip.js';
 import { useGlobalEvent } from '@/events.js';
 import { deepClone } from '@/utility/clone.js';
@@ -250,6 +250,7 @@ import { setupNoteViewInterruptors } from '@/plugin.js';
 import { DI } from '@/di.js';
 import { useRouter } from '@/router.js';
 import { skStrings } from '@/utility/sk-strings.js';
+import { likeNoteWithFeedback } from '@/utility/sk-like.js';
 
 // Sharkey-only fields that misskey-js's Note/User types do not declare (see docs/sk-port/SkNote.md).
 type SkNote = Misskey.entities.Note & {
@@ -423,6 +424,8 @@ provide(DI.mfmEmojiReactCallback, (reaction) => {
 	misskeyApi('notes/reactions/create', {
 		noteId: appearNote.value.id,
 		reaction: reaction,
+	}).then(() => {
+		if ($i) noteEvents.emit(`reacted:${appearNote.value.id}`, { userId: $i.id, reaction });
 	});
 });
 
@@ -501,15 +504,6 @@ if (!props.mock) {
 			});
 		});
 	}
-}
-
-/**
- * notes/like is not in misskey-js (Sharkey-only endpoint). Called as in the donor.
- * Remove the cast once misskey-js exposes it.
- */
-function callNotesLike(body: { noteId: string; override: string | null }): Promise<unknown> {
-	const api = misskeyApi as unknown as (endpoint: string, body: object) => Promise<unknown>;
-	return api('notes/like', body);
 }
 
 function boostVisibility(forceMenu: boolean = false) {
@@ -628,10 +622,8 @@ function like(): void {
 	if (props.mock) {
 		return;
 	}
-	callNotesLike({
-		noteId: appearNote.value.id,
-		override: defaultLike.value,
-	});
+	// notes/like where the backend has it, heart reaction where it does not.
+	void likeNoteWithFeedback(appearNote.value, defaultLike.value);
 	const el = likeButton.value as HTMLElement | null | undefined;
 	if (el && prefer.s.animation) {
 		const rect = el.getBoundingClientRect();
@@ -653,10 +645,7 @@ function react(viaKeyboard = false): void {
 			return;
 		}
 
-		callNotesLike({
-			noteId: appearNote.value.id,
-			override: defaultLike.value,
-		});
+		void likeNoteWithFeedback(appearNote.value, defaultLike.value);
 		const el = reactButton.value;
 		if (el) {
 			const rect = el.getBoundingClientRect();
@@ -688,6 +677,9 @@ function react(viaKeyboard = false): void {
 			misskeyApi('notes/reactions/create', {
 				noteId: appearNote.value.id,
 				reaction: reaction,
+			}).then(() => {
+				// Immediate local update (stock MkNote parity); the stream echo is deduped.
+				if ($i) noteEvents.emit(`reacted:${appearNote.value.id}`, { userId: $i.id, reaction });
 			});
 			if (appearNote.value.text && appearNote.value.text.length > 100 && (Date.now() - new Date(appearNote.value.createdAt).getTime() < 1000 * 3)) {
 				claimAchievement('reactWithoutRead');
@@ -709,6 +701,8 @@ function undoReact(targetNote: Misskey.entities.Note): void {
 
 	misskeyApi('notes/reactions/delete', {
 		noteId: targetNote.id,
+	}).then(() => {
+		if ($i) noteEvents.emit(`unreacted:${targetNote.id}`, { userId: $i.id, reaction: oldReaction });
 	});
 }
 

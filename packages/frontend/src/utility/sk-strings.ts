@@ -73,4 +73,7 @@ export const skStrings = {
 
 	// SkMediaImage.vue (hard-coded in the donor)
 	imageLacksDescription: 'Image lacks descriptive text',
+
+	// sk-like.ts (written for this port; the donor's like() is fire-and-forget and has no wording)
+	likeNotSupported: 'This server does not support likes yet.',
 } as const;

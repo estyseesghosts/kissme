@@ -103,6 +103,7 @@ import SkNoteSub from '@/components/SkNoteSub.vue';
 import SkNoteHeader from '@/components/SkNoteHeader.vue';
 import SkReactionsViewer from '@/components/SkReactionsViewer.vue';
 import { onToggleEmojiMute } from '@/utility/sk-emoji-mute.js';
+import { likeNoteWithFeedback } from '@/utility/sk-like.js';
 import MkSubNoteContent from '@/components/MkSubNoteContent.vue';
 import MkCwButton from '@/components/MkCwButton.vue';
 import { notePage } from '@/filters/note.js';
@@ -120,7 +121,7 @@ import { getNoteClipMenu, getNoteMenu } from '@/utility/get-note-menu.js';
 import { translateNote } from '@/utility/translate-note.js';
 import { boostMenuItems, computeRenoteTooltip } from '@/utility/boost-quote.js';
 import { prefer } from '@/preferences.js';
-import { useNoteCapture } from '@/composables/use-note-capture.js';
+import { noteEvents, useNoteCapture } from '@/composables/use-note-capture.js';
 import { useGlobalEvent } from '@/events.js';
 import SkMutedNote from '@/components/SkMutedNote.vue';
 import { instance, policies } from '@/instance.js';
@@ -167,9 +168,6 @@ const reactionNote = computed(() => ({ ...appearNote.value, ...$note }) as Missk
 
 const canRenote = computed(() => ['public', 'home'].includes(appearNote.value.visibility) || appearNote.value.userId === $i?.id);
 const hideLine = computed(() => props.detail);
-
-// notes/like is a Sharkey endpoint that misskey-js does not define, so the call is untyped here.
-const sharkeyApi = misskeyApi as unknown as (endpoint: string, data: Record<string, unknown>) => Promise<unknown>;
 
 // rejectQuotes is a Sharkey user setting that misskey-js's MeDetailed does not define.
 const rejectQuotes = computed(() => Reflect.get($i ?? {}, 'rejectQuotes') === true);
@@ -243,10 +241,7 @@ function react(): void {
 	if (appearNote.value.reactionAcceptance === 'likeOnly') {
 		sound.playMisskeySfx('reaction');
 
-		sharkeyApi('notes/like', {
-			noteId: appearNote.value.id,
-			override: defaultLike.value,
-		});
+		void likeNoteWithFeedback(appearNote.value, defaultLike.value);
 		const el = reactButton.value as HTMLElement | null | undefined;
 		if (el) {
 			const rect = el.getBoundingClientRect();
@@ -273,6 +268,9 @@ function react(): void {
 			misskeyApi('notes/reactions/create', {
 				noteId: appearNote.value.id,
 				reaction: reaction,
+			}).then(() => {
+				// Immediate local update (stock MkNote parity); the stream echo is deduped.
+				if ($i) noteEvents.emit(`reacted:${appearNote.value.id}`, { userId: $i.id, reaction });
 			});
 			if (appearNote.value.text && appearNote.value.text.length > 100 && (Date.now() - new Date(appearNote.value.createdAt).getTime() < 1000 * 3)) {
 				claimAchievement('reactWithoutRead');
@@ -287,10 +285,7 @@ function like(): void {
 	pleaseLogin({ openOnRemote: pleaseLoginContext.value });
 	showMovedDialog();
 	sound.playMisskeySfx('reaction');
-	sharkeyApi('notes/like', {
-		noteId: appearNote.value.id,
-		override: defaultLike.value,
-	});
+	void likeNoteWithFeedback(appearNote.value, defaultLike.value);
 	const el = likeButton.value as HTMLElement | null | undefined;
 	if (el) {
 		const rect = el.getBoundingClientRect();
@@ -307,6 +302,8 @@ function undoReact(): void {
 	if (!oldReaction) return;
 	misskeyApi('notes/reactions/delete', {
 		noteId: appearNote.value.id,
+	}).then(() => {
+		if ($i) noteEvents.emit(`unreacted:${appearNote.value.id}`, { userId: $i.id, reaction: oldReaction });
 	});
 }
 
