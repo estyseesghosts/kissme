@@ -12,9 +12,20 @@ export const packedNoteSchema = {
 			format: 'id',
 			example: 'xxxxxxxxxx',
 		},
+		threadId: {
+			type: 'string',
+			optional: false, nullable: false,
+			format: 'id',
+			example: 'xxxxxxxxxx',
+		},
 		createdAt: {
 			type: 'string',
 			optional: false, nullable: false,
+			format: 'date-time',
+		},
+		updatedAt: {
+			type: 'string',
+			optional: true, nullable: false,
 			format: 'date-time',
 		},
 		deletedAt: {
@@ -27,6 +38,10 @@ export const packedNoteSchema = {
 			optional: false, nullable: true,
 		},
 		cw: {
+			type: 'string',
+			optional: true, nullable: true,
+		},
+		mandatoryCW: {
 			type: 'string',
 			optional: true, nullable: true,
 		},
@@ -152,6 +167,26 @@ export const packedNoteSchema = {
 				},
 			},
 		},
+		isMutingThread: {
+			type: 'boolean',
+			optional: false, nullable: false,
+		},
+		isMutingNote: {
+			type: 'boolean',
+			optional: false, nullable: false,
+		},
+		isFavorited: {
+			type: 'boolean',
+			optional: false, nullable: false,
+		},
+		isRenoted: {
+			type: 'boolean',
+			optional: false, nullable: false,
+		},
+		bypassSilence: {
+			type: 'boolean',
+			optional: false, nullable: false,
+		},
 		emojis: {
 			type: 'object',
 			optional: true, nullable: false,
@@ -255,6 +290,14 @@ export const packedNoteSchema = {
 		clippedCount: {
 			type: 'number',
 			optional: true, nullable: false,
+		},
+		processErrors: {
+			type: 'array',
+			optional: true, nullable: true,
+			items: {
+				type: 'string',
+				optional: false, nullable: false,
+			},
 		},
 		hasPoll: {
 			type: 'boolean',

@@ -116,9 +116,22 @@ export const packedFederationInstanceSchema = {
 			optional: false, nullable: true,
 			format: 'date-time',
 		},
+		rejectQuotes: {
+			type: 'boolean',
+			optional: false,
+			nullable: false,
+		},
 		moderationNote: {
 			type: 'string',
 			optional: true, nullable: true,
+		},
+		isBubbled: {
+			type: 'boolean',
+			optional: false, nullable: false,
+		},
+		mandatoryCW: {
+			type: 'string',
+			optional: false, nullable: true,
 		},
 	},
 } as const;

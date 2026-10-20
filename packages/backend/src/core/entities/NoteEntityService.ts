@@ -4,14 +4,14 @@
  */
 
 import { Inject, Injectable } from '@nestjs/common';
-import { EntityNotFoundError, In } from 'typeorm';
+import { Brackets, EntityNotFoundError, In } from 'typeorm';
 import { ModuleRef } from '@nestjs/core';
 import { DI } from '@/di-symbols.js';
 import type { Packed } from '@/misc/json-schema.js';
 import { awaitAll } from '@/misc/prelude/await-all.js';
 import type { MiUser } from '@/models/User.js';
 import type { MiNote } from '@/models/Note.js';
-import type { UsersRepository, NotesRepository, FollowingsRepository, PollsRepository, PollVotesRepository, NoteReactionsRepository, ChannelsRepository, MiMeta } from '@/models/_.js';
+import type { UsersRepository, NotesRepository, FollowingsRepository, PollsRepository, PollVotesRepository, NoteReactionsRepository, NoteFavoritesRepository, NoteThreadMutingsRepository, ChannelsRepository, MiMeta } from '@/models/_.js';
 import { bindThis } from '@/decorators.js';
 import { DebounceLoader } from '@/misc/loader.js';
 import { IdService } from '@/core/IdService.js';
@@ -93,6 +93,12 @@ export class NoteEntityService implements OnModuleInit {
 
 		@Inject(DI.noteReactionsRepository)
 		private noteReactionsRepository: NoteReactionsRepository,
+
+		@Inject(DI.noteFavoritesRepository)
+		private noteFavoritesRepository: NoteFavoritesRepository,
+
+		@Inject(DI.noteThreadMutingsRepository)
+		private noteThreadMutingsRepository: NoteThreadMutingsRepository,
 
 		@Inject(DI.channelsRepository)
 		private channelsRepository: ChannelsRepository,
@@ -350,11 +356,16 @@ export class NoteEntityService implements OnModuleInit {
 			detail?: boolean;
 			skipHide?: boolean;
 			withReactionAndUserPairCache?: boolean;
+			bypassSilence?: boolean;
 			_hint_?: {
 				bufferedReactions: Map<MiNote['id'], { deltas: Record<string, number>; pairs: ([MiUser['id'], string])[] }> | null;
 				myReactions: Map<MiNote['id'], string | null>;
 				packedFiles: Map<MiNote['fileIds'][number], Packed<'DriveFile'> | null>;
-				packedUsers: Map<MiUser['id'], Packed<'UserLite'>>
+				packedUsers: Map<MiUser['id'], Packed<'UserLite'>>;
+				mutedThreads?: Set<string>;
+				mutedNotes?: Set<string>;
+				favoriteNotes?: Set<string>;
+				renotedNotes?: Set<string>;
 			};
 		},
 	): Promise<Packed<'Note'>> {
@@ -395,13 +406,47 @@ export class NoteEntityService implements OnModuleInit {
 		const packedFiles = options?._hint_?.packedFiles;
 		const packedUsers = options?._hint_?.packedUsers;
 
+		const threadId = note.threadId ?? note.id;
+		const [mutedThreads, mutedNotes, isFavorited, isRenoted] = await Promise.all([
+			// mutedThreads
+			// TODO(workstream C): filter to thread mutes (isPostMute = false) once NoteThreadMuting.isPostMute lands.
+			opts._hint_?.mutedThreads
+				?? (meId ? this.noteThreadMutingsRepository.find({ where: { userId: meId }, select: { threadId: true } }).then(rs => new Set(rs.map(r => r.threadId))) : new Set<string>()),
+			// mutedNotes
+			// TODO(workstream C): populate from NoteThreadMuting.isPostMute post-mutes once the column lands.
+			opts._hint_?.mutedNotes
+				?? new Set<string>(),
+			// isFavorited
+			opts._hint_?.favoriteNotes?.has(note.id)
+				?? (meId ? this.noteFavoritesRepository.existsBy({ userId: meId, noteId: note.id }) : false),
+			// isRenoted
+			opts._hint_?.renotedNotes?.has(note.id)
+				?? (meId ? this.notesRepository.createQueryBuilder('note')
+					.andWhere(new Brackets(qb => qb
+						.andWhere('note.renoteId IS NOT NULL')
+						.andWhere('note.text IS NULL')
+						.andWhere('note.cw IS NULL')
+						.andWhere('note.replyId IS NULL')
+						.andWhere('note.hasPoll = false')
+						.andWhere('note.fileIds = \'{}\'')
+					))
+					.andWhere({ renoteId: note.id, userId: meId })
+					.getExists() : false),
+		]);
+
+		const bypassSilence = opts.bypassSilence || note.userId === meId;
+
 		const packed: Packed<'Note'> = await awaitAll({
 			id: note.id,
+			threadId,
 			createdAt: this.idService.parse(note.id).date.toISOString(),
+			updatedAt: note.updatedAt ? note.updatedAt.toISOString() : undefined,
 			userId: note.userId,
 			user: packedUsers?.get(note.userId) ?? this.userEntityService.pack(note.user ?? note.userId, me),
 			text: text,
 			cw: note.cw,
+			// TODO(workstream E): use note.mandatoryCW directly once the Note.mandatoryCW column lands.
+			mandatoryCW: (note as unknown as { mandatoryCW?: string | null }).mandatoryCW ?? null,
 			visibility: note.visibility,
 			localOnly: note.localOnly,
 			reactionAcceptance: note.reactionAcceptance,
@@ -429,17 +474,25 @@ export class NoteEntityService implements OnModuleInit {
 			} : undefined,
 			mentions: note.mentions.length > 0 ? note.mentions : undefined,
 			hasPoll: note.hasPoll || undefined,
+			isMutingThread: mutedThreads.has(threadId),
+			isMutingNote: mutedNotes.has(note.id),
+			isFavorited,
+			isRenoted,
+			bypassSilence,
 			uri: note.uri ?? undefined,
 			url: note.url ?? undefined,
 
 			...(opts.detail ? {
 				clippedCount: note.clippedCount,
+				processErrors: note.processErrors,
 
 				// そもそもJOINしていない場合はundefined、JOINしたけど存在していなかった場合はnullで区別される
 				reply: (note.replyId && note.reply === null) ? null : note.replyId ? nullIfEntityNotFound(this.pack(note.reply ?? note.replyId, me, {
 					detail: false,
 					skipHide: opts.skipHide,
 					withReactionAndUserPairCache: opts.withReactionAndUserPairCache,
+					// Don't silence target of self-reply, since the outer note will already be silenced.
+					bypassSilence: bypassSilence || note.userId === note.replyUserId,
 					_hint_: options?._hint_,
 				})) : undefined,
 
@@ -448,6 +501,8 @@ export class NoteEntityService implements OnModuleInit {
 					detail: true,
 					skipHide: opts.skipHide,
 					withReactionAndUserPairCache: opts.withReactionAndUserPairCache,
+					// Don't silence target of self-renote, since the outer note will already be silenced.
+					bypassSilence: bypassSilence || note.userId === note.renoteUserId,
 					_hint_: options?._hint_,
 				})) : undefined,
 
@@ -541,6 +596,28 @@ export class NoteEntityService implements OnModuleInit {
 			}
 		}
 
+		const [mutedThreads, favoriteNotes, renotedNotes] = meId ? await Promise.all([
+			// TODO(workstream C): filter to thread mutes (isPostMute = false) once NoteThreadMuting.isPostMute lands.
+			this.noteThreadMutingsRepository.find({ where: { userId: meId }, select: { threadId: true } }).then(rs => new Set(rs.map(r => r.threadId))),
+			this.noteFavoritesRepository.find({ where: { userId: meId, noteId: In(notes.map(n => n.id)) }, select: { noteId: true } }).then(fs => new Set(fs.map(f => f.noteId))),
+			this.notesRepository.createQueryBuilder('note')
+				.select('note.renoteId', 'renoteId')
+				.andWhere(new Brackets(qb => qb
+					.andWhere('note.renoteId IS NOT NULL')
+					.andWhere('note.text IS NULL')
+					.andWhere('note.cw IS NULL')
+					.andWhere('note.replyId IS NULL')
+					.andWhere('note.hasPoll = false')
+					.andWhere('note.fileIds = \'{}\'')
+				))
+				.andWhere({ userId: meId, renoteId: In(notes.map(n => n.id)) })
+				.getRawMany<{ renoteId: string }>()
+				.then(ns => new Set(ns.map(n => n.renoteId))),
+		]) : [new Set<string>(), new Set<string>(), new Set<string>()];
+
+		// TODO(workstream C): populate from NoteThreadMuting.isPostMute post-mutes once the column lands.
+		const mutedNotes = new Set<string>();
+
 		await this.customEmojiService.prefetchEmojis(this.aggregateNoteEmojis(notes));
 		// TODO: 本当は renote とか reply がないのに renoteId とか replyId があったらここで解決しておく
 		const fileIds = notes.map(n => [n.fileIds, n.renote?.fileIds, n.reply?.fileIds]).flat(2).filter(x => x != null);
@@ -560,6 +637,10 @@ export class NoteEntityService implements OnModuleInit {
 				myReactions: myReactionsMap,
 				packedFiles,
 				packedUsers,
+				mutedThreads,
+				mutedNotes,
+				favoriteNotes,
+				renotedNotes,
 			},
 		})));
 	}

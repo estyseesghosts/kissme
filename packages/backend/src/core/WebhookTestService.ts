@@ -70,6 +70,8 @@ function generateDummyUser(override?: Partial<MiUser>): MiUser {
 function generateDummyNote(override?: Partial<MiNote>): MiNote {
 	return {
 		id: 'dummy-note-1',
+		updatedAt: null,
+		processErrors: null,
 		replyId: null,
 		reply: null,
 		renoteId: null,
@@ -365,10 +367,14 @@ export class WebhookTestService {
 	private async toPackedNote(note: MiNote, detail = true, override?: Packed<'Note'>): Promise<Packed<'Note'>> {
 		return {
 			id: note.id,
+			threadId: note.threadId ?? note.id,
 			createdAt: new Date().toISOString(),
+			updatedAt: note.updatedAt ? note.updatedAt.toISOString() : undefined,
 			deletedAt: null,
 			text: note.text,
 			cw: note.cw,
+			// TODO(workstream E): use note.mandatoryCW directly once the Note.mandatoryCW column lands.
+			mandatoryCW: (note as unknown as { mandatoryCW?: string | null }).mandatoryCW ?? null,
 			userId: note.userId,
 			user: await this.toPackedUserLite(note.user ?? generateDummyUser()),
 			replyId: note.replyId,
@@ -381,6 +387,11 @@ export class WebhookTestService {
 			files: [],
 			tags: note.tags,
 			poll: null,
+			isMutingThread: false,
+			isMutingNote: false,
+			isFavorited: false,
+			isRenoted: false,
+			bypassSilence: false,
 			emojis: await this.customEmojiService.populateEmojis(note.emojis, note.userHost),
 			channelId: note.channelId,
 			channel: note.channel,
@@ -396,6 +407,7 @@ export class WebhookTestService {
 			reactionAndUserPairCache: note.reactionAndUserPairCache,
 			...(detail ? {
 				clippedCount: note.clippedCount,
+				processErrors: note.processErrors,
 				reply: note.reply ? await this.toPackedNote(note.reply, false) : null,
 				renote: note.renote ? await this.toPackedNote(note.renote, true) : null,
 				myReaction: null,
@@ -423,6 +435,10 @@ export class WebhookTestService {
 			})),
 			isBot: user.isBot,
 			isCat: user.isCat,
+			// TODO(workstream E): use user.mandatoryCW / user.rejectQuotes directly once the User columns land.
+			mandatoryCW: (user as unknown as { mandatoryCW?: string | null }).mandatoryCW ?? null,
+			rejectQuotes: (user as unknown as { rejectQuotes?: boolean }).rejectQuotes ?? false,
+			bypassSilence: false,
 			emojis: await this.customEmojiService.populateEmojis(user.emojis, user.host),
 			onlineStatus: 'active',
 			badgeRoles: [],
