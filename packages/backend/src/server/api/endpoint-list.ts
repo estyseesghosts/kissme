@@ -292,6 +292,7 @@ export * as 'i/registry/remove' from './endpoints/i/registry/remove.js';
 export * as 'i/registry/scopes-with-domain' from './endpoints/i/registry/scopes-with-domain.js';
 export * as 'i/registry/set' from './endpoints/i/registry/set.js';
 export * as 'i/revoke-token' from './endpoints/i/revoke-token.js';
+export * as 'i/shared-access/list' from './endpoints/i/shared-access/list.js';
 export * as 'i/signin-history' from './endpoints/i/signin-history.js';
 export * as 'i/unpin' from './endpoints/i/unpin.js';
 export * as 'i/update' from './endpoints/i/update.js';
