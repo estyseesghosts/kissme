@@ -68,6 +68,7 @@
 		"tinycolor2": "1.6.0",
 		"v-code-diff": "1.16.0",
 		"vue": "3.5.42",
+		"vuedraggable": "4.1.0",
 		"wanakana": "5.3.1"
 	},
 	"devDependencies": {
