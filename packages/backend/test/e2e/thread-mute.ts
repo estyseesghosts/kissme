@@ -57,4 +57,39 @@ describe('Note thread mute', () => {
 
 		// NOTE: bobの投稿はスレッドミュート前に行われたため通知に含まれていてもよい
 	});
+
+	test('noteOnly=true/false の create/delete が往復できる', async () => {
+		const bobNote = await post(bob, { text: 'thread mute roundtrip root' });
+		const aliceReply = await post(alice, { replyId: bobNote.id, text: 'thread mute roundtrip reply' });
+
+		// thread mute (noteOnly omitted => false)
+		const createThread = await api('notes/thread-muting/create', { noteId: aliceReply.id }, alice);
+		assert.strictEqual(createThread.status, 204);
+
+		// note-only mute on the same note coexists (unique index covers isPostMute)
+		const createNote = await api('notes/thread-muting/create', { noteId: aliceReply.id, noteOnly: true }, alice);
+		assert.strictEqual(createNote.status, 204);
+
+		// deleting the note-only mute leaves the thread mute behind: replies stay hidden
+		const deleteNote = await api('notes/thread-muting/delete', { noteId: aliceReply.id, noteOnly: true }, alice);
+		assert.strictEqual(deleteNote.status, 204);
+
+		const carolReply = await post(carol, { replyId: bobNote.id, text: '@alice still muted' });
+		const mentions = await api('notes/mentions', {}, alice);
+		assert.strictEqual(mentions.status, 200);
+		assert.strictEqual((mentions.body as unknown[]).some((note: any) => note.id === carolReply.id), false);
+
+		const deleteThread = await api('notes/thread-muting/delete', { noteId: aliceReply.id }, alice);
+		assert.strictEqual(deleteThread.status, 204);
+	});
+
+	test('noteOnly=true の create/delete が往復できる', async () => {
+		const bobNote = await post(bob, { text: 'note mute roundtrip root' });
+
+		const create = await api('notes/thread-muting/create', { noteId: bobNote.id, noteOnly: true }, alice);
+		assert.strictEqual(create.status, 204);
+
+		const del = await api('notes/thread-muting/delete', { noteId: bobNote.id, noteOnly: true }, alice);
+		assert.strictEqual(del.status, 204);
+	});
 });

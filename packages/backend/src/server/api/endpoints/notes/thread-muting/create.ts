@@ -30,12 +30,6 @@ export const meta = {
 			code: 'NO_SUCH_NOTE',
 			id: '5ff67ada-ed3b-2e71-8e87-a1a421e177d2',
 		},
-
-		alreadyMuting: {
-			message: 'You are already muting that thread.',
-			code: 'ALREADY_MUTING',
-			id: 'c146e22d-1141-4b31-b28d-176371014d18',
-		},
 	},
 } as const;
 
@@ -43,6 +37,7 @@ export const paramDef = {
 	type: 'object',
 	properties: {
 		noteId: { type: 'string', format: 'misskey:id' },
+		noteOnly: { type: 'boolean', default: false },
 	},
 	required: ['noteId'],
 } as const;
@@ -65,22 +60,12 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				throw err;
 			});
 
-			// Check if already muting
-			const exist = await this.noteThreadMutingsRepository.exists({
-				where: {
-					threadId: note.threadId ?? note.id,
-					userId: me.id,
-				},
-			});
-
-			if (exist) {
-				throw new ApiError(meta.errors.alreadyMuting);
-			}
-
+			const threadId = note.threadId ?? note.id;
 			await this.noteThreadMutingsRepository.insert({
 				id: this.idService.gen(),
-				threadId: note.threadId ?? note.id,
+				threadId: ps.noteOnly ? note.id : threadId,
 				userId: me.id,
+				isPostMute: ps.noteOnly,
 			});
 		});
 	}
