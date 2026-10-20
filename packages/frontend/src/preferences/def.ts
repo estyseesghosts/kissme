@@ -350,6 +350,12 @@ export const PREF_DEF = definePreferences({
 	limitWidthOfReaction: {
 		default: true,
 	},
+	showGapBetweenNotesInTimeline: {
+		default: false,
+	},
+	disableStreamingTimeline: {
+		default: false,
+	},
 	forceShowAds: {
 		default: false,
 	},
