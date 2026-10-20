@@ -1998,6 +1998,8 @@ declare namespace entities {
         IRevokeTokenRequest,
         ISharedAccessListRequest,
         ISharedAccessListResponse,
+        ISharedAccessLoginRequest,
+        ISharedAccessLoginResponse,
         ISigninHistoryRequest,
         ISigninHistoryResponse,
         IUnpinRequest,
@@ -2776,6 +2778,12 @@ type ISharedAccessListRequest = operations['i___shared-access___list']['requestB
 
 // @public (undocumented)
 type ISharedAccessListResponse = operations['i___shared-access___list']['responses']['200']['content']['application/json'];
+
+// @public (undocumented)
+type ISharedAccessLoginRequest = operations['i___shared-access___login']['requestBody']['content']['application/json'];
+
+// @public (undocumented)
+type ISharedAccessLoginResponse = operations['i___shared-access___login']['responses']['200']['content']['application/json'];
 
 // @public (undocumented)
 type ISigninHistoryRequest = operations['i___signin-history']['requestBody']['content']['application/json'];

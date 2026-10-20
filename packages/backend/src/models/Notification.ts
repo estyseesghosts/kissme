@@ -113,6 +113,11 @@ export type MiNotification = {
 	id: string;
 	createdAt: string;
 } | {
+	type: 'sharedAccessLogin';
+	id: string;
+	createdAt: string;
+	notifierId: MiUser['id'];
+} | {
 	type: 'app';
 	id: string;
 	createdAt: string;
