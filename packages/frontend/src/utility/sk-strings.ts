@@ -84,4 +84,29 @@ export const skStrings = {
 	showReplies: 'Show replies',
 	showNonPublicNotes: 'Show non-public',
 	remoteFollowersWarning: 'Remote followers may have incomplete or outdated activity',
+
+	// SkApprovalUser.vue, pages/admin/approvals.vue (Phase 8.1)
+	approvals: 'Approvals',
+	approveAccount: 'Approve',
+	denyAccount: 'Deny and delete',
+	signupReason: 'Signup reason',
+	approveConfirm: 'Approve this account?',
+	denyAccountConfirm: 'Deny and delete this account? This cannot be undone.',
+	approvalsUnsupported: 'This server does not support account approvals.',
+	approvalsEmpty: 'No accounts are waiting for approval.',
+
+	// SkPatternTest.vue (Phase 8.2)
+	wordMuteTestLabel: 'Test your mutes',
+	wordMuteTestDescription: 'Enter text to check against the mutes above. Each line is tested separately.',
+	wordMuteTestTest: 'Test',
+	wordMuteTestNoResults: 'Enter some text and press Test.',
+	wordMuteTestNoMatch: 'No mutes matched.',
+	wordMuteTestMatch: 'Matched',
+	wordMuteTestInvalid: 'Some mutes were skipped because they are invalid.',
+
+	// profile.attribution-domains-setting.vue (Phase 8.3)
+	attributionDomains: 'Attribution domains',
+	attributionDomainsDescription: 'Websites listed here may credit you as an author. Enter one domain per line.',
+	attributionDomainsTutorial: 'Add this tag to the website to be credited:',
+	attributionDomainsUnsupported: 'This server does not support attribution domains.',
 } as const;

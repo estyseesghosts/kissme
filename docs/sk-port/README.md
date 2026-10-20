@@ -167,3 +167,11 @@ Dependency and typing notes:
 | Component / utility | Doc | State |
 |---|---|---|
 | `types/following-feed.ts`, `utility/following-feed-utils.ts`, `SkRemoteFollowersWarning.vue`, `SkFollowingFeedEntry.vue`, `SkFollowingRecentNotes.vue`, `SkUserRecentNotes.vue`, `pages/following-feed.vue`, `pages/user/recent-notes.vue` | [following-feed.md](following-feed.md) | Ported. Routes `/following-feed[/:userId]`; nav entry behind pref `showFollowingFeedNav` (default off). `notes/following` is absent from misskey-js and stock Misskey. |
+
+### Phase 8 additions
+
+| Component / utility | Doc | State |
+|---|---|---|
+| `pages/admin/approvals.vue`, `SkApprovalUser.vue`, `utility/sk-approvals-api.ts` | (this file) | Route `/admin/approvals` + admin nav entry. Disabled note when `admin/approve-user` is missing (404 probe). Untyped endpoints; unverified live. |
+| `SkPatternTest.vue`, `utility/sk-parse-mutes.ts` | (this file) | Word-mute tester, shown in the mute settings behind pref `showWordMuteTester` (default off). Reuses `getMutedWords` from `sk-check-mute.ts`. Tested. |
+| `pages/settings/profile.attribution-domains-setting.vue`, `utility/sk-attribution-domains.ts` | (this file) | Saves via untyped `i/update`; shown in settings profile behind pref `showAttributionDomains` (default off). Tested. |

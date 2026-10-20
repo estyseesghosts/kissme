@@ -184,3 +184,27 @@ Deferred: settings UI for the two prefs (Phase 10); route consolidation (10.3); 
 
 Exit criteria:
 - Phase 7 ("feed loads per followed user, select switches detail, remote warning shows where applicable"): **implemented, unverified live**. Tab/state/menu logic is unit-tested; list loading, selection and the warning are not exercised, and the endpoint is not in stock Misskey.
+
+
+## Phase 8 — implementation (verification by direction: no backend or browser smoke)
+
+Pins unchanged (base `split-project`, donor Sharkey `develop` @ `752a392d3b`). Phase 7 head was `e8c26d5adb`.
+
+Commits on split-project: see `git log` (8.1 approvals, 8.2 pattern tester, 8.3 attribution domains, docs).
+
+Gate on the final tree: typecheck exit 0; frontend tests 36 files / 289 passed; eslint --quiet clean on touched files; SPDX OK; `pnpm --filter frontend build` exit 0. Not run: any backend/browser/live check.
+
+Decisions:
+- Upstream has no approvals page or strings, so `pages/admin/approvals.vue` and `SkApprovalUser.vue` are added as-is (donor names kept). Admin route `/admin/approvals` and a nav entry are added minimally; Phase 10.3 to consolidate.
+- Disabled-note gate: `probeApprovalsSupported()` POSTs `admin/approve-user` with no `userId`. A stock backend answers 404 (page shows the disabled note); Sharkey answers a 400 parameter error without acting. Network failure counts as supported. The probe's 404 behavior is assumed from Fastify routing, not observed.
+- Queue uses `admin/show-users` with Sharkey's `state: 'approved'` (donor backend: `approved = FALSE`, i.e. awaiting approval), cast. `approve-user`/`decline-user` go through untyped aliases in `utility/sk-approvals-api.ts`. `signupReason` read from `admin/show-user` via cast. Rows are removed with `Paginator.removeItem`.
+- 8.2: `check-word-mute.ts` is not duplicated. 1.2 already landed `getMutedWords` in `sk-check-mute.ts` (tested). New pure `utility/sk-parse-mutes.ts` (`parseMuteText`, `testMutePatterns`; no dialogs, unlike the donor's parse-mutes.ts, which is left for 9.4) with tests. `SkPatternTest` tests each sample line separately against the textarea's current (unsaved) mute set. Wired into `mute-block.word-mute.vue` behind pref `showWordMuteTester` (default off), so it appears for both soft and hard sets.
+- 8.3: `profile.attribution-domains-setting.vue` saves via `i/update` (cast; field absent from misskey-js and `$i`). Parsing and validation live in `utility/sk-attribution-domains.ts` (tested). Mounted in `profile.vue` behind pref `showAttributionDomains` (default off). Donor used `SearchLabel` and `Mfm` for the tag; replaced with plain label and `<code>` to avoid search-index and MFM coupling.
+- Strings via `skStrings` (no parameterized ones), 20 new keys in MISSING-STRINGS.md. No `any` added.
+
+Deferred: settings UI for `showWordMuteTester` and `showAttributionDomains` (Phase 10); route/nav consolidation (10.3); admin nav entry is always shown (the page itself shows the disabled note); `parse-mutes.ts` port (9.4); typed approval endpoints and `attributionDomains` in misskey-js.
+
+Exit criteria:
+- 8.1 ("queue paginates; approve/delete acts; 404 backends show disabled note"): **implemented, unverified live**. Neither the pagination, the actions nor the 404 probe were exercised.
+- 8.2 ("test textarea flags matches per mute set"): **implemented; matching and parsing unit-tested**, UI not exercised.
+- 8.3 ("edit + save round-trip"): **implemented, unverified live**; validation is unit-tested; the backend field may not exist on stock Misskey.

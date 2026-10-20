@@ -322,6 +322,12 @@ export const PREF_DEF = definePreferences({
 	showFollowingFeedNav: {
 		default: false,
 	},
+	showWordMuteTester: {
+		default: false,
+	},
+	showAttributionDomains: {
+		default: false,
+	},
 	warnExternalUrl: {
 		default: true,
 	},

@@ -62,6 +62,25 @@ Phase 4 additions. The last column notes where the wording comes from.
 | `showReplies` | `Show replies` | `utility/following-feed-utils.ts`, `components/SkRemoteFollowersWarning.vue` (donor) |
 | `showNonPublicNotes` | `Show non-public` | `utility/following-feed-utils.ts`, `components/SkRemoteFollowersWarning.vue` (donor) |
 | `remoteFollowersWarning` | `Remote followers may have incomplete or outdated activity` | `utility/following-feed-utils.ts`, `components/SkRemoteFollowersWarning.vue` (donor) |
+| `approvals` | `Approvals` | `SkApprovalUser / admin approvals` (donor) |
+| `approveAccount` | `Approve` | `SkApprovalUser / admin approvals` (donor) |
+| `denyAccount` | `Deny and delete` | `SkApprovalUser / admin approvals` (donor) |
+| `signupReason` | `Signup reason` | `SkApprovalUser / admin approvals` (donor) |
+| `approveConfirm` | `Approve this account?` | `SkApprovalUser / admin approvals` (donor) |
+| `denyAccountConfirm` | `Deny and delete this account? This cannot be undone.` | `SkApprovalUser / admin approvals` (donor) |
+| `approvalsUnsupported` | `This server does not support account approvals.` | `SkApprovalUser / admin approvals` (donor) |
+| `approvalsEmpty` | `No accounts are waiting for approval.` | `SkApprovalUser / admin approvals` (donor) |
+| `wordMuteTestLabel` | `Test your mutes` | `SkPatternTest` (donor) |
+| `wordMuteTestDescription` | `Enter text to check against the mutes above. Each line is tested separately.` | `SkPatternTest` (donor) |
+| `wordMuteTestTest` | `Test` | `SkPatternTest` (donor) |
+| `wordMuteTestNoResults` | `Enter some text and press Test.` | `SkPatternTest` (donor) |
+| `wordMuteTestNoMatch` | `No mutes matched.` | `SkPatternTest` (donor) |
+| `wordMuteTestMatch` | `Matched` | `SkPatternTest` (donor) |
+| `wordMuteTestInvalid` | `Some mutes were skipped because they are invalid.` | `SkPatternTest` (donor) |
+| `attributionDomains` | `Attribution domains` | `profile.attribution-domains-setting` (donor) |
+| `attributionDomainsDescription` | `Websites listed here may credit you as an author. Enter one domain per line.` | `profile.attribution-domains-setting` (donor) |
+| `attributionDomainsTutorial` | `Add this tag to the website to be credited:` | `profile.attribution-domains-setting` (donor) |
+| `attributionDomainsUnsupported` | `This server does not support attribution domains.` | `profile.attribution-domains-setting` (donor) |
 
 ## Not strings, but related
 
