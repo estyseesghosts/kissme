@@ -347,7 +347,7 @@ export const PREF_DEF = definePreferences({
 	like: {
 		default: null as string | null,
 	},
-	// Phase 10.1: remaining Sharkey prefs (Sharkey defaults). No consumer in this tree yet, so no settings UI.
+	// Phase 10.1: remaining Sharkey prefs (Sharkey defaults). All consumed; see /settings/sharkey.
 	collapseFiles: {
 		default: false,
 	},

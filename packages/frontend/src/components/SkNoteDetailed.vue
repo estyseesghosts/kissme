@@ -113,9 +113,13 @@ Detailed view of a note in the Sharkey style. Used when opening a note onto its 
 				<SkNoteTranslation :note="note" :translation="translation" :translating="translating"></SkNoteTranslation>
 				<MkButton v-if="!allowAnim && animated" :class="$style.playMFMButton" :small="true" @click="animatedMFM()" @click.stop><i class="ti ti-player-play"></i> {{ skStrings.animatedMFM.play }}</MkButton>
 				<MkButton v-else-if="!prefer.s.animatedMfm && allowAnim && animated" :class="$style.playMFMButton" :small="true" @click="animatedMFM()" @click.stop><i class="ti ti-player-stop"></i> {{ skStrings.animatedMFM.stop }}</MkButton>
-				<div v-if="appearNote.files && appearNote.files.length > 0">
+				<div v-if="appearNote.files && appearNote.files.length > 0 && !prefer.s.collapseFiles">
 					<SkMediaList ref="galleryEl" :mediaList="appearNote.files"/>
 				</div>
+				<details v-else-if="appearNote.files && appearNote.files.length > 0">
+					<summary>({{ i18n.tsx.withNFiles({ n: appearNote.files.length }) }})</summary>
+					<SkMediaList ref="galleryEl" :mediaList="appearNote.files"/>
+				</details>
 				<MkPoll
 					v-if="appearNote.poll"
 					:noteId="appearNote.id"

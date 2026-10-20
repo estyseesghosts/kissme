@@ -22,7 +22,10 @@ SPDX-License-Identifier: AGPL-3.0-only
 			<MkPreferenceContainer k="expandLongNote"><MkSwitch v-model="expandLongNote">{{ i18n.ts.expandLongNote }}</MkSwitch></MkPreferenceContainer>
 			<MkPreferenceContainer k="clickToOpen"><MkSwitch v-model="clickToOpen">{{ i18n.ts.clickToOpen }}</MkSwitch></MkPreferenceContainer>
 			<MkPreferenceContainer k="collapseNotesRepliedTo"><MkSwitch v-model="collapseNotesRepliedTo">{{ i18n.ts.collapseNotesRepliedTo }}</MkSwitch></MkPreferenceContainer>
+			<MkPreferenceContainer k="collapseFiles"><MkSwitch v-model="collapseFiles">{{ i18n.ts.collapseFiles }}</MkSwitch></MkPreferenceContainer>
 			<MkPreferenceContainer k="uncollapseCW"><MkSwitch v-model="uncollapseCW">{{ i18n.ts.uncollapseCW }}</MkSwitch></MkPreferenceContainer>
+			<MkPreferenceContainer k="disableCatSpeak"><MkSwitch v-model="disableCatSpeak">{{ i18n.ts.disableCatSpeak }}</MkSwitch></MkPreferenceContainer>
+			<MkPreferenceContainer k="showTranslationButtonInNoteFooter"><MkSwitch v-model="showTranslationButtonInNoteFooter">{{ i18n.ts.showTranslationButtonInNoteFooter }}</MkSwitch></MkPreferenceContainer>
 			<MkPreferenceContainer k="autoloadConversation"><MkSwitch v-model="autoloadConversation">{{ i18n.ts.autoloadConversation }}</MkSwitch></MkPreferenceContainer>
 			<MkPreferenceContainer k="showTickerOnReplies"><MkSwitch v-model="showTickerOnReplies">{{ i18n.ts.showTickerOnReplies }}</MkSwitch></MkPreferenceContainer>
 			<MkPreferenceContainer k="showVisibilitySelectorOnBoost"><MkSwitch v-model="showVisibilitySelectorOnBoost">{{ i18n.ts.showVisibilitySelectorOnBoost }}</MkSwitch></MkPreferenceContainer>
@@ -72,6 +75,16 @@ SPDX-License-Identifier: AGPL-3.0-only
 			<MkPreferenceContainer k="useSharkeyPostForm"><MkSwitch v-model="useSharkeyPostForm">{{ i18n.ts._skSettings.useSharkeyPostForm }}</MkSwitch></MkPreferenceContainer>
 			<MkPreferenceContainer k="useSharkeyEmojiPicker"><MkSwitch v-model="useSharkeyEmojiPicker">{{ i18n.ts._skSettings.useSharkeyEmojiPicker }}</MkSwitch></MkPreferenceContainer>
 			<MkPreferenceContainer k="useSharkeyUploader"><MkSwitch v-model="useSharkeyUploader">{{ i18n.ts._skSettings.useSharkeyUploader }}</MkSwitch></MkPreferenceContainer>
+			<MkPreferenceContainer k="searchEngine">
+				<MkSelect v-model="searchEngine" :items="searchEngineItems">
+					<template #label>{{ i18n.ts.searchEngine }}</template>
+				</MkSelect>
+				<MkInput v-if="useCustomSearchEngine" v-model="searchEngine" :manualSave="true">
+					<template #label>{{ i18n.ts.searchEngineCusomURI }}</template>
+					<template #caption>{{ i18n.ts.searchEngineCustomURIDescription }}</template>
+				</MkInput>
+			</MkPreferenceContainer>
+			<MkPreferenceContainer k="warnMissingAltText"><MkSwitch v-model="warnMissingAltText">{{ i18n.ts.warnForMissingAltText }}</MkSwitch></MkPreferenceContainer>
 				</div>
 		</FormSection>
 
@@ -106,6 +119,14 @@ SPDX-License-Identifier: AGPL-3.0-only
 			</MkTextarea>
 				</div>
 		</FormSection>
+
+		<FormSection>
+			<template #label>{{ i18n.ts._skSettings.sectionNotifications }}</template>
+		<div class="_gaps_m">
+			<MkPreferenceContainer k="enableFaviconNotificationDot"><MkSwitch v-model="enableFaviconNotificationDot">{{ i18n.ts.enableFaviconNotificationDot }}</MkSwitch></MkPreferenceContainer>
+			<MkPreferenceContainer k="notificationClickable"><MkSwitch v-model="notificationClickable">{{ i18n.ts.allowClickingNotifications }}</MkSwitch></MkPreferenceContainer>
+				</div>
+		</FormSection>
 	</div>
 	</template>
 
@@ -116,18 +137,23 @@ SPDX-License-Identifier: AGPL-3.0-only
 	import MkInput from '@/components/MkInput.vue';
 	import MkPreferenceContainer from '@/components/MkPreferenceContainer.vue';
 	import MkRadios from '@/components/MkRadios.vue';
+	import MkSelect from '@/components/MkSelect.vue';
 	import MkSwitch from '@/components/MkSwitch.vue';
 	import MkTextarea from '@/components/MkTextarea.vue';
 	import { i18n } from '@/i18n.js';
 	import { definePage } from '@/page.js';
 	import { prefer } from '@/preferences.js';
 	import { parseSkPrefLines } from '@/utility/sk-pref-lines.js';
+	import { searchEngineMap } from '@/utility/search-engine-map.js';
 
 	const noteDesign = prefer.model('noteDesign');
 	const expandLongNote = prefer.model('expandLongNote');
 	const clickToOpen = prefer.model('clickToOpen');
 	const collapseNotesRepliedTo = prefer.model('collapseNotesRepliedTo');
+	const collapseFiles = prefer.model('collapseFiles');
 	const uncollapseCW = prefer.model('uncollapseCW');
+	const disableCatSpeak = prefer.model('disableCatSpeak');
+	const showTranslationButtonInNoteFooter = prefer.model('showTranslationButtonInNoteFooter');
 	const autoloadConversation = prefer.model('autoloadConversation');
 	const showTickerOnReplies = prefer.model('showTickerOnReplies');
 	const showVisibilitySelectorOnBoost = prefer.model('showVisibilitySelectorOnBoost');
@@ -140,12 +166,23 @@ SPDX-License-Identifier: AGPL-3.0-only
 	const useSharkeyPostForm = prefer.model('useSharkeyPostForm');
 	const useSharkeyEmojiPicker = prefer.model('useSharkeyEmojiPicker');
 	const useSharkeyUploader = prefer.model('useSharkeyUploader');
+	const searchEngine = prefer.model('searchEngine');
+	const useCustomSearchEngine = computed(() => !Object.keys(searchEngineMap).includes(searchEngine.value));
+	const searchEngineItems = computed(() => [
+		...Object.entries(searchEngineMap).map(([value, label]) => ({ label, value })),
+		...(useCustomSearchEngine.value
+			? [{ label: i18n.ts.searchEngineOther, value: searchEngine.value }]
+			: [{ label: i18n.ts.searchEngineOther, value: '' }]),
+	]);
+	const warnMissingAltText = prefer.model('warnMissingAltText');
 	const showFollowingFeedNav = prefer.model('showFollowingFeedNav');
 	const showWordMuteTester = prefer.model('showWordMuteTester');
 	const showAttributionDomains = prefer.model('showAttributionDomains');
 	const oneko = prefer.model('oneko');
 	const welcomeEntranceStyle = prefer.model('welcomeEntranceStyle');
 	const warnExternalUrl = prefer.model('warnExternalUrl');
+	const enableFaviconNotificationDot = prefer.model('enableFaviconNotificationDot');
+	const notificationClickable = prefer.model('notificationClickable');
 
 	// List prefs keep their own text so that typing a newline is not normalized away mid-edit.
 	const mutedEmojisText = ref(prefer.s.mutedEmojis.join('\n'));

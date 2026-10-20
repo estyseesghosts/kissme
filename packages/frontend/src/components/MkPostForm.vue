@@ -1110,6 +1110,29 @@ async function post(ev?: PointerEvent) {
 		}
 	}
 
+	if (prefer.s.warnMissingAltText) {
+		const isMissingAltText = files.value.filter(
+			file => file.type.startsWith('image/') || file.type.startsWith('video/') || file.type.startsWith('audio/'),
+		).some(file => !file.comment);
+
+		if (isMissingAltText) {
+			const { canceled, result } = await os.actions({
+				type: 'warning',
+				text: i18n.ts.thisPostIsMissingAltText,
+				actions: [{
+					value: 'cancel',
+					text: i18n.ts.thisPostIsMissingAltTextCancel,
+				}, {
+					value: 'ignore',
+					text: i18n.ts.thisPostIsMissingAltTextIgnore,
+				}],
+			});
+
+			if (canceled) return;
+			if (result === 'cancel') return;
+		}
+	}
+
 	let postData = {
 		text: text.value === '' ? null : text.value,
 		fileIds: files.value.length > 0 ? files.value.map(f => f.id) : undefined,

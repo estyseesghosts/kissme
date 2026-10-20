@@ -2757,6 +2757,10 @@ export interface Locale extends ILocale {
      */
     "thisPostIsMissingAltTextIgnore": string;
     /**
+     * 代替テキストを入れ忘れたときに警告する
+     */
+    "warnForMissingAltText": string;
+    /**
      * にゃんこフレンド :3
      */
     "oneko": string;
@@ -12821,6 +12825,10 @@ export interface Locale extends ILocale {
          * 安全性
          */
         "sectionSafety": string;
+        /**
+         * 通知
+         */
+        "sectionNotifications": string;
         /**
          * ノートのデザイン
          */
