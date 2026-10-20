@@ -7,6 +7,7 @@ import { computed, reactive } from 'vue';
 import * as Misskey from 'misskey-js';
 import { misskeyApi } from '@/utility/misskey-api.js';
 import { miLocalStorage } from '@/local-storage.js';
+import { $i } from '@/i.js';
 
 // TODO: 他のタブと永続化されたstateを同期
 
@@ -28,6 +29,9 @@ if (providedAt > cachedAt) {
 // TODO: instanceをリアクティブにするかは再考の余地あり
 
 export const instance: Misskey.entities.MetaDetailed = reactive(cachedMeta ?? {});
+
+/** Role policies for the signed-in user, falling back to the instance defaults. */
+export const policies = computed<Readonly<Misskey.entities.RolePolicies>>(() => $i?.policies ?? instance.policies);
 
 export async function fetchInstance(force = false): Promise<Misskey.entities.MetaDetailed> {
 	if (!force) {

@@ -99,19 +99,20 @@ import { host } from '@@/js/config.js';
 import type { Ref } from 'vue';
 import { i18n } from '@/i18n.js';
 import { prefer } from '@/preferences.js';
+import type { ParameterizedString } from 'i18n';
 
 /*
 	Sharkey strings that Misskey's en-US.yml does not have yet. Locale edits are restricted
 	(ja-JP only) by the port plan, so they live here until Crowdin syncs them into locales.
 */
 const skStrings = {
-	noteIsFlaggedAs: 'Flagged as: {cw}',
-	userIsFlaggedAs: '{name} is flagged as: {cw}',
-	instanceIsFlaggedAs: '{name} is flagged as: {cw}',
-	userSaysSomethingInMutedNote: '{name} posted a muted note',
-	userSaysSomethingInMutedThread: '{name} posted in a muted thread',
-	silencedUserSaysSomething: '{name} ({host}) is silenced and posted',
-	silencedInstanceSaysSomething: '{name} is from a silenced instance and posted',
+	noteIsFlaggedAs: 'Flagged as: {cw}' as ParameterizedString<'cw'>,
+	userIsFlaggedAs: '{name} is flagged as: {cw}' as ParameterizedString<'name' | 'cw'>,
+	instanceIsFlaggedAs: '{name} is flagged as: {cw}' as ParameterizedString<'name' | 'cw'>,
+	userSaysSomethingInMutedNote: '{name} posted a muted note' as ParameterizedString<'name'>,
+	userSaysSomethingInMutedThread: '{name} posted in a muted thread' as ParameterizedString<'name'>,
+	silencedUserSaysSomething: '{name} ({host}) is silenced and posted' as ParameterizedString<'name' | 'host'>,
+	silencedInstanceSaysSomething: '{name} is from a silenced instance and posted' as ParameterizedString<'name' | 'host'>,
 };
 import { checkMute } from '@/utility/sk-check-mute.js';
 

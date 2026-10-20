@@ -299,6 +299,12 @@ export const PREF_DEF = definePreferences({
 	autoloadConversation: {
 		default: true,
 	},
+	trustedDomains: {
+		default: [] as string[],
+	},
+	warnExternalUrl: {
+		default: true,
+	},
 	like: {
 		default: null as string | null,
 	},

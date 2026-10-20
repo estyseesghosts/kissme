@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { compareVersions } from 'compare-versions';
 import { isSafeMode } from '@@/js/config.js';
 import * as Misskey from 'misskey-js';
@@ -461,4 +461,31 @@ async function createPluginEnv(opts: { plugin: Plugin; storageKey: string }): Pr
 
 export function getPluginHandlers<K extends keyof HandlerDef>(type: K): HandlerDef[K][] {
 	return pluginHandlers.filter((x): x is PluginHandler<K> => x.type === type).map(x => x.ctx);
+}
+
+/**
+ * Runs 'note_view_interruptor' plugin handlers on a note once it is mounted. A handler may
+ * replace the note, or return null to mark it deleted (sets isDeleted when provided).
+ */
+export function setupNoteViewInterruptors(note: { value: Misskey.entities.Note }, isDeleted: { value: boolean } | null) {
+	const noteViewInterruptors = getPluginHandlers('note_view_interruptor');
+	if (noteViewInterruptors.length > 0) {
+		onMounted(async () => {
+			let result: Misskey.entities.Note | null = structuredClone(note.value);
+			for (const interruptor of noteViewInterruptors) {
+				try {
+					result = await interruptor.handler(result!) as Misskey.entities.Note | null;
+					if (result === null) {
+						if (isDeleted !== null) {
+							isDeleted.value = true;
+						}
+						return;
+					}
+				} catch (err) {
+					console.error(err);
+				}
+			}
+			note.value = result as Misskey.entities.Note;
+		});
+	}
 }
