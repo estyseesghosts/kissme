@@ -274,6 +274,9 @@ export const PREF_DEF = definePreferences({
 	noteDesign: {
 		default: 'misskey' as 'misskey' | 'sk',
 	},
+	expandLongNote: {
+		default: false,
+	},
 	// Sharkey-style note options (Sk* components). Defaults match Sharkey.
 	showTranslationButtonInNoteFooter: {
 		default: false,

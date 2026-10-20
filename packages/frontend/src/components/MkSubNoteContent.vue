@@ -12,7 +12,8 @@ SPDX-License-Identifier: AGPL-3.0-only
 		<Mfm v-if="note.text" :text="note.text" :author="note.user" :nyaize="'respect'" :emojiUrls="note.emojis"/>
 		<MkA v-if="note.renoteId" :class="$style.rp" :to="`/notes/${note.renoteId}`">RN: ...</MkA>
 	</div>
-	<details v-if="note.files && note.files.length > 0">
+	<SkNoteTranslation v-if="translating || translation !== undefined" :note="note" :translating="!!translating" :translation="translation ?? null"/>
+	<details v-if="!hideFiles && note.files && note.files.length > 0">
 		<summary>({{ i18n.tsx.withNFiles({ n: note.files.length }) }})</summary>
 		<MkMediaList :mediaList="note.files" :user="note.user"/>
 	</details>
@@ -38,20 +39,29 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import * as Misskey from 'misskey-js';
 import { shouldCollapsed } from '@@/js/collapsed.js';
 import MkMediaList from '@/components/MkMediaList.vue';
 import MkPoll from '@/components/MkPoll.vue';
 import { i18n } from '@/i18n.js';
+import SkNoteTranslation from '@/components/SkNoteTranslation.vue';
 
+// translating/translation: rendered by SkNoteTranslation when set (Sharkey note view).
+// hideFiles: hides the attachments section. expandAllCws: starts the body expanded.
+// All three are optional, so upstream MkNoteSub renders exactly as before.
 const props = defineProps<{
 	note: Misskey.entities.Note;
+	translating?: boolean;
+	translation?: Misskey.entities.NotesTranslateResponse | false | null;
+	hideFiles?: boolean;
+	expandAllCws?: boolean;
 }>();
 
 const isLong = shouldCollapsed(props.note, []);
 
-const collapsed = ref(isLong);
+const collapsed = ref(isLong && !props.expandAllCws);
+watch(() => props.expandAllCws, (v) => { if (v) collapsed.value = false; });
 </script>
 
 <style lang="scss" module>

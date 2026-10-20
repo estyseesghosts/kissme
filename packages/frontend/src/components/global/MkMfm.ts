@@ -41,6 +41,8 @@ opacity: 0.7;
 type MfmProps = {
 	text: string;
 	plain?: boolean;
+	/** Per-render override for animated MFM. Unset uses prefer.s.advancedMfm && prefer.s.animatedMfm. */
+	isAnim?: boolean;
 	nowrap?: boolean;
 	author?: Misskey.entities.UserLite;
 	isNote?: boolean;
@@ -81,7 +83,7 @@ export default function (props: MfmProps, { emit }: { emit: SetupContext<MfmEven
 		return c.match(/^[0-9a-f]{3,6}$/i) ? c : null;
 	};
 
-	const useAnim = prefer.s.advancedMfm && prefer.s.animatedMfm;
+	const useAnim = props.isAnim ?? (prefer.s.advancedMfm && prefer.s.animatedMfm);
 
 	/**
 	 * Gen Vue Elements from MFM AST
