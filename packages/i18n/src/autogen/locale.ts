@@ -10036,6 +10036,10 @@ export interface Locale extends ILocale {
          * ダイレクトメッセージ
          */
         "chat": string;
+        /**
+         * 検索
+         */
+        "search": string;
     };
     "_widgetOptions": {
         /**

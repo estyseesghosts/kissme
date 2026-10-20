@@ -112,13 +112,16 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 	<MkFoldableSection v-if="paginator">
 		<template #header>{{ i18n.ts.searchResult }}</template>
+		<div class="_buttons">
+			<MkButton inline small @click="openInWindow"><i class="ti ti-window-maximize"></i> {{ i18n.ts.openInWindow }}</MkButton>
+		</div>
 		<MkNotesTimeline :key="`searchNotes:${key}`" :paginator="paginator"/>
 	</MkFoldableSection>
 </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, markRaw, ref, shallowRef, toRef } from 'vue';
+import { computed, defineAsyncComponent, markRaw, ref, shallowRef, toRef } from 'vue';
 import { host as localHost } from '@@/js/config.js';
 import type * as Misskey from 'misskey-js';
 import { $i } from '@/i.js';
@@ -361,6 +364,28 @@ async function search() {
 
 	key.value++;
 }
+
+function openInWindow() {
+	if (searchParams.value == null) return;
+
+	const windowPaginator = markRaw(new Paginator('notes/search', {
+		limit: 10,
+		params: {
+			...searchParams.value,
+		},
+	}));
+
+	key.value++;
+
+	const { dispose } = os.popup(XSearchResultWindow, {
+		resultKey: key.value,
+		paginator: windowPaginator,
+	}, {
+		closed: () => dispose(),
+	});
+}
+
+const XSearchResultWindow = defineAsyncComponent(() => import('@/components/SkSearchResultWindow.vue'));
 </script>
 <style lang="scss" module>
 .subOptionRoot {

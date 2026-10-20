@@ -2638,6 +2638,7 @@ _widgets:
   clicker: "クリッカー"
   birthdayFollowings: "もうすぐ誕生日のユーザー"
   chat: "ダイレクトメッセージ"
+  search: "検索"
 
 _widgetOptions:
   showHeader: "ヘッダーを表示"

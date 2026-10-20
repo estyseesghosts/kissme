@@ -2581,6 +2581,7 @@ _widgets:
   clicker: "Clicker"
   birthdayFollowings: "Today's Birthdays"
   chat: "Chat with user"
+  search: "Search"
 _widgetOptions:
   showHeader: "Show header"
   transparent: "Make background transparent"
