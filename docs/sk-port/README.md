@@ -38,13 +38,13 @@ eslint, and SPDX.
 | `SkNoteSimple.vue` | [SkNoteSimple.md](SkNoteSimple.md) | Ported. Schedule props kept, no schedule calls (Phase 3). |
 | `SkNoteDetailed.vue` | [SkNoteDetailed.md](SkNoteDetailed.md) | Ported. |
 | `SkNoteTranslation.vue` | [SkNoteTranslation.md](SkNoteTranslation.md) | Ported. |
-| `SkMutedNote.vue` | (this file) | Ported. |
+| `SkMutedNote.vue` | [SkMutedNote.md](SkMutedNote.md) | Ported. |
 | `SkUrlPreview.vue`, `SkUrlPreviewGroup.vue` | [SkUrlPreview.md](SkUrlPreview.md), [SkUrlPreviewGroup.md](SkUrlPreviewGroup.md) | Ported. |
 | `SkOldNoteWindow.vue` | [SkOldNoteWindow.md](SkOldNoteWindow.md) | Ported. Opened only from the versions menu (see gaps). |
 | `SkFetchNote.vue` | [SkFetchNote.md](SkFetchNote.md) | Ported. |
 | `utility/get-note-versions-menu.ts` | [get-note-versions-menu.md](get-note-versions-menu.md) | Ported. Calls `notes/versions` (absent, see gaps). |
-| `MkUrlWarningDialog.vue` | (this file) | New. External-link warning (Phase 9.2 dependency). |
-| `SkNoteHeader.vue`, `SkMutedNote.vue` | (this file) | Ported in slice 1.1 / 1.2. |
+| `MkUrlWarningDialog.vue` | [MkUrlWarningDialog.md](MkUrlWarningDialog.md) | New. External-link warning (Phase 9.2 dependency). |
+| `SkNoteHeader.vue` | [SkNoteHeader.md](SkNoteHeader.md) | Ported in slice 1.1. |
 
 ### Phase 2 and 3 additions
 
@@ -112,25 +112,43 @@ Upstream components changed (additive, default behavior unchanged):
 Sharkey used Phosphor (`ph-*`). Misskey ships Tabler (`ti-*`) only, so every ported icon is
 mapped to its nearest Tabler name. `@phosphor-icons/web` is not added.
 
-## Known gaps (not tested; no backend)
+## Backend-capability table (live router probes, 2026-10-20)
 
-Endpoints absent from `misskey-js` (frontend keeps the donor call; they fail on a stock backend):
+Method: unauthenticated `POST /api/<endpoint>` with `{}` against Pinetree
+(`http://10.88.111.51:3000`). Unknown endpoints answer `UNKNOWN_API_ENDPOINT`;
+known ones answer `CREDENTIAL_REQUIRED` or a parameter error — proving the
+router resolves them. This probes **existence, not behavior** (no authed
+session; no browser connected).
 
-- `notes/like` — the like button and like-only reactions (`SkNote`, `SkNoteSub`, `SkNoteDetailed`).
-  Called through an untyped alias of `misskeyApi`.
-- `notes/versions` — the edit-history menu (`get-note-versions-menu.ts`). Failure degrades to an
-  empty menu.
-- `notes/schedule/create|delete|list`, `notes/edit` — Phase 3 (`MkPostForm`, `MkSchedulePostListDialog`,
-  `SkNoteSimple`), via untyped wrappers in `utility/sk-schedule-api.ts`. Also absent from misskey-js:
-  `notes/bubble-timeline` and the `bubbleTimeline` stream channel (`MkTimeline`).
+| Endpoint | misskey-js (stock) | Pinetree | Frontend handling |
+|---|---|---|---|
+| `notes/like` | absent | PRESENT | untyped alias (`sk-like.ts`); honest dialog when missing |
+| `notes/unlike` | absent | absent | n/a (Sharkey `like` toggles server-side on re-press) |
+| `notes/schedule/create\|delete\|list` | absent | PRESENT | untyped wrappers (`sk-schedule-api.ts`) |
+| `notes/edit` | absent | PRESENT | via `sk-schedule-api.ts` wrapper |
+| `notes/versions` | absent | PRESENT | untyped alias; empty menu on failure |
+| `notes/following` | absent | absent | Paginator cast; list error state on failure |
+| `notes/bubble-timeline` | absent | absent | mapping kept (`sk-timeline-query.ts`), consumerless; no dead UI |
+| `notes/thread-muting/create\|delete` | PRESENT | absent | direct typed call; `apiWithDialog` error surfaces honestly on Pinetree |
+| `admin/approve-user`, `admin/decline-user` | absent | absent | `probeApprovalsSupported()` shows the disabled note |
+| `admin/cw-note`, `admin/cw-user` | absent | absent | direct untyped calls from the menus; errors surface |
+| `i/shared-access/*` | absent | absent | untyped aliases; unsupported note in the dialog |
+| `users/listenbrainz` | absent | absent | untyped fetch, validated; inert on stock (field-gated) |
+| `notes/translate` | PRESENT | PRESENT | shared `translate-note` helper |
 
-Live probes against Pinetree (verified, not just untyped): `notes/bubble-timeline`,
-`notes/following`, and `i/shared-access/*` all answer `UNKNOWN_API_ENDPOINT`.
-The bubble mapping, its only consumer (`MkTimeline`), and the consumerless
-`MkNotifications` wrapper were removed; deck columns and the timeline page offer
-home/local/social/global only, so there is no dead UI. `following` deck columns
-are served by the ported `following-column.vue` instead (backed by the existing
-following-feed utilities).
+Grouped:
+
+- **Absent upstream but present on Pinetree**: `notes/like`, `notes/schedule/*`,
+  `notes/edit`, `notes/versions`. The port's untyped seams resolve against
+  Pinetree; behavior beyond router resolution is unverified live.
+- **Absent everywhere we target (Sharkey-only in practice)**:
+  `notes/unlike`, `notes/following`, `notes/bubble-timeline`,
+  `admin/approve-user` / `admin/decline-user`, `admin/cw-*`,
+  `i/shared-access/*`, `users/listenbrainz`. The frontend degrades honestly
+  (disabled notes, empty menus, error states) — never faked.
+- **Stock endpoint missing on Pinetree**: `notes/thread-muting/*` is typed in
+  misskey-js but Pinetree answers `UNKNOWN_API_ENDPOINT`; the menu action
+  fails through the standard error dialog.
 
 Fields absent from the upstream API (read through casts; behavior is a no-op when missing):
 
@@ -146,8 +164,11 @@ Behavior not ported:
 - **Live reply append** (SkNoteSub, SkNoteDetailed). Upstream `composables/use-note-capture.ts`
   has a different API (`{ note, parentNote, mock }`, no reply or delete callbacks). Replies do
   not append live. Deleted notes are dropped via the `noteDeleted` global event.
-- **Instance ticker in SkNote.** The donor computes it but never renders it; the ticker lives in
-  `SkNoteHeader`, which SkNote does not use.
+- **Instance ticker placement.** The donor's `SkNote` computes ticker data but the
+  ticker renders inside `SkNoteHeader` (full and classic layouts), which `SkNote`,
+  `SkNoteSimple` and `SkNoteSub` all use; `SkNoteDetailed` renders its own header
+  variant instead. Ticker visibility additionally needs the display prefs
+  (`instanceTicker`, and `showTickerOnReplies` for the classic header).
 - **`hideFiles` / `numberOfReplies` in SkNote.** The donor does not use them in SkNote; they
   apply to `SkNoteSimple` and `MkNoteSub`.
 - **Raw `GET /url` route** used by `SkUrlPreview` is not in `misskey-js`. Kept as the donor
@@ -164,11 +185,16 @@ Dependency and typing notes:
 
 ## Verification performed
 
-- `pnpm --filter frontend typecheck`: exit 0.
-- `pnpm --filter frontend test`: 31 files, 261 tests pass (after Phase 5).
-- `eslint --quiet` on all 19 touched files: clean.
+- `vue-tsc --noEmit` (via `packages/frontend/node_modules/.bin`, run from the
+  package root): exit 0. (`pnpm` is unavailable in this environment, so the
+  `pnpm --filter frontend …` wrappers are not used; the underlying binaries are
+  invoked directly.)
+- Frontend unit suite (`vitest --run --globals --config vitest.config.unit.ts`):
+  47 files, 327 tests green.
+- `eslint --quiet` on touched files: clean.
 - `node scripts/check-spdx.mjs`: `SPDX: OK`.
-- Not run: browser smoke or any backend-backed check, by direction.
+- Backend: unauthenticated router probes against Pinetree (existence only);
+  no authed session, no browser connected.
 
 ### Phase 7 additions
 
@@ -180,9 +206,9 @@ Dependency and typing notes:
 
 | Component / utility | Doc | State |
 |---|---|---|
-| `pages/admin/approvals.vue`, `SkApprovalUser.vue`, `utility/sk-approvals-api.ts` | (this file) | Route `/admin/approvals` + admin nav entry. Disabled note when `admin/approve-user` is missing (404 probe). Untyped endpoints; unverified live. |
-| `SkPatternTest.vue`, `utility/sk-parse-mutes.ts` | (this file) | Word-mute tester, shown in the mute settings behind pref `showWordMuteTester` (default off). Reuses `getMutedWords` from `sk-check-mute.ts`. Tested. |
-| `pages/settings/profile.attribution-domains-setting.vue`, `utility/sk-attribution-domains.ts` | (this file) | Saves via untyped `i/update`; shown in settings profile behind pref `showAttributionDomains` (default off). Tested. |
+| `pages/admin/approvals.vue`, `SkApprovalUser.vue`, `utility/sk-approvals-api.ts` | [sk-admin-approvals.md](sk-admin-approvals.md) | Route `/admin/approvals` + admin nav entry. Disabled note when Pinetree answers `UNKNOWN_API_ENDPOINT`. Untyped endpoints. |
+| `SkPatternTest.vue`, `utility/sk-parse-mutes.ts` | [SkPatternTest.md](SkPatternTest.md) | Word-mute tester, shown in the mute settings behind pref `showWordMuteTester` (default off). Reuses `getMutedWords` from `sk-check-mute.ts`. Tested. |
+| `pages/settings/profile.attribution-domains-setting.vue`, `utility/sk-attribution-domains.ts` | [sk-attribution-domains.md](sk-attribution-domains.md) | Saves via untyped `i/update`; shown in settings profile behind pref `showAttributionDomains` (default off). Tested. |
 
 ### Phase 10.1-10.3 (prefs, migration, routes)
 
@@ -207,3 +233,12 @@ See [phase9-utilities.md](phase9-utilities.md) for the per-utility disposition t
 | Component / utility | Doc | State |
 |---|---|---|
 | `SkInstanceTicker`, `SkBadgeStrip`, `SkMfmWindow`, `SkListenBrainz`, `SkOneko`, `CkFollowMouse`, `MkMarquee`, `MkRadio`, `utility/sk-{follow-mouse,oneko,mfm-cheatsheet,listenbrainz}.ts` | [phase-9-1-9-2.md](phase-9-1-9-2.md) | Ported. Prefs `showTickerOnReplies`, `oneko` (default off). `SkUrlPreviewGroup`, `SkTransitionGroup`, `MkUrlWarningDialog` verified as already landed. |
+
+### Dialogs, widgets and seams
+
+| Component / utility | Doc | State |
+|---|---|---|
+| `SkSigninSharedAccessDialog.vue` | [SkSigninSharedAccessDialog.md](SkSigninSharedAccessDialog.md) | Shared-access login; unsupported note on Pinetree/stock. |
+| `SkSearchResultWindow.vue` | [SkSearchResultWindow.md](SkSearchResultWindow.md) | Search-results window for the search page/widget. |
+| `SkErrorList.vue` | [SkErrorList.md](SkErrorList.md) | Note `processErrors` caution block. |
+| `utility/sk-like.ts` | [sk-like.md](sk-like.md) | Honest `notes/like` seam (PRESENT on Pinetree). |
