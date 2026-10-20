@@ -57,7 +57,7 @@ export const navbarItemDef = reactive<{
 	},
 	skFollowingFeed: {
 		title: i18n.ts.following,
-		icon: 'ph-user-check ph-bold ph-lg',
+		icon: 'ti ti-user-check',
 		show: computed(() => $i != null && prefer.r.showFollowingFeedNav.value),
 		to: '/following-feed',
 	},
