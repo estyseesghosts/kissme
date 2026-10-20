@@ -191,7 +191,12 @@ export function getConfig(): UserConfig {
 				'@@/': __dirname + '/../frontend-shared/',
 				'/client-assets/': __dirname + '/assets/',
 				'/static-assets/': __dirname + '/../backend/assets/',
-				'/fluent-emoji/': '@misskey-dev/emoji-assets/fluent-emoji/',
+				// Split dev serves the frontend standalone, so emoji images must resolve
+				// locally (production Misskey serves them from the backend). The package
+				// specifier form does not serve direct <img> requests in vite dev, hence
+				// absolute paths into the installed emoji-assets build output.
+				'/twemoji/': __dirname + '/node_modules/@misskey-dev/emoji-assets/built/twemoji/',
+				'/fluent-emoji/': __dirname + '/node_modules/@misskey-dev/emoji-assets/built/fluent-emoji/',
 			},
 		},
 
