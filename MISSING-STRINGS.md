@@ -9,8 +9,7 @@ State:
 - `locales/en-US.yml` has the matching trailing English section, reusing the
   donor `sharkey-locales/en-US.yml` wording where it fits (noted per area below).
 - `_skSettings.*` plus the flat pref labels live in both locale files (new Japanese
-  written in Misskey tone); the orphaned top-level `welcomeEntranceStyle*`
-  duplicates left in the ja-JP tail are still to be removed.
+  written in Misskey tone).
 
 Migrated (in both locale files, read via `i18n.ts` / `i18n.tsx`):
 - `SkMutedNote` (7 keys: `noteIsFlaggedAs`, `userIsFlaggedAs`,
@@ -72,16 +71,11 @@ Migrated (in both locale files, read via `i18n.ts` / `i18n.tsx`):
   ja-JP tail. `MfmSectionId` is now `keyof Locale['mfmCheatsheet']['sections']`.
 
 `sk-strings.ts` deleted — no remaining users. The ja-JP tail orphans
-(top-level `welcomeEntranceStyle*`) are removed.
+(top-level `welcomeEntranceStyle*`) were removed in a follow-up.
 
-Remaining (phases 1–3 are fully migrated):
-
-Phase 4 additions. The last column notes where the wording comes from.
-
-No remaining keys. `sk-strings.ts` is deleted; every ported string lives in
-`locales/en-US.yml` (trailing `# Sharkey frontend port` section) and
-`locales/ja-JP.yml` (trailing tail section plus `_skSettings.*`), read via
-`i18n.ts` / `i18n.tsx`.
+No remaining keys. Every ported string lives in `locales/en-US.yml` (trailing
+`# Sharkey frontend port` section) and `locales/ja-JP.yml` (trailing tail
+section plus `_skSettings.*`), read via `i18n.ts` / `i18n.tsx`.
 
 ## Phase 10.6 (historical)
 
@@ -104,4 +98,4 @@ The flat pref labels double as the settings rows added for the former dead prefs
 ## Not strings, but related
 
 - `expandLongNote` pref: now in `preferences/def.ts` (default `false`, Sharkey default).
-- Backend endpoints/fields absent from Misskey: see `docs/sk-port/README.md`, section "Known gaps".
+- Backend endpoints/fields absent from Misskey: see `docs/sk-port/README.md`, section "Backend-capability table".
