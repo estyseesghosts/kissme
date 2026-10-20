@@ -12,4 +12,4 @@ Modal listing scheduled notes via `notes/schedule/list` (offset paging), each as
 - `utility/sk-schedule-api.ts` wraps `notes/schedule/create|delete|list` through untyped aliases (tested with mocked API: `test/unit/sk-schedule-api.test.ts`).
 
 ## Gap
-`notes/schedule/*` do not exist in misskey-js or a stock Misskey backend. Implemented as the donor does; **implemented, unverified against a backend**. (Upstream Misskey has its own draft-based scheduling; the two coexist, see MkPostForm.md.)
+`notes/schedule/*` do not exist in misskey-js or a stock Misskey backend. Implemented as the donor does; probed 2026-10-20, Pinetree HAS all three (router resolves them), but the create/delete/list behavior is unverified live. (Upstream Misskey has its own draft-based scheduling; the two coexist, see MkPostForm.md.)

@@ -24,7 +24,7 @@ Approach: **gated blocks in the stock file**, not a fork. Upstream keeps everyth
 `confirmPollEditTitle` / `confirmPollEditText` (donor `_confirmPollEdit` wording), `postOn`, `schedulePostList` live in the trailing Sharkey locale section of both locale files (`i18n.ts`; `sk-strings.ts` deleted).
 
 ## Gaps
-- `notes/schedule/create`, `notes/edit`: absent from misskey-js and a stock backend. Implemented as the donor, **unverified**.
+- `notes/schedule/create`, `notes/edit`: absent from misskey-js and a stock backend. Implemented as the donor; probed 2026-10-20, Pinetree HAS both (router resolves them), but behavior is unverified live.
 - `policies.scheduleNoteMax` is read through a cast (not in the misskey-js `Role policies` type).
 - Drafts (`saveDraft`) do not persist Sharkey's `scheduleNote`; upstream's draft record has no field for it.
 - Not exercised in a browser, and the pref's default-off path was not smoke-tested live either.

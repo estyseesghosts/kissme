@@ -23,7 +23,9 @@
 - None.
 
 ## Endpoints
-- `notes/versions` (`{ noteId }`). **Not in misskey-js.** Called as the donor does. Expect this to fail until the backend provides it; the failure degrades to an empty menu.
+- `notes/versions` (`{ noteId }`). **Not in misskey-js.** Called as the donor does.
+  Probed 2026-10-20: Pinetree HAS it (answers `INVALID_PARAM` without `noteId`);
+  stock Misskey does not, where the failure degrades to an empty menu.
 
 ## Not ported / notes
 - No caller in the target yet. Whoever wires it into the note menu should treat an empty `menu` as "nothing to show".

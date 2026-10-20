@@ -29,7 +29,10 @@ returns `'liked'` or `'unsupported'`, and never fakes the behavior: on
 
 ## Known gaps
 
-- On backends without `notes/like` the like affordance degrades to an honest
-  dialog; like-only reactions from such servers never resolve.
+- Probed 2026-10-20: Pinetree HAS `notes/like` (answers `CREDENTIAL_REQUIRED`
+  unauthenticated) but has no `notes/unlike` — the like toggles server-side on
+  re-press, matching the re-read sync. Stock Misskey has neither, so there the
+  like affordance degrades to the honest `likeNotSupported` dialog; like-only
+  reactions from such servers never resolve.
 - No browser verification; covered by typecheck and unit tests
   (`test/unit/sk-like.test.ts`).
