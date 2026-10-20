@@ -61,3 +61,22 @@ Not yet done in Phase 1:
 - 1.4 wiring: quote, rejectQuotes, likeOnly, footer, inReplyToCollapsed, clickToOpen, hideFiles, numberOfReplies, uncollapseCW into the Sk* components (depends on 1.2/1.3 components).
 
 Phase 1 exit: NOT MET.
+
+## Phase 1 — implementation complete (verification by direction: no backend or browser smoke)
+
+Commits on split-project after the checkpoint:
+- 5005aee1ce shared helpers and hooks (translate-note, plugin hook, policies, URL warning, deepAssign users)
+- dfa723d9e5 noteDesign dispatch and additive upstream hooks (MkSubNoteContent, MkMfm isAnim, sk-strings)
+- 334a3cbf6c Sk* components and docs (SkNote, SkNoteSub, SkNoteSimple, SkNoteDetailed, SkNoteTranslation, SkOldNoteWindow, SkFetchNote, SkUrlPreview, SkUrlPreviewGroup, get-note-versions-menu)
+- b87cf4d005 warning dialog strings from sk-strings
+
+Gate: typecheck exit 0; tests 19/19 files, 160/160; eslint --quiet clean on all touched files; SPDX OK.
+
+Phase 1 exit criteria, as stated in the plan:
+- "DynamicNote* dispatch works": implemented (noteDesign switch, lazy load). Not exercised live (by direction).
+- "all SkNote* render": components implemented and typecheck. Not rendered (by direction).
+- "mute central works": sk-check-mute implemented with unit coverage of the boost/quote and MFM helpers only. No mute unit tests were written; this is a gap.
+- "no regression to stock MkNote* path": by construction (noteDesign default 'misskey', additive upstream props). Not verified live.
+
+Documentation: docs/sk-port/README.md (index, wiring, upstream touches, known gaps) and per-component docs.
+Strings: MISSING-STRINGS.md; all centralized in packages/frontend/src/utility/sk-strings.ts.
