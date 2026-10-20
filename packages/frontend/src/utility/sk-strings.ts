@@ -14,12 +14,6 @@ import type { ParameterizedString } from 'i18n';
  */
 export const skStrings = {
 
-	// SkNoteTranslation.vue
-	translationFailed: 'Translation failed',
-
-	// SkFetchNote.vue
-	cannotLoadNote: 'Cannot load note',
-
 	// MkUrlWarningDialog.vue
 	externalWarningTitle: 'External website',
 	externalWarningDescription: 'This link goes to a website outside {host}. Check that you trust it before you continue.',

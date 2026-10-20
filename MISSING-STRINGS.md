@@ -31,12 +31,12 @@ Migrated (in both locale files, read via `i18n.ts`, gone from `sk-strings.ts`):
 - Schedule + poll-edit (`postOn`, `schedulePostList`, `confirmPollEditTitle`,
   `confirmPollEditText`) in `MkScheduleEditor`, `MkSchedulePostListDialog`,
   `MkPostForm` — English follows the donor wording.
+- Note loading states (`translationFailed`, `cannotLoadNote`) in
+  `SkNoteTranslation`, `SkFetchNote` — English follows the donor wording.
 - `_skSettings.*` and flat pref labels (`clickToOpen`, `expandLongNote`, …).
 
 | Key in `skStrings` | English text | Used in |
 |---|---|---|
-| `translationFailed` | `Translation failed` | `components/SkNoteTranslation.vue` |
-| `cannotLoadNote` | `Cannot load note` | `components/SkFetchNote.vue` |
 | `externalWarningTitle` | `External website` | `components/MkUrlWarningDialog.vue` |
 | `externalWarningDescription` | `This link goes to a website outside {host}. Check that you trust it before you continue.` | `components/MkUrlWarningDialog.vue` |
 | `externalWarningTrust` | `Trust this domain` | `components/MkUrlWarningDialog.vue` |

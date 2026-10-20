@@ -12,7 +12,7 @@ Displays a translated version of a note.
 		<b v-if="translation.sourceLang">{{ i18n.tsx.translatedFrom({ x: translation.sourceLang }) }}: </b>
 		<Mfm :text="translation.text" :isBlock="true" :author="note.user" :nyaize="'respect'" :emojiUrls="note.emojis" class="_selectable"/>
 	</div>
-	<div v-else>{{ skStrings.translationFailed }}</div>
+	<div v-else>{{ i18n.ts.translationFailed }}</div>
 </div>
 </template>
 
@@ -20,10 +20,6 @@ Displays a translated version of a note.
 import * as Misskey from 'misskey-js';
 import { watch } from 'vue';
 import { i18n } from '@/i18n.js';
-import { skStrings } from '@/utility/sk-strings.js';
-
-// Sharkey strings pending locales (see MISSING-STRINGS.md).
-// Not present in en-US.yml; move to locales once they are added upstream.
 
 const props = withDefaults(defineProps<{
 	note: Misskey.entities.Note;

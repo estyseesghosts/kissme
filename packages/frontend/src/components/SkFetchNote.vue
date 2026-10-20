@@ -10,7 +10,7 @@ Fetches and displays a note from a note ID.
 	<div :ref="markShown">
 		<MkLoading v-if="state === 'loading'"/>
 
-		<div v-if="state === 'error'">{{ skStrings.cannotLoadNote }}</div>
+		<div v-if="state === 'error'">{{ i18n.ts.cannotLoadNote }}</div>
 
 		<DynamicNote v-if="state === 'done' && note" :note="note"/>
 	</div>
@@ -23,10 +23,7 @@ import * as Misskey from 'misskey-js';
 import MkLazy from '@/components/global/MkLazy.vue';
 import { misskeyApi } from '@/utility/misskey-api.js';
 import DynamicNote from '@/components/DynamicNote.vue';
-import { skStrings } from '@/utility/sk-strings.js';
-
-// Sharkey strings pending locales (see MISSING-STRINGS.md).
-// Not present in en-US.yml; move to locales once they are added upstream.
+import { i18n } from '@/i18n.js';
 
 const props = withDefaults(defineProps<{
 	noteId: string,
