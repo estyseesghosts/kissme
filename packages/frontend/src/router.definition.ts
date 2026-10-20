@@ -29,6 +29,15 @@ export const ROUTE_DEF = [{
 	path: '/timeline',
 	component: PageTimeline,
 }, {
+	// Phase 7 (Sharkey following feed); Phase 10.3 consolidates routes.
+	path: '/following-feed',
+	component: page(() => import('@/pages/following-feed.vue')),
+	loginRequired: true,
+}, {
+	path: '/following-feed/:userId',
+	component: page(() => import('@/pages/user/recent-notes.vue')),
+	loginRequired: true,
+}, {
 	path: '/@:username/pages/:pageName(*)',
 	component: page(() => import('@/pages/page.vue')),
 }, {

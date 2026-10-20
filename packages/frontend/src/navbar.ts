@@ -13,6 +13,7 @@ import { openInstanceMenu, openToolsMenu } from '@/ui/_common_/common.js';
 import { lookup } from '@/utility/lookup.js';
 import * as os from '@/os.js';
 import { i18n } from '@/i18n.js';
+import { prefer } from '@/preferences.js';
 import { unisonReload } from '@/utility/unison-reload.js';
 
 export const navbarItemDef = reactive<{
@@ -53,6 +54,12 @@ export const navbarItemDef = reactive<{
 		icon: 'ti ti-user-plus',
 		indicated: computed(() => $i != null && $i.hasPendingReceivedFollowRequest),
 		to: '/my/follow-requests',
+	},
+	skFollowingFeed: {
+		title: i18n.ts.following,
+		icon: 'ph-user-check ph-bold ph-lg',
+		show: computed(() => $i != null && prefer.r.showFollowingFeedNav.value),
+		to: '/following-feed',
 	},
 	explore: {
 		title: i18n.ts.explore,
