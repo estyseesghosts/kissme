@@ -70,12 +70,12 @@ Commits on split-project after the checkpoint:
 - 334a3cbf6c Sk* components and docs (SkNote, SkNoteSub, SkNoteSimple, SkNoteDetailed, SkNoteTranslation, SkOldNoteWindow, SkFetchNote, SkUrlPreview, SkUrlPreviewGroup, get-note-versions-menu)
 - b87cf4d005 warning dialog strings from sk-strings
 
-Gate: typecheck exit 0; tests 19/19 files, 160/160; eslint --quiet clean on all touched files; SPDX OK.
+Gate: typecheck exit 0; tests 20/20 files, 166/166 (after cb0b1e26b5); eslint --quiet clean on all touched files; SPDX OK.
 
 Phase 1 exit criteria, as stated in the plan:
 - "DynamicNote* dispatch works": implemented (noteDesign switch, lazy load). Not exercised live (by direction).
 - "all SkNote* render": components implemented and typecheck. Not rendered (by direction).
-- "mute central works": sk-check-mute implemented with unit coverage of the boost/quote and MFM helpers only. No mute unit tests were written; this is a gap.
+- "mute central works": sk-check-mute implemented; the pure matching helpers are unit-tested (test/unit/sk-check-mute.test.ts, commit cb0b1e26b5). Live mute behavior not exercised (by direction).
 - "no regression to stock MkNote* path": by construction (noteDesign default 'misskey', additive upstream props). Not verified live.
 
 Documentation: docs/sk-port/README.md (index, wiring, upstream touches, known gaps) and per-component docs.
