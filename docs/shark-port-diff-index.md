@@ -1,0 +1,897 @@
+# Sharkey → Misskey frontend drift index (Slice 0.1)
+
+- Base (misskey, split-project): `b8f3eb20d8` (Misskey 2026.10.0 + split A–D)
+- Donor (Sharkey, develop): `752a392d3b` (pin 752a3923, 2025.5.2-dev)
+- Generated: 2026-10-20T05:45Z via `diff -rq packages/frontend/src`
+- Counts: Misskey-only 93 / Sharkey-only 95 / Differ 606. Plan estimate was ~99 / ~95 / 606; differ count matches.
+
+## Sharkey-only
+
+- components / CkFollowMouse.vue
+- components / DynamicNote.vue
+- components / DynamicNoteDetailed.vue
+- components / DynamicNoteSimple.vue
+- components / MkDateSeparatedList.stories.impl.ts
+- components / MkDateSeparatedList.vue
+- components / MkDriveSelectDialog.stories.impl.ts
+- components / MkDriveSelectDialog.vue
+- components / MkFormDialog.file.vue
+- components / MkImgPreviewDialog.stories.impl.ts
+- components / MkImgPreviewDialog.vue
+- components / MkMarquee.vue
+- components / MkNotes.vue
+- components / MkNotifications.vue
+- components / MkRadio.vue
+- components / MkScheduleEditor.vue
+- components / MkSchedulePostListDialog.vue
+- components / MkTimeline.vue
+- components / MkUrlWarningDialog.vue
+- components / SkApprovalUser.vue
+- components / SkBadgeStrip.vue
+- components / SkDateSeparatedList.vue
+- components / SkErrorList.vue
+- components / SkFetchNote.vue
+- components / SkFlashPlayer.vue
+- components / SkFollowingFeedEntry.vue
+- components / SkFollowingRecentNotes.vue
+- components / SkFormula.vue
+- components / SkInstanceTicker.vue
+- components / SkListenBrainz.vue
+- components / SkMfmWindow.vue
+- components / SkModPlayer.vue
+- components / SkMutedNote.vue
+- components / SkNote.vue
+- components / SkNoteDetailed.vue
+- components / SkNoteHeader.vue
+- components / SkNoteSimple.vue
+- components / SkNoteSub.vue
+- components / SkNoteTranslation.vue
+- components / SkOldNoteWindow.vue
+- components / SkOneko.vue
+- components / SkPatternTest.vue
+- components / SkRemoteFollowersWarning.vue
+- components / SkSearchResultWindow.vue
+- components / SkSigninSharedAccessDialog.vue
+- components / SkTransitionGroup.vue
+- components / SkUrlPreviewGroup.vue
+- components / SkUserRecentNotes.vue
+- components/form / suspense.vue
+- components/global / SearchKeyword.vue
+- components / hook
+- pages / about-sharkey.vue
+- pages/admin / approvals.vue
+- pages / following-feed.vue
+- pages/settings / profile.attribution-domains-setting.vue
+- pages / unsubscribe.vue
+- pages/user / recent-notes.vue
+- pages / welcome.entrance.a.vue
+- Only in /Users/terezi/Local Documents/fedifedifedi/Sharkey/packages/frontend/src / pref-migrate.ts
+- Only in /Users/terezi/Local Documents/fedifedifedi/Sharkey/packages/frontend/src / type.ts
+- types / date-separated-list.ts
+- types / following-feed.ts
+- types / ruffle
+- ui/_common_ / navbar-for-mobile.vue
+- ui/_common_ / upload.vue
+- ui/deck / following-column.vue
+- Only in /Users/terezi/Local Documents/fedifedifedi/Sharkey/packages/frontend/src / unicode-emoji-indexes
+- Only in /Users/terezi/Local Documents/fedifedifedi/Sharkey/packages/frontend/src / use
+- utility / boost-quote.ts
+- utility / check-animated-mfm.ts
+- utility / chiptune2.ts
+- utility / collect-page-vars.ts
+- utility / contains.ts
+- utility / extract-preview-urls.ts
+- utility / favicon-dot.ts
+- utility / following-feed-utils.ts
+- utility / get-note-versions-menu.ts
+- utility / get-self-note-ids.ts
+- utility / getNoteUrls.ts
+- utility / key-event.ts
+- utility / libopenmpt
+- utility / parse-mutes.ts
+- utility / player-url-transform.ts
+- utility / reload-ask.ts
+- utility / sanitize-html.ts
+- utility / search-engine-map.ts
+- utility / select-file.ts
+- utility / settings-search-index.ts
+- utility / show-note-on-original-instance.ts
+- utility / show-system-account-dialog.ts
+- utility / stream-mock.ts
+- utility / upload
+- utility / upload.ts
+- utility / warning-external-website.ts
+- widgets / WidgetSearch.vue
+
+## Misskey-only
+
+- components / MkAnimBg.fragment.glsl
+- components / MkAnimBg.vertex.glsl
+- components / MkBlurhash.vue
+- components / MkDraggable.vue
+- components / MkDriveFileSelectDialog.stories.impl.ts
+- components / MkDriveFileSelectDialog.vue
+- components / MkDriveFolderSelectDialog.vue
+- components / MkFolderPage.vue
+- components / MkForm.file.vue
+- components / MkForm.vue
+- components / MkImageEffectorDialog.Layer.vue
+- components / MkImageEffectorDialog.vue
+- components / MkImageEffectorFxForm.vue
+- components / MkImageFrameEditorDialog.vue
+- components / MkLightbox.item.audio-visualizer.vue
+- components / MkLightbox.item.controls.vue
+- components / MkLightbox.item.fileinfo.vue
+- components / MkLightbox.item.vue
+- components / MkLightbox.vue
+- components / MkMarqueeText.vue
+- components / MkNoteDraftsDialog.vue
+- components / MkNotesTimeline.vue
+- components / MkPaginationControl.vue
+- components / MkPositionSelector.vue
+- components / MkPreviewWithControls.vue
+- components / MkServerSetupWizard.vue
+- components / MkServerSetupWizardDialog.vue
+- components / MkSpot.vue
+- components / MkStreamingNotesTimeline.vue
+- components / MkStreamingNotificationsTimeline.vue
+- components / MkUploaderDialog.vue
+- components / MkUploaderItems.vue
+- components / MkWatermarkEditorDialog.Layer.vue
+- components / MkWatermarkEditorDialog.vue
+- components / MkWidgetSettingsDialog.vue
+- components/global / MkSuspense.vue
+- components/global / MkTip.vue
+- components/global / SearchText.vue
+- lib / ImageCompositor.ts
+- pages / about-misskey.vue
+- pages/admin / roles.policy-editor.folder.vue
+- pages/admin / roles.policy-editor.vue
+- pages / admin-file.chat.vue
+- pages / admin-file.root.vue
+- pages/gallery / edit.root.vue
+- pages / qr.read.raw-viewer.vue
+- pages / qr.read.vue
+- pages / qr.show.vue
+- pages / qr.vue
+- pages/settings / drive.ImageFrameItem.vue
+- pages/settings / drive.WatermarkItem.vue
+- pages/settings / mute-block.emoji-mute.vue
+- pages/user / notes.vue
+- pages / verify-email.vue
+- pages / welcome.entrance.classic.vue
+- pages / welcome.entrance.simple.vue
+- types / media-component.ts
+- types / misc.ts
+- types / option-value.ts
+- types / overload-to-union.ts
+- ui/_common_ / ReloadSuggestion.vue
+- ui/_common_ / ThemePreviewing.vue
+- utility / double-tap.ts
+- utility / drive.ts
+- utility / element-contains.ts
+- utility / emoji-mute.ts
+- utility / emoji-palette.ts
+- utility / encode-push-subscription-key.ts
+- utility / format-time-string.ts
+- utility / get-file-menu.ts
+- utility / get-user-environment.ts
+- utility / group-avatar-decorations.ts
+- utility / haptic.ts
+- utility / id.ts
+- utility / idle-render.ts
+- utility / image-compositor-functions
+- utility / image-effector
+- utility / image-frame-renderer
+- utility / inapp-search.ts
+- utility / is-birthday.ts
+- utility / isWebpSupported.ts
+- utility / lightbox.ts
+- utility / paginator.ts
+- utility / reload-suggest.ts
+- utility / sensitive-file.ts
+- utility / snowfall-effect.fragment.glsl
+- utility / snowfall-effect.vertex.glsl
+- utility / storage.ts
+- utility / tour.ts
+- utility / url-preview.ts
+- utility / watermark
+- utility / webgl.ts
+- widgets / WidgetBirthdayFollowings.user.vue
+
+## Differ
+
+- _boot_.ts
+- accounts.ts
+- aiscript/api.ts
+- aiscript/ui.ts
+- boot/common.ts
+- boot/main-boot.ts
+- cache.ts
+- components/form/link.vue
+- components/global/I18n.vue
+- components/global/MkA.vue
+- components/global/MkAd.stories.impl.ts
+- components/global/MkAd.vue
+- components/global/MkAvatar.vue
+- components/global/MkCondensedLine.vue
+- components/global/MkCustomEmoji.vue
+- components/global/MkEmoji.vue
+- components/global/MkError.stories.impl.ts
+- components/global/MkLazy.vue
+- components/global/MkMfm.ts
+- components/global/MkPageHeader.stories.impl.ts
+- components/global/MkPageHeader.tabs.vue
+- components/global/MkPageHeader.vue
+- components/global/MkResult.vue
+- components/global/MkStickyContainer.vue
+- components/global/MkSystemIcon.vue
+- components/global/MkTime.vue
+- components/global/MkUrl.vue
+- components/global/PageWithHeader.vue
+- components/global/RouterView.vue
+- components/global/StackingRouterView.vue
+- components/grid/MkCellTooltip.vue
+- components/grid/MkDataCell.vue
+- components/grid/MkGrid.stories.impl.ts
+- components/grid/MkGrid.vue
+- components/grid/MkHeaderCell.vue
+- components/index.ts
+- components/MkAbuseReport.vue
+- components/MkAbuseReportWindow.stories.impl.ts
+- components/MkAccountMoved.stories.impl.ts
+- components/MkAccountMoved.vue
+- components/MkAchievements.vue
+- components/MkAnalogClock.vue
+- components/MkAnimBg.vue
+- components/MkAnnouncementDialog.stories.impl.ts
+- components/MkAnnouncementDialog.vue
+- components/MkAntennaEditor.stories.impl.ts
+- components/MkAntennaEditor.vue
+- components/MkAntennaEditorDialog.stories.impl.ts
+- components/MkAsUi.vue
+- components/MkAuthConfirm.vue
+- components/MkAutocomplete.stories.impl.ts
+- components/MkAutocomplete.vue
+- components/MkAvatars.vue
+- components/MkButton.stories.impl.ts
+- components/MkButton.vue
+- components/MkCaptcha.vue
+- components/MkChannelFollowButton.stories.impl.ts
+- components/MkChannelFollowButton.vue
+- components/MkChannelList.stories.impl.ts
+- components/MkChannelList.vue
+- components/MkChannelPreview.vue
+- components/MkChart.vue
+- components/MkChartLegend.vue
+- components/MkChartTooltip.vue
+- components/MkChatHistories.stories.impl.ts
+- components/MkChatHistories.vue
+- components/MkClickerGame.stories.impl.ts
+- components/MkClickerGame.vue
+- components/MkCode.core.vue
+- components/MkCode.vue
+- components/MkCodeEditor.stories.impl.ts
+- components/MkCodeEditor.vue
+- components/MkColorInput.stories.impl.ts
+- components/MkColorInput.vue
+- components/MkContainer.vue
+- components/MkContextMenu.stories.impl.ts
+- components/MkContextMenu.vue
+- components/MkCropperDialog.stories.impl.ts
+- components/MkCropperDialog.vue
+- components/MkCwButton.stories.impl.ts
+- components/MkDialog.stories.impl.ts
+- components/MkDialog.vue
+- components/MkDigitalClock.vue
+- components/MkDivider.vue
+- components/MkDonation.stories.impl.ts
+- components/MkDonation.vue
+- components/MkDrive.file.stories.impl.ts
+- components/MkDrive.file.vue
+- components/MkDrive.folder.stories.impl.ts
+- components/MkDrive.folder.vue
+- components/MkDrive.navFolder.vue
+- components/MkDrive.stories.impl.ts
+- components/MkDrive.vue
+- components/MkDriveFileThumbnail.vue
+- components/MkDriveWindow.vue
+- components/MkEmbedCodeGenDialog.vue
+- components/MkEmojiPicker.section.vue
+- components/MkEmojiPicker.stories.impl.ts
+- components/MkEmojiPicker.vue
+- components/MkEmojiPickerDialog.vue
+- components/MkExtensionInstaller.vue
+- components/MkFileCaptionEditWindow.vue
+- components/MkFileListForAdmin.vue
+- components/MkFlashPreview.vue
+- components/MkFoldableSection.vue
+- components/MkFolder.vue
+- components/MkFollowButton.vue
+- components/MkForgotPassword.vue
+- components/MkFormDialog.vue
+- components/MkFormFooter.vue
+- components/MkFukidashi.vue
+- components/MkGalleryPostPreview.vue
+- components/MkGoogle.vue
+- components/MkHeatmap.vue
+- components/MkImgWithBlurhash.vue
+- components/MkInfo.vue
+- components/MkInput.vue
+- components/MkInstanceCardMini.vue
+- components/MkInstanceStats.vue
+- components/MkInstanceTicker.vue
+- components/MkLaunchPad.vue
+- components/MkLink.vue
+- components/MkMediaAudio.vue
+- components/MkMediaBanner.vue
+- components/MkMediaImage.vue
+- components/MkMediaList.vue
+- components/MkMediaRange.vue
+- components/MkMediaVideo.vue
+- components/MkMention.vue
+- components/MkMenu.child.vue
+- components/MkMenu.vue
+- components/MkMiniChart.vue
+- components/MkModal.vue
+- components/MkModalWindow.vue
+- components/MkNote.vue
+- components/MkNoteDetailed.vue
+- components/MkNoteHeader.vue
+- components/MkNoteMediaGrid.vue
+- components/MkNotePreview.vue
+- components/MkNoteSimple.vue
+- components/MkNoteSub.vue
+- components/MkNotification.vue
+- components/MkNotificationSelectWindow.vue
+- components/MkNumber.vue
+- components/MkObjectView.value.vue
+- components/MkObjectView.vue
+- components/MkOmit.vue
+- components/MkPagePreview.vue
+- components/MkPageWindow.vue
+- components/MkPagination.vue
+- components/MkPagingButtons.vue
+- components/MkPasswordDialog.vue
+- components/MkPolkadots.vue
+- components/MkPoll.vue
+- components/MkPollEditor.vue
+- components/MkPopupMenu.vue
+- components/MkPostForm.vue
+- components/MkPostFormAttaches.vue
+- components/MkPostFormDialog.vue
+- components/MkPreferenceContainer.vue
+- components/MkPreview.vue
+- components/MkPullToRefresh.vue
+- components/MkPushNotificationAllowButton.vue
+- components/MkRadios.vue
+- components/MkRange.vue
+- components/MkReactionIcon.vue
+- components/MkReactionsViewer.details.vue
+- components/MkReactionsViewer.reaction.vue
+- components/MkReactionsViewer.vue
+- components/MkReactionTooltip.vue
+- components/MkRemoteCaution.vue
+- components/MkRemoteEmojiEditDialog.vue
+- components/MkRetentionHeatmap.vue
+- components/MkRetentionLineChart.vue
+- components/MkRolePreview.vue
+- components/MkRoleSelectDialog.vue
+- components/MkSelect.vue
+- components/MkSignin.input.vue
+- components/MkSignin.passkey.vue
+- components/MkSignin.password.vue
+- components/MkSignin.vue
+- components/MkSigninDialog.vue
+- components/MkSignupDialog.form.vue
+- components/MkSignupDialog.rules.vue
+- components/MkSignupDialog.vue
+- components/MkSortOrderEditor.vue
+- components/MkSourceCodeAvailablePopup.vue
+- components/MkSparkle.vue
+- components/MkSubNoteContent.vue
+- components/MkSuperMenu.vue
+- components/MkSwiper.vue
+- components/MkSwitch.button.vue
+- components/MkSwitch.vue
+- components/MkSystemWebhookEditor.impl.ts
+- components/MkSystemWebhookEditor.vue
+- components/MkTab.vue
+- components/MkTabs.vue
+- components/MkTagCloud.vue
+- components/MkTagItem.stories.impl.ts
+- components/MkTagItem.vue
+- components/MkTextarea.vue
+- components/MkThemePreview.vue
+- components/MkTl.vue
+- components/MkToast.vue
+- components/MkTokenGenerateWindow.vue
+- components/MkTooltip.vue
+- components/MkTutorialDialog.Note.vue
+- components/MkTutorialDialog.PostNote.vue
+- components/MkTutorialDialog.Sensitive.vue
+- components/MkTutorialDialog.Timeline.vue
+- components/MkUpdated.vue
+- components/MkUrlPreview.vue
+- components/MkUrlPreviewPopup.vue
+- components/MkUserAnnouncementEditDialog.vue
+- components/MkUserCardMini.vue
+- components/MkUserInfo.vue
+- components/MkUserList.vue
+- components/MkUserOnlineIndicator.vue
+- components/MkUserPopup.vue
+- components/MkUserSelectDialog.vue
+- components/MkUserSetupDialog.Follow.vue
+- components/MkUserSetupDialog.Privacy.vue
+- components/MkUserSetupDialog.Profile.vue
+- components/MkUserSetupDialog.User.vue
+- components/MkUserSetupDialog.vue
+- components/MkUsersTooltip.vue
+- components/MkVisibilityPicker.vue
+- components/MkVisitorDashboard.ActiveUsersChart.vue
+- components/MkVisitorDashboard.vue
+- components/MkWaitingDialog.vue
+- components/MkWidgets.vue
+- components/MkWindow.vue
+- components/MkYouTubePlayer.vue
+- components/page/page.block.vue
+- components/page/page.dynamic.vue
+- components/page/page.image.vue
+- components/page/page.note.vue
+- components/page/page.section.vue
+- components/page/page.text.vue
+- components/page/page.vue
+- custom-emojis.ts
+- deck.ts
+- di.ts
+- directives/adaptive-bg.ts
+- directives/adaptive-border.ts
+- directives/anim.ts
+- directives/appear.ts
+- directives/click-anime.ts
+- directives/follow-append.ts
+- directives/get-size.ts
+- directives/hotkey.ts
+- directives/index.ts
+- directives/panel.ts
+- directives/ripple.ts
+- directives/tooltip.ts
+- directives/user-preview.ts
+- events.ts
+- filters/bytes.ts
+- filters/kmg.ts
+- filters/note.ts
+- i.ts
+- i18n.ts
+- instance.ts
+- lib/nirax.ts
+- lib/pizzax.ts
+- local-storage.ts
+- navbar.ts
+- os.ts
+- pages/_error_.vue
+- pages/about.emojis.vue
+- pages/about.federation.vue
+- pages/about.overview.vue
+- pages/about.vue
+- pages/achievements.vue
+- pages/admin-file.vue
+- pages/admin-user.vue
+- pages/admin/abuse-report/notification-recipient.editor.vue
+- pages/admin/abuse-report/notification-recipient.item.vue
+- pages/admin/abuse-report/notification-recipient.vue
+- pages/admin/abuses.vue
+- pages/admin/ads.vue
+- pages/admin/announcements.vue
+- pages/admin/bot-protection.vue
+- pages/admin/branding.vue
+- pages/admin/custom-emojis-manager.local.list.search.vue
+- pages/admin/custom-emojis-manager.local.list.vue
+- pages/admin/custom-emojis-manager.register.vue
+- pages/admin/custom-emojis-manager.remote.vue
+- pages/admin/custom-emojis-manager2.vue
+- pages/admin/database.vue
+- pages/admin/email-settings.vue
+- pages/admin/external-services.vue
+- pages/admin/federation-job-queue.chart.chart.vue
+- pages/admin/federation-job-queue.chart.vue
+- pages/admin/federation.vue
+- pages/admin/files.vue
+- pages/admin/index.vue
+- pages/admin/invites.vue
+- pages/admin/job-queue.chart.vue
+- pages/admin/job-queue.job.vue
+- pages/admin/job-queue.vue
+- pages/admin/moderation.vue
+- pages/admin/modlog.ModLog.vue
+- pages/admin/modlog.vue
+- pages/admin/object-storage.vue
+- pages/admin/overview.active-users.vue
+- pages/admin/overview.ap-requests.stories.impl.ts
+- pages/admin/overview.ap-requests.vue
+- pages/admin/overview.federation.vue
+- pages/admin/overview.heatmap.vue
+- pages/admin/overview.pie.vue
+- pages/admin/overview.queue.chart.vue
+- pages/admin/overview.queue.vue
+- pages/admin/overview.stats.vue
+- pages/admin/overview.vue
+- pages/admin/performance.vue
+- pages/admin/relays.vue
+- pages/admin/roles.edit.vue
+- pages/admin/roles.editor.vue
+- pages/admin/roles.role.vue
+- pages/admin/roles.vue
+- pages/admin/RolesEditorFormula.vue
+- pages/admin/security.vue
+- pages/admin/server-rules.vue
+- pages/admin/settings.vue
+- pages/admin/system-webhook.item.vue
+- pages/admin/system-webhook.vue
+- pages/admin/users.vue
+- pages/ads.vue
+- pages/announcement.vue
+- pages/announcements.vue
+- pages/antenna-timeline.vue
+- pages/api-console.vue
+- pages/auth.form.vue
+- pages/auth.vue
+- pages/avatar-decoration-edit-dialog.vue
+- pages/avatar-decorations.vue
+- pages/channel-editor.vue
+- pages/channel.vue
+- pages/channels.vue
+- pages/chat/home.home.vue
+- pages/chat/home.invitations.vue
+- pages/chat/home.vue
+- pages/chat/message.vue
+- pages/chat/room.form.vue
+- pages/chat/room.vue
+- pages/chat/XMessage.vue
+- pages/clip.vue
+- pages/contact.vue
+- pages/custom-emojis-manager.vue
+- pages/debug.vue
+- pages/drive.file.info.vue
+- pages/drive.file.notes.vue
+- pages/drive.vue
+- pages/drop-and-fusion.game.vue
+- pages/drop-and-fusion.vue
+- pages/emoji-edit-dialog.vue
+- pages/emojis.emoji.vue
+- pages/explore.featured.vue
+- pages/explore.roles.vue
+- pages/explore.users.vue
+- pages/explore.vue
+- pages/favorites.vue
+- pages/flash/flash-edit.vue
+- pages/flash/flash-index.vue
+- pages/flash/flash.vue
+- pages/follow-requests.vue
+- pages/gallery/edit.vue
+- pages/gallery/index.vue
+- pages/gallery/post.vue
+- pages/install-extensions.vue
+- pages/instance-info.vue
+- pages/invite.vue
+- pages/list.vue
+- pages/lookup.vue
+- pages/my-antennas/edit.vue
+- pages/my-antennas/index.vue
+- pages/my-clips/index.vue
+- pages/my-lists/index.vue
+- pages/my-lists/list.vue
+- pages/note.vue
+- pages/notifications.vue
+- pages/page-editor/common.ts
+- pages/page-editor/els/page-editor.el.image.vue
+- pages/page-editor/els/page-editor.el.note.vue
+- pages/page-editor/els/page-editor.el.section.vue
+- pages/page-editor/els/page-editor.el.text.vue
+- pages/page-editor/page-editor.blocks.vue
+- pages/page-editor/page-editor.container.vue
+- pages/page-editor/page-editor.vue
+- pages/page.vue
+- pages/pages.vue
+- pages/registry.keys.vue
+- pages/registry.value.vue
+- pages/registry.vue
+- pages/reset-password.vue
+- pages/reversi/game.board.vue
+- pages/reversi/game.setting.vue
+- pages/reversi/game.vue
+- pages/reversi/index.vue
+- pages/role.vue
+- pages/scratchpad.vue
+- pages/search.note.vue
+- pages/search.user.vue
+- pages/search.vue
+- pages/settings/2fa.qrdialog.vue
+- pages/settings/2fa.vue
+- pages/settings/account-data.vue
+- pages/settings/accounts.vue
+- pages/settings/apps.vue
+- pages/settings/avatar-decoration.decoration.vue
+- pages/settings/avatar-decoration.dialog.vue
+- pages/settings/avatar-decoration.vue
+- pages/settings/connect.vue
+- pages/settings/custom-css.vue
+- pages/settings/deck.vue
+- pages/settings/drive-cleaner.vue
+- pages/settings/drive.vue
+- pages/settings/email.vue
+- pages/settings/emoji-palette.palette.vue
+- pages/settings/emoji-palette.vue
+- pages/settings/index.vue
+- pages/settings/mute-block.instance-mute.vue
+- pages/settings/mute-block.vue
+- pages/settings/mute-block.word-mute.vue
+- pages/settings/navbar.vue
+- pages/settings/notifications.notification-config.vue
+- pages/settings/notifications.vue
+- pages/settings/other.vue
+- pages/settings/plugin.install.vue
+- pages/settings/plugin.vue
+- pages/settings/preferences.vue
+- pages/settings/privacy.vue
+- pages/settings/profile.vue
+- pages/settings/profiles.vue
+- pages/settings/security.vue
+- pages/settings/sounds.sound.vue
+- pages/settings/sounds.vue
+- pages/settings/statusbar.statusbar.vue
+- pages/settings/statusbar.vue
+- pages/settings/theme.install.vue
+- pages/settings/theme.manage.vue
+- pages/settings/theme.vue
+- pages/settings/webhook.edit.vue
+- pages/settings/webhook.new.vue
+- pages/share.vue
+- pages/signup-complete.vue
+- pages/tag.vue
+- pages/theme-editor.vue
+- pages/timeline.vue
+- pages/user-list-timeline.vue
+- pages/user-tag.vue
+- pages/user/activity.following.vue
+- pages/user/activity.notes.vue
+- pages/user/activity.pv.vue
+- pages/user/clips.vue
+- pages/user/files.vue
+- pages/user/flashs.vue
+- pages/user/follow-list.vue
+- pages/user/followers.vue
+- pages/user/following.vue
+- pages/user/gallery.vue
+- pages/user/home.vue
+- pages/user/index.activity.vue
+- pages/user/index.files.vue
+- pages/user/index.timeline.vue
+- pages/user/index.vue
+- pages/user/lists.vue
+- pages/user/pages.vue
+- pages/user/raw.vue
+- pages/user/reactions.vue
+- pages/welcome.setup.vue
+- pages/welcome.timeline.note.vue
+- pages/welcome.timeline.vue
+- pages/welcome.vue
+- plugin.ts
+- preferences.ts
+- preferences/def.ts
+- preferences/manager.ts
+- preferences/utility.ts
+- router.definition.ts
+- router.ts
+- signout.ts
+- store.ts
+- stream.ts
+- style.scss
+- tab-id.ts
+- theme.ts
+- timelines.ts
+- types/menu.ts
+- types/page-header.ts
+- types/post-form.ts
+- ui/_common_/announcements.vue
+- ui/_common_/common.ts
+- ui/_common_/common.vue
+- ui/_common_/mobile-footer-menu.vue
+- ui/_common_/navbar-h.vue
+- ui/_common_/navbar.vue
+- ui/_common_/notification.vue
+- ui/_common_/PreferenceRestore.vue
+- ui/_common_/statusbar-federation.vue
+- ui/_common_/statusbar-rss.vue
+- ui/_common_/statusbar-user-list.vue
+- ui/_common_/statusbars.vue
+- ui/_common_/stream-indicator.vue
+- ui/_common_/sw-inject.ts
+- ui/_common_/titlebar.vue
+- ui/_common_/widgets.vue
+- ui/deck.vue
+- ui/deck/antenna-column.vue
+- ui/deck/channel-column.vue
+- ui/deck/chat-column.vue
+- ui/deck/column.vue
+- ui/deck/direct-column.vue
+- ui/deck/list-column.vue
+- ui/deck/main-column.vue
+- ui/deck/mentions-column.vue
+- ui/deck/notifications-column.vue
+- ui/deck/role-timeline-column.vue
+- ui/deck/tl-column.vue
+- ui/deck/tl-note-notification.ts
+- ui/deck/widgets-column.vue
+- ui/universal.vue
+- ui/visitor.vue
+- ui/zen.vue
+- utility/achievements.ts
+- utility/admin-lookup.ts
+- utility/autocomplete.ts
+- utility/chart-legend.ts
+- utility/chart-vline.ts
+- utility/check-permissions.ts
+- utility/check-word-mute.ts
+- utility/clear-cache.ts
+- utility/clicker-game.ts
+- utility/code-highlighter.ts
+- utility/confetti.ts
+- utility/deep-equal.ts
+- utility/emoji-picker.ts
+- utility/extract-mentions.ts
+- utility/extract-url-from-mfm.ts
+- utility/file-drop.ts
+- utility/form.ts
+- utility/get-drive-file-menu.ts
+- utility/get-embed-code.ts
+- utility/get-note-menu.ts
+- utility/get-note-summary.ts
+- utility/get-user-menu.ts
+- utility/hotkey.ts
+- utility/idb-proxy.ts
+- utility/init-chart.ts
+- utility/intl-const.ts
+- utility/intl-string.ts
+- utility/lookup.ts
+- utility/merge.ts
+- utility/mfm-function-picker.ts
+- utility/misskey-api.ts
+- utility/please-login.ts
+- utility/popout.ts
+- utility/popup-position.ts
+- utility/random-id.ts
+- utility/reaction-picker.ts
+- utility/search-emoji.ts
+- utility/snowfall-effect.ts
+- utility/sound.ts
+- utility/sticky-sidebar.ts
+- utility/theme-editor.ts
+- utility/timeline-date-separate.ts
+- utility/virtual.d.ts
+- widgets/index.ts
+- widgets/server-metric/cpu-mem.vue
+- widgets/server-metric/index.vue
+- widgets/server-metric/net.vue
+- widgets/widget.ts
+- widgets/WidgetActivity.calendar.vue
+- widgets/WidgetActivity.chart.vue
+- widgets/WidgetActivity.vue
+- widgets/WidgetAichan.vue
+- widgets/WidgetAiscript.vue
+- widgets/WidgetAiscriptApp.vue
+- widgets/WidgetBirthdayFollowings.vue
+- widgets/WidgetButton.vue
+- widgets/WidgetCalendar.vue
+- widgets/WidgetChat.vue
+- widgets/WidgetClicker.vue
+- widgets/WidgetClock.vue
+- widgets/WidgetDigitalClock.vue
+- widgets/WidgetFederation.vue
+- widgets/WidgetInstanceCloud.vue
+- widgets/WidgetInstanceInfo.vue
+- widgets/WidgetJobQueue.vue
+- widgets/WidgetMemo.vue
+- widgets/WidgetNotifications.vue
+- widgets/WidgetOnlineUsers.vue
+- widgets/WidgetPhotos.vue
+- widgets/WidgetPostForm.vue
+- widgets/WidgetProfile.vue
+- widgets/WidgetRss.vue
+- widgets/WidgetRssTicker.vue
+- widgets/WidgetSlideshow.vue
+- widgets/WidgetTimeline.vue
+- widgets/WidgetTrends.vue
+- widgets/WidgetUnixClock.vue
+- widgets/WidgetUserList.vue
+- workers/draw-blurhash.ts
+- workers/test-webgl2.ts
+- workers/tsconfig.json
+
+## package.json dependency delta (packages/frontend)
+
+```diff
+2,3c2,4
+<  "@analytics/google-analytics": "1.1.0",
+<  "@mcaptcha/core-glue": "0.1.0-alpha-5",
+---
+>  "@discordapp/twemoji": "16.0.1",
+>  "@github/webauthn-json": "2.1.1",
+>  "@mcaptcha/vanilla-glue": "0.1.0-alpha-3",
+5,11c6,9
+<  "@misskey-dev/emoji-data": "17.0.3",
+<  "@misskey-dev/tagcanvas-es": "0.1.2",
+<  "@sentry/vue": "10.72.0",
+<  "@simplewebauthn/browser": "13.3.0",
+<  "@syuilo/aiscript": "1.2.1",
+<  "@syuilo/aiscript-0-19-0": "npm:@syuilo/aiscript@^0.19.0",
+<  "@vitejs/plugin-vue": "6.0.8",
+---
+>  "@phosphor-icons/web": "2.1.2",
+>  "@ruffle-rs/ruffle": "0.2.0-nightly.2025.9.25",
+>  "@sentry/vue": "10.45.0",
+>  "@syuilo/aiscript": "0.19.0",
+13,14c11
+<  "analytics": "0.8.19",
+<  "broadcast-channel": "7.4.0",
+---
+>  "broadcast-channel": "7.1.0",
+16,17c13,14
+<  "canvas-confetti": "1.9.4",
+<  "chart.js": "4.5.1",
+---
+>  "canvas-confetti": "1.9.3",
+>  "chart.js": "4.5.0",
+19c16
+<  "chartjs-chart-matrix": "3.0.5",
+---
+>  "chartjs-chart-matrix": "3.0.0",
+21a19
+>  "chromatic": "13.2.0",
+23,26c21,23
+<  "cropperjs": "2.2.0",
+<  "date-fns": "4.4.0",
+<  "eventemitter3": "5.0.4",
+<  "exifreader": "4.44.0",
+---
+>  "cropperjs": "2.0.1",
+>  "date-fns": "4.1.0",
+>  "eventemitter3": "5.0.1",
+28,30c25
+<  "i18n": "workspace:*",
+<  "icons-subsetter": "workspace:*",
+<  "idb-keyval": "6.3.0",
+---
+>  "idb-keyval": "6.2.2",
+32d26
+<  "ios-haptics": "0.1.5",
+34a29,30
+>  "katex": "0.16.22",
+>  "locales": "workspace:*",
+36,37c32
+<  "mediabunny": "1.55.4",
+<  "mfm-js": "0.26.0",
+---
+>  "mfm-js": "npm:@transfem-org/sfm-js@0.26.1",
+40a36,37
+>  "photoswipe": "5.4.4",
+>  "promise-limit": "2.7.0",
+42,46c39,41
+<  "qr-code-styling": "1.9.2",
+<  "qr-scanner": "1.4.2",
+<  "sanitize-html": "2.17.7",
+<  "seedrandom": "3.0.5",
+<  "shiki": "4.4.3",
+---
+>  "sanitize-html": "2.17.0",
+>  "shiki": "3.20.0",
+>  "strict-event-emitter-types": "2.0.0",
+50,51c45,48
+<  "v-code-diff": "1.16.0",
+<  "vue": "3.5.42",
+---
+>  "uuid": "14.0.1",
+>  "v-code-diff": "1.13.1",
+>  "vue": "3.5.21",
+>  "vuedraggable": "next",
+```
