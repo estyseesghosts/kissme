@@ -29,6 +29,7 @@ import type {
 	AdminAnnouncementsListRequest,
 	AdminAnnouncementsListResponse,
 	AdminAnnouncementsUpdateRequest,
+	AdminApproveUserRequest,
 	AdminAvatarDecorationsCreateRequest,
 	AdminAvatarDecorationsCreateResponse,
 	AdminAvatarDecorationsDeleteRequest,
@@ -37,6 +38,9 @@ import type {
 	AdminAvatarDecorationsUpdateRequest,
 	AdminCaptchaCurrentResponse,
 	AdminCaptchaSaveRequest,
+	AdminCwNoteRequest,
+	AdminCwUserRequest,
+	AdminDeclineUserRequest,
 	AdminDeleteAccountRequest,
 	AdminDeleteAllFilesOfAUserRequest,
 	AdminDriveFilesRequest,
@@ -120,6 +124,7 @@ import type {
 	AdminShowUserResponse,
 	AdminShowUsersRequest,
 	AdminShowUsersResponse,
+	AdminSilenceUserRequest,
 	AdminSuspendUserRequest,
 	AdminSystemWebhookCreateRequest,
 	AdminSystemWebhookCreateResponse,
@@ -134,6 +139,7 @@ import type {
 	AdminUnsetMfaRequest,
 	AdminUnsetUserAvatarRequest,
 	AdminUnsetUserBannerRequest,
+	AdminUnsilenceUserRequest,
 	AdminUnsuspendUserRequest,
 	AdminUpdateAbuseUserReportRequest,
 	AdminUpdateMetaRequest,
@@ -685,12 +691,16 @@ export type Endpoints = {
 	'admin/announcements/delete': { req: AdminAnnouncementsDeleteRequest; res: EmptyResponse };
 	'admin/announcements/list': { req: AdminAnnouncementsListRequest; res: AdminAnnouncementsListResponse };
 	'admin/announcements/update': { req: AdminAnnouncementsUpdateRequest; res: EmptyResponse };
+	'admin/approve-user': { req: AdminApproveUserRequest; res: EmptyResponse };
 	'admin/avatar-decorations/create': { req: AdminAvatarDecorationsCreateRequest; res: AdminAvatarDecorationsCreateResponse };
 	'admin/avatar-decorations/delete': { req: AdminAvatarDecorationsDeleteRequest; res: EmptyResponse };
 	'admin/avatar-decorations/list': { req: AdminAvatarDecorationsListRequest; res: AdminAvatarDecorationsListResponse };
 	'admin/avatar-decorations/update': { req: AdminAvatarDecorationsUpdateRequest; res: EmptyResponse };
 	'admin/captcha/current': { req: EmptyRequest; res: AdminCaptchaCurrentResponse };
 	'admin/captcha/save': { req: AdminCaptchaSaveRequest; res: EmptyResponse };
+	'admin/cw-note': { req: AdminCwNoteRequest; res: EmptyResponse };
+	'admin/cw-user': { req: AdminCwUserRequest; res: EmptyResponse };
+	'admin/decline-user': { req: AdminDeclineUserRequest; res: EmptyResponse };
 	'admin/delete-account': { req: AdminDeleteAccountRequest; res: EmptyResponse };
 	'admin/delete-all-files-of-a-user': { req: AdminDeleteAllFilesOfAUserRequest; res: EmptyResponse };
 	'admin/drive/clean-remote-files': { req: EmptyRequest; res: EmptyResponse };
@@ -755,6 +765,7 @@ export type Endpoints = {
 	'admin/show-moderation-logs': { req: AdminShowModerationLogsRequest; res: AdminShowModerationLogsResponse };
 	'admin/show-user': { req: AdminShowUserRequest; res: AdminShowUserResponse };
 	'admin/show-users': { req: AdminShowUsersRequest; res: AdminShowUsersResponse };
+	'admin/silence-user': { req: AdminSilenceUserRequest; res: EmptyResponse };
 	'admin/suspend-user': { req: AdminSuspendUserRequest; res: EmptyResponse };
 	'admin/system-webhook/create': { req: AdminSystemWebhookCreateRequest; res: AdminSystemWebhookCreateResponse };
 	'admin/system-webhook/delete': { req: AdminSystemWebhookDeleteRequest; res: EmptyResponse };
@@ -765,6 +776,7 @@ export type Endpoints = {
 	'admin/unset-mfa': { req: AdminUnsetMfaRequest; res: EmptyResponse };
 	'admin/unset-user-avatar': { req: AdminUnsetUserAvatarRequest; res: EmptyResponse };
 	'admin/unset-user-banner': { req: AdminUnsetUserBannerRequest; res: EmptyResponse };
+	'admin/unsilence-user': { req: AdminUnsilenceUserRequest; res: EmptyResponse };
 	'admin/unsuspend-user': { req: AdminUnsuspendUserRequest; res: EmptyResponse };
 	'admin/update-abuse-user-report': { req: AdminUpdateAbuseUserReportRequest; res: EmptyResponse };
 	'admin/update-meta': { req: AdminUpdateMetaRequest; res: EmptyResponse };
