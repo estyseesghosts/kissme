@@ -56,6 +56,10 @@ Migrated (in both locale files, read via `i18n.ts`, gone from `sk-strings.ts`):
   `approvalsUnsupported`, `approvalsEmpty`) in `SkApprovalUser`,
   `admin/approvals`, `admin/index` — donor wording adopted
   (`denyAccount` is "Deny & Delete", `approveConfirm` the full sentence).
+- Word-mute tester (`wordMuteTestLabel`, `wordMuteTestDescription`,
+  `wordMuteTestTest`, `wordMuteTestNoResults`, `wordMuteTestNoMatch`,
+  `wordMuteTestMatch`, `wordMuteTestInvalid`) in `SkPatternTest` — port
+  wording kept (donor structures this tester differently).
 
 Remaining (phases 1–3 are fully migrated):
 
@@ -63,13 +67,6 @@ Phase 4 additions. The last column notes where the wording comes from.
 
 | Key in `skStrings` | English text | Used in |
 |---|---|---|
-| `wordMuteTestLabel` | `Test your mutes` | `SkPatternTest` (donor) |
-| `wordMuteTestDescription` | `Enter text to check against the mutes above. Each line is tested separately.` | `SkPatternTest` (donor) |
-| `wordMuteTestTest` | `Test` | `SkPatternTest` (donor) |
-| `wordMuteTestNoResults` | `Enter some text and press Test.` | `SkPatternTest` (donor) |
-| `wordMuteTestNoMatch` | `No mutes matched.` | `SkPatternTest` (donor) |
-| `wordMuteTestMatch` | `Matched` | `SkPatternTest` (donor) |
-| `wordMuteTestInvalid` | `Some mutes were skipped because they are invalid.` | `SkPatternTest` (donor) |
 | `attributionDomains` | `Attribution domains` | `profile.attribution-domains-setting` (donor) |
 | `attributionDomainsDescription` | `Websites listed here may credit you as an author. Enter one domain per line.` | `profile.attribution-domains-setting` (donor) |
 | `attributionDomainsTutorial` | `Add this tag to the website to be credited:` | `profile.attribution-domains-setting` (donor) |

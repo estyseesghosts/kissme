@@ -7,20 +7,20 @@ Allows a user to write text to test their word mutes against, displaying matched
 
 <template>
 <MkFolder>
-	<template #label>{{ skStrings.wordMuteTestLabel }}</template>
+	<template #label>{{ i18n.ts.wordMuteTestLabel }}</template>
 
 	<div class="_gaps">
 		<MkTextarea v-model="testText">
-			<template #caption>{{ skStrings.wordMuteTestDescription }}</template>
+			<template #caption>{{ i18n.ts.wordMuteTestDescription }}</template>
 		</MkTextarea>
-		<div><MkButton :disabled="!testText" @click="runTest()">{{ skStrings.wordMuteTestTest }}</MkButton></div>
+		<div><MkButton :disabled="!testText" @click="runTest()">{{ i18n.ts.wordMuteTestTest }}</MkButton></div>
 		<template v-if="result == null">
-			<div>{{ skStrings.wordMuteTestNoResults }}</div>
+			<div>{{ i18n.ts.wordMuteTestNoResults }}</div>
 		</template>
 		<template v-else>
-			<MkInfo v-if="result.invalidLines.length > 0" warn>{{ skStrings.wordMuteTestInvalid }} ({{ result.invalidLines.join(', ') }})</MkInfo>
-			<div v-if="result.matches.length === 0">{{ skStrings.wordMuteTestNoMatch }}</div>
-			<div v-else>{{ skStrings.wordMuteTestMatch }}: {{ result.matches.join(', ') }}</div>
+			<MkInfo v-if="result.invalidLines.length > 0" warn>{{ i18n.ts.wordMuteTestInvalid }} ({{ result.invalidLines.join(', ') }})</MkInfo>
+			<div v-if="result.matches.length === 0">{{ i18n.ts.wordMuteTestNoMatch }}</div>
+			<div v-else>{{ i18n.ts.wordMuteTestMatch }}: {{ result.matches.join(', ') }}</div>
 		</template>
 	</div>
 </MkFolder>
@@ -34,7 +34,7 @@ import MkTextarea from '@/components/MkTextarea.vue';
 import MkInfo from '@/components/MkInfo.vue';
 import { testMutePatterns } from '@/utility/sk-parse-mutes.js';
 import type { PatternTestResult } from '@/utility/sk-parse-mutes.js';
-import { skStrings } from '@/utility/sk-strings.js';
+import { i18n } from '@/i18n.js';
 
 const props = defineProps<{
 	/** The word-mute set as shown in the settings textarea (one mute per line). */

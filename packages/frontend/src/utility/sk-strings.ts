@@ -14,15 +14,6 @@ import type { ParameterizedString } from 'i18n';
  */
 export const skStrings = {
 
-	// SkPatternTest.vue (Phase 8.2)
-	wordMuteTestLabel: 'Test your mutes',
-	wordMuteTestDescription: 'Enter text to check against the mutes above. Each line is tested separately.',
-	wordMuteTestTest: 'Test',
-	wordMuteTestNoResults: 'Enter some text and press Test.',
-	wordMuteTestNoMatch: 'No mutes matched.',
-	wordMuteTestMatch: 'Matched',
-	wordMuteTestInvalid: 'Some mutes were skipped because they are invalid.',
-
 	// profile.attribution-domains-setting.vue (Phase 8.3)
 	attributionDomains: 'Attribution domains',
 	attributionDomainsDescription: 'Websites listed here may credit you as an author. Enter one domain per line.',
