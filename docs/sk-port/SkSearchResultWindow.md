@@ -1,6 +1,6 @@
 # Search-result window port
 
-- Donor: Sharkey `SkSearchResultWindow` (search-results window; slice 8 commit `c7d760a4c8`)
+- Donor: `/Users/terezi/Local Documents/fedifedifedi/Sharkey/packages/frontend/src/components/SkSearchResultWindow.vue`
 - Target: `packages/frontend/src/components/SkSearchResultWindow.vue`
 - SPDX header kept (marie / Sharkey contributors).
 
