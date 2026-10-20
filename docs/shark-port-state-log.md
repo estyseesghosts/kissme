@@ -44,3 +44,20 @@ Adopted verbatim from the plan; no code changes:
 ## Exit criteria
 - Phase 0: **met** (typecheck, tests 152/152, build, SPDX all green; index, pins, deps, coexistence decision recorded).
 - Phase 1: **not met** (1.1 done; 1.2–1.4 not started).
+
+## Checkpoint (after commit d42c9611db)
+
+Landed on split-project:
+- 1.1: dispatch + header (a9d63cc2a4). DynamicNote is MkNote-only for now.
+- 1.2 (partial): sk-check-mute.ts (Sharkey mute-central), merge.ts deepAssign, SkMutedNote.vue.
+- 1.4 (helpers): boost-quote.ts, check-animated-mfm.ts, with unit tests. Prefs for boost, clickToOpen, footer, replies, uncollapseCW.
+- Strings: MISSING-STRINGS.md at project root. No locale files touched (per direction: "breaking from upstream").
+
+Gate at this checkpoint: typecheck pass; tests 19/19 files, 160/160; SPDX OK. Dev smoke NOT run.
+
+Not yet done in Phase 1:
+- 1.2: SkNoteSimple.vue, SkNoteSub.vue, SkNote.vue. Blocked on: SkUrlPreviewGroup (not ported), extract-preview-urls, get-self-note-ids, translateNote export, plugin setupNoteViewInterruptors, instance policies, and the notes/like endpoint (missing from misskey-js).
+- 1.3: SkNoteDetailed.vue, SkNoteTranslation.vue, SkFetchNote.vue; SkOldNoteWindow + get-note-versions-menu are blocked on notes/versions (missing from backend).
+- 1.4 wiring: quote, rejectQuotes, likeOnly, footer, inReplyToCollapsed, clickToOpen, hideFiles, numberOfReplies, uncollapseCW into the Sk* components (depends on 1.2/1.3 components).
+
+Phase 1 exit: NOT MET.
