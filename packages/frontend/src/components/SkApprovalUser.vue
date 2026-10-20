@@ -1,0 +1,105 @@
+<!--
+SPDX-FileCopyrightText: marie and other Sharkey contributors
+SPDX-License-Identifier: AGPL-3.0-only
+
+Displays an account pending approval, with the signup reason and buttons to approve or delete it.
+-->
+
+<template>
+<MkFolder :defaultOpen="false">
+	<template #icon><i class="ti ti-user"></i></template>
+	<template #label>{{ i18n.ts.user }}: {{ user.username }}</template>
+
+	<div class="_gaps_s" :class="$style.root">
+		<div :class="$style.items">
+			<div>
+				<div :class="$style.label">{{ i18n.ts.createdAt }}</div>
+				<div><MkTime :time="user.createdAt" mode="absolute"/></div>
+			</div>
+			<div v-if="email">
+				<div :class="$style.label">{{ i18n.ts.emailAddress }}</div>
+				<div>{{ email }}</div>
+			</div>
+			<div>
+				<div :class="$style.label">{{ skStrings.signupReason }}</div>
+				<div>{{ reason }}</div>
+			</div>
+		</div>
+		<div :class="$style.buttons">
+			<MkButton inline success @click="approveAccount()">{{ skStrings.approveAccount }}</MkButton>
+			<MkButton inline danger @click="deleteAccount()">{{ skStrings.denyAccount }}</MkButton>
+		</div>
+	</div>
+</MkFolder>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue';
+import * as Misskey from 'misskey-js';
+import MkFolder from '@/components/MkFolder.vue';
+import MkButton from '@/components/MkButton.vue';
+import MkTime from '@/components/global/MkTime.vue';
+import { i18n } from '@/i18n.js';
+import * as os from '@/os.js';
+import { misskeyApi } from '@/utility/misskey-api.js';
+import { approveUser, declineUser } from '@/utility/sk-approvals-api.js';
+import { skStrings } from '@/utility/sk-strings.js';
+
+const props = defineProps<{
+	user: Misskey.entities.UserDetailedNotMe;
+}>();
+
+const emit = defineEmits<{
+	(event: 'deleted', value: string): void;
+}>();
+
+const reason = ref('');
+const email = ref('');
+
+// signupReason is a Sharkey field on the admin user record; absent upstream.
+misskeyApi('admin/show-user', { userId: props.user.id }).then(info => {
+	const extra = info as unknown as { signupReason?: string | null };
+	reason.value = extra.signupReason ?? '';
+	email.value = info.email ?? '';
+}).catch(() => { /* leave blank */ });
+
+async function deleteAccount() {
+	const confirm = await os.confirm({ type: 'warning', text: skStrings.denyAccountConfirm });
+	if (confirm.canceled) return;
+
+	await os.promiseDialog(declineUser(props.user.id));
+	emit('deleted', props.user.id);
+}
+
+async function approveAccount() {
+	const confirm = await os.confirm({ type: 'warning', text: skStrings.approveConfirm });
+	if (confirm.canceled) return;
+
+	await os.promiseDialog(approveUser(props.user.id));
+	emit('deleted', props.user.id);
+}
+</script>
+
+<style lang="scss" module>
+.root {
+	text-align: left;
+}
+
+.items {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+	grid-gap: 12px;
+}
+
+.label {
+	font-size: 0.85em;
+	padding: 0 0 8px 0;
+	user-select: none;
+	opacity: 0.7;
+}
+
+.buttons {
+	display: flex;
+	gap: 8px;
+}
+</style>

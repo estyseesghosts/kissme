@@ -476,6 +476,11 @@ export const ROUTE_DEF = [{
 		name: 'branding',
 		component: page(() => import('@/pages/admin/branding.vue')),
 	}, {
+		// Phase 8.1: minimal entry; Phase 10.3 consolidates the route table.
+		path: '/approvals',
+		name: 'approvals',
+		component: page(() => import('@/pages/admin/approvals.vue')),
+	}, {
 		path: '/moderation',
 		name: 'moderation',
 		component: page(() => import('@/pages/admin/moderation.vue')),
