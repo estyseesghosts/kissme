@@ -272,7 +272,7 @@ export const PREF_DEF = definePreferences({
 	},
 	// 'misskey' keeps the stock MkNote*; 'sk' selects the Sharkey-style SkNote*. Consumed by DynamicNote*.
 	noteDesign: {
-		default: 'misskey' as 'misskey' | 'sk',
+		default: 'sk' as 'misskey' | 'sk',
 	},
 	expandLongNote: {
 		default: false,
