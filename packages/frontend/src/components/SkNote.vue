@@ -623,7 +623,7 @@ function like(): void {
 		return;
 	}
 	// notes/like where the backend has it, heart reaction where it does not.
-	void likeNoteWithFeedback(appearNote.value, defaultLike.value);
+	void likeNoteWithFeedback(appearNote.value, defaultLike.value, $appearNote.myReaction);
 	const el = likeButton.value as HTMLElement | null | undefined;
 	if (el && prefer.s.animation) {
 		const rect = el.getBoundingClientRect();
@@ -645,7 +645,7 @@ function react(viaKeyboard = false): void {
 			return;
 		}
 
-		void likeNoteWithFeedback(appearNote.value, defaultLike.value);
+		void likeNoteWithFeedback(appearNote.value, defaultLike.value, $appearNote.myReaction);
 		const el = reactButton.value;
 		if (el) {
 			const rect = el.getBoundingClientRect();

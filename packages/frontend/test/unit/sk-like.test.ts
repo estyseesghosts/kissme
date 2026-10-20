@@ -7,14 +7,18 @@ import { describe, test, expect, vi, beforeEach } from 'vitest';
 
 const misskeyApi = vi.fn(async () => ({}));
 const alert = vi.fn(async () => undefined);
+const emit = vi.fn();
 vi.mock('@/utility/misskey-api.js', () => ({ misskeyApi }));
 vi.mock('@/os.js', () => ({ alert }));
+vi.mock('@/composables/use-note-capture.js', () => ({ noteEvents: { emit } }));
+vi.mock('@/i.js', () => ({ $i: { id: 'me' } }));
 
 const { likeNote, likeNoteWithFeedback } = await import('@/utility/sk-like.js');
 
 beforeEach(() => {
 	misskeyApi.mockClear();
 	alert.mockClear();
+	emit.mockClear();
 });
 
 describe('likeNote', () => {
@@ -36,17 +40,42 @@ describe('likeNote', () => {
 });
 
 describe('likeNoteWithFeedback', () => {
-	test('marks favorited on liked', async () => {
+	test('syncs the resolved reaction and favorited flag on liked', async () => {
+		misskeyApi.mockResolvedValueOnce({}).mockResolvedValueOnce({ myReaction: '❤', isFavorited: false });
 		const note: { id: string; isFavorited?: boolean } = { id: 'n1' };
-		await likeNoteWithFeedback(note, null);
-		expect(note.isFavorited).toBe(true);
+		await likeNoteWithFeedback(note, null, null);
+		expect(note.isFavorited).toBe(false);
+		expect(misskeyApi).toHaveBeenNthCalledWith(2, 'notes/show', { noteId: 'n1' });
+		expect(emit).toHaveBeenCalledWith('reacted:n1', { userId: 'me', reaction: '❤' });
 		expect(alert).not.toHaveBeenCalled();
 	});
-	test('alerts without marking on unsupported', async () => {
+	test('emits unreacted with the local key when the like toggled one off', async () => {
+		misskeyApi.mockResolvedValueOnce({}).mockResolvedValueOnce({ myReaction: null, isFavorited: false });
+		const note: { id: string; isFavorited?: boolean } = { id: 'n1', isFavorited: true };
+		await likeNoteWithFeedback(note, null, '❤');
+		expect(note.isFavorited).toBe(false);
+		expect(emit).toHaveBeenCalledWith('unreacted:n1', { userId: 'me', reaction: '❤' });
+	});
+	test('marks favorited without emitting on a pure-favorite backend', async () => {
+		misskeyApi.mockResolvedValueOnce({}).mockResolvedValueOnce({ myReaction: null, isFavorited: true });
+		const note: { id: string; isFavorited?: boolean } = { id: 'n1' };
+		await likeNoteWithFeedback(note, null, null);
+		expect(note.isFavorited).toBe(true);
+		expect(emit).not.toHaveBeenCalled();
+	});
+	test('leaves state alone when the refresh fails', async () => {
+		misskeyApi.mockResolvedValueOnce({}).mockRejectedValueOnce(new Error('gone'));
+		const note: { id: string; isFavorited?: boolean } = { id: 'n1' };
+		await likeNoteWithFeedback(note, null, null);
+		expect(note.isFavorited).toBe(true);
+		expect(emit).not.toHaveBeenCalled();
+	});
+	test('alerts without marking or refetching on unsupported', async () => {
 		misskeyApi.mockRejectedValueOnce({ code: 'UNKNOWN_API_ENDPOINT' });
 		const note: { id: string; isFavorited?: boolean } = { id: 'n1' };
-		await likeNoteWithFeedback(note, null);
+		await likeNoteWithFeedback(note, null, null);
 		expect(note.isFavorited).toBeUndefined();
+		expect(misskeyApi).toHaveBeenCalledTimes(1);
 		expect(alert).toHaveBeenCalledTimes(1);
 	});
 });
