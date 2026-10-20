@@ -72,7 +72,7 @@ Migrated (in both locale files, read via `i18n.ts` / `i18n.tsx`):
   ja-JP tail. `MfmSectionId` is now `keyof Locale['mfmCheatsheet']['sections']`.
 
 `sk-strings.ts` deleted — no remaining users. The ja-JP tail orphans
-(top-level `welcomeEntranceStyle*`) are still to be removed.
+(top-level `welcomeEntranceStyle*`) are removed.
 
 Remaining (phases 1–3 are fully migrated):
 
@@ -82,10 +82,6 @@ No remaining keys. `sk-strings.ts` is deleted; every ported string lives in
 `locales/en-US.yml` (trailing `# Sharkey frontend port` section) and
 `locales/ja-JP.yml` (trailing tail section plus `_skSettings.*`), read via
 `i18n.ts` / `i18n.tsx`.
-
-| Orphaned key | State |
-|---|---|
-| top-level `welcomeEntranceStyle`, `welcomeEntranceStyleServer`, `welcomeEntranceStyleA` (ja-JP tail) | superseded by `_skSettings.*`; removal pending |
 
 ## Phase 10.6 (historical)
 

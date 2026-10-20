@@ -13967,18 +13967,6 @@ export interface Locale extends ILocale {
      */
     "unsubscribeSuccess": string;
     /**
-     * エントランスページのスタイル
-     */
-    "welcomeEntranceStyle": string;
-    /**
-     * サーバーのデフォルト
-     */
-    "welcomeEntranceStyleServer": string;
-    /**
-     * Sharkey (A)
-     */
-    "welcomeEntranceStyleA": string;
-    /**
      * システムアカウント
      */
     "systemAccountTitle": string;
