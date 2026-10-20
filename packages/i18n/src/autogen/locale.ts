@@ -13760,18 +13760,20 @@ export interface Locale extends ILocale {
      * ノートを読み込めません
      */
     "cannotLoadNote": string;
-    /**
-     * 外部のウェブサイト
-     */
-    "externalWarningTitle": string;
-    /**
-     * このリンクは{host}の外にあるウェブサイトに移動します。続行する前に、信頼できるサイトか確認してください。
-     */
-    "externalWarningDescription": ParameterizedString<"host">;
-    /**
-     * このドメインを信頼する
-     */
-    "externalWarningTrust": string;
+    "_externalNavigationWarning": {
+        /**
+         * 外部サイトに移動します
+         */
+        "title": string;
+        /**
+         * {host}を離れて外部サイトに移動します
+         */
+        "description": ParameterizedString<"host">;
+        /**
+         * このデバイスで今後このドメインを信頼する
+         */
+        "trustThisDomain": string;
+    };
     /**
      * Flashコンテンツは非表示です
      */

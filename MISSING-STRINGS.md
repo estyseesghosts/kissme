@@ -33,13 +33,14 @@ Migrated (in both locale files, read via `i18n.ts`, gone from `sk-strings.ts`):
   `MkPostForm` — English follows the donor wording.
 - Note loading states (`translationFailed`, `cannotLoadNote`) in
   `SkNoteTranslation`, `SkFetchNote` — English follows the donor wording.
+- External-link warning (`_externalNavigationWarning.*`) in
+  `MkUrlWarningDialog` — aligned to the donor's nested key structure and
+  wording (replacing the port's flat `externalWarning*` keys and the
+  `.replace('{host}')` hack with `i18n.tsx` params).
 - `_skSettings.*` and flat pref labels (`clickToOpen`, `expandLongNote`, …).
 
 | Key in `skStrings` | English text | Used in |
 |---|---|---|
-| `externalWarningTitle` | `External website` | `components/MkUrlWarningDialog.vue` |
-| `externalWarningDescription` | `This link goes to a website outside {host}. Check that you trust it before you continue.` | `components/MkUrlWarningDialog.vue` |
-| `externalWarningTrust` | `Trust this domain` | `components/MkUrlWarningDialog.vue` |
 
 Phase 4 additions. The last column notes where the wording comes from.
 

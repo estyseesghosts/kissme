@@ -11,12 +11,12 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<div :class="$style.icon">
 					<i class="ti ti-alert-triangle"></i>
 				</div>
-				<div :class="$style.title">{{ skStrings.externalWarningTitle }}</div>
+				<div :class="$style.title">{{ i18n.ts._externalNavigationWarning.title }}</div>
 			</div>
-			<div><Mfm :text="skStrings.externalWarningDescription.replace('{host}', instanceName)"/></div>
+			<div><Mfm :text="i18n.tsx._externalNavigationWarning.description({ host: instanceName })"/></div>
 			<div class="_monospace" :class="$style.urlAddress">{{ url }}</div>
 			<div>
-				<MkSwitch v-model="trustThisDomain">{{ skStrings.externalWarningTrust }}</MkSwitch>
+				<MkSwitch v-model="trustThisDomain">{{ i18n.ts._externalNavigationWarning.trustThisDomain }}</MkSwitch>
 			</div>
 		</div>
 		<div :class="$style.buttons">
@@ -35,7 +35,6 @@ import MkButton from '@/components/MkButton.vue';
 import MkSwitch from '@/components/MkSwitch.vue';
 import { i18n } from '@/i18n.js';
 import { prefer } from '@/preferences.js';
-import { skStrings } from '@/utility/sk-strings.js';
 
 type Result = string | number | true | null;
 

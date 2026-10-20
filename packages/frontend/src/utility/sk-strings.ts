@@ -14,11 +14,6 @@ import type { ParameterizedString } from 'i18n';
  */
 export const skStrings = {
 
-	// MkUrlWarningDialog.vue
-	externalWarningTitle: 'External website',
-	externalWarningDescription: 'This link goes to a website outside {host}. Check that you trust it before you continue.',
-	externalWarningTrust: 'Trust this domain',
-
 	// SkFlashPlayer.vue (wording from the donor's sharkey-locales _flash.*)
 	flashContentHidden: 'Flash Content Hidden',
 	flashPoweredByRuffle: 'Powered by Ruffle.',
