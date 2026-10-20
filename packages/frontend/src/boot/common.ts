@@ -19,7 +19,7 @@ import { i18n } from '@/i18n.js';
 import { refreshCurrentAccount, login } from '@/accounts.js';
 import { store } from '@/store.js';
 import { fetchInstance, instance } from '@/instance.js';
-import { updateDeviceKind } from '@/utility/device-kind.js';
+import { deviceKind, updateDeviceKind } from '@/utility/device-kind.js';
 import { reloadChannel } from '@/utility/unison-reload.js';
 import { getUrlWithoutLoginId } from '@/utility/login-id.js';
 import { getAccountFromId } from '@/utility/get-account-from-id.js';
@@ -195,6 +195,15 @@ export async function common(createVue: () => Promise<App<Element>>) {
 	watch(prefer.r.overridedDeviceKind, (kind) => {
 		updateDeviceKind(kind);
 	}, { immediate: true });
+
+	// If mobile, clamp the viewport scale (Sharkey). Applied once, idempotent.
+	if (['smartphone', 'tablet'].includes(deviceKind)) {
+		const viewport = window.document.querySelector<HTMLMetaElement>('meta[name="viewport"]');
+		const clamp = 'minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover';
+		if (viewport != null && !(viewport.getAttribute('content') ?? '').includes('user-scalable=no')) {
+			viewport.setAttribute('content', `${viewport.getAttribute('content') ?? 'width=device-width, initial-scale=1.0'}, ${clamp}`);
+		}
+	}
 
 	watch(prefer.r.useBlurEffectForModal, v => {
 		window.document.documentElement.style.setProperty('--MI-modalBgFilter', v ? 'blur(4px)' : 'none');

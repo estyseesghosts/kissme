@@ -13378,4 +13378,736 @@ export interface Locale extends ILocale {
          */
         "mfm": string;
     };
+    /**
+     * フラグ付き: {cw}
+     */
+    "noteIsFlaggedAs": ParameterizedString<"cw">;
+    /**
+     * {name}さんはフラグが付いています: {cw}
+     */
+    "userIsFlaggedAs": ParameterizedString<"name" | "cw">;
+    /**
+     * {name}はフラグが付いています: {cw}
+     */
+    "instanceIsFlaggedAs": ParameterizedString<"name" | "cw">;
+    /**
+     * {name}さんがミュート中のノートを投稿しました
+     */
+    "userSaysSomethingInMutedNote": ParameterizedString<"name">;
+    /**
+     * {name}さんがミュート中のスレッドに投稿しました
+     */
+    "userSaysSomethingInMutedThread": ParameterizedString<"name">;
+    /**
+     * {name}さん({host})はサイレンス中ですが、投稿しました
+     */
+    "silencedUserSaysSomething": ParameterizedString<"name" | "host">;
+    /**
+     * サイレンス中のサーバーの{name}さんが投稿しました
+     */
+    "silencedInstanceSaysSomething": ParameterizedString<"name">;
+    /**
+     * {user}さんによる記事
+     */
+    "writtenBy": ParameterizedString<"user">;
+    /**
+     * リンク先のノートを取得
+     */
+    "fetchLinkedNote": string;
+    /**
+     * 引用しました。
+     */
+    "quoted": string;
+    /**
+     * ブーストを解除しました。
+     */
+    "rmboost": string;
+    /**
+     * ノートの操作
+     */
+    "noteFooterLabel": string;
+    "animatedMFM": {
+        /**
+         * 再生
+         */
+        "play": string;
+        /**
+         * 停止
+         */
+        "stop": string;
+        /**
+         * アニメーションするMFMは気が散るかもしれません。それでも再生しますか?
+         */
+        "alertText": string;
+        /**
+         * 再生
+         */
+        "alertConfirm": string;
+    };
+    /**
+     * 投稿日時
+     */
+    "postOn": string;
+    /**
+     * 予約投稿
+     */
+    "schedulePostList": string;
+    /**
+     * アンケートを編集しますか?
+     */
+    "confirmPollEditTitle": string;
+    /**
+     * アンケートが変更されました。アンケート付きのノートを編集すると、投票がリセットされる場合があります。続行しますか?
+     */
+    "confirmPollEditText": string;
+    /**
+     * 翻訳に失敗しました
+     */
+    "translationFailed": string;
+    /**
+     * ノートを読み込めません
+     */
+    "cannotLoadNote": string;
+    /**
+     * 外部のウェブサイト
+     */
+    "externalWarningTitle": string;
+    /**
+     * このリンクは{host}の外にあるウェブサイトに移動します。続行する前に、信頼できるサイトか確認してください。
+     */
+    "externalWarningDescription": ParameterizedString<"host">;
+    /**
+     * このドメインを信頼する
+     */
+    "externalWarningTrust": string;
+    /**
+     * Flashコンテンツは非表示です
+     */
+    "flashContentHidden": string;
+    /**
+     * Ruffleを使用しています。
+     */
+    "flashPoweredByRuffle": string;
+    /**
+     * 任意のコードが実行される危険に常に注意してください!
+     */
+    "flashArbitraryCodeExecutionWarning": string;
+    /**
+     * Flashコンテンツの読み込みに失敗しました:
+     */
+    "flashFailedToLoad": string;
+    /**
+     * Flashコンテンツを読み込み中
+     */
+    "flashIsLoading": string;
+    /**
+     * Ruffleプレイヤーを読み込み中
+     */
+    "flashLoadingRufflePlayer": string;
+    /**
+     * Flashファイルを読み込み中
+     */
+    "flashLoadingFlashFile": string;
+    /**
+     * raw.esm.shにアクセスできませんでした。このサーバーのコンテンツセキュリティポリシーが古い可能性があります。サーバーの管理者に連絡してください。
+     */
+    "flashCspError": string;
+    /**
+     * パターンは非表示です
+     */
+    "modPatternHidden": string;
+    /**
+     * モジュールの読み込みに失敗しました
+     */
+    "modFailedToLoad": string;
+    /**
+     * このブラウザーは音声の再生に対応していません。
+     */
+    "modAudioUnsupported": string;
+    /**
+     * 画像に説明文がありません
+     */
+    "imageLacksDescription": string;
+    /**
+     * このサーバーはまだ「いいね」に対応していません。
+     */
+    "likeNotSupported": string;
+    /**
+     * 相互フォロー
+     */
+    "mutuals": string;
+    /**
+     * タイムラインにBotを表示
+     */
+    "showBots": string;
+    /**
+     * 引用を表示
+     */
+    "showQuotes": string;
+    /**
+     * 返信を表示
+     */
+    "showReplies": string;
+    /**
+     * 非公開のノートを表示
+     */
+    "showNonPublicNotes": string;
+    /**
+     * リモートのフォロワーのアクティビティは不完全または古い可能性があります
+     */
+    "remoteFollowersWarning": string;
+    /**
+     * 承認
+     */
+    "approvals": string;
+    /**
+     * 承認
+     */
+    "approveAccount": string;
+    /**
+     * 拒否して削除
+     */
+    "denyAccount": string;
+    /**
+     * 登録理由
+     */
+    "signupReason": string;
+    /**
+     * このアカウントを承認しますか?
+     */
+    "approveConfirm": string;
+    /**
+     * このアカウントを拒否して削除しますか?この操作は取り消せません。
+     */
+    "denyAccountConfirm": string;
+    /**
+     * このサーバーはアカウントの承認に対応していません。
+     */
+    "approvalsUnsupported": string;
+    /**
+     * 承認待ちのアカウントはありません。
+     */
+    "approvalsEmpty": string;
+    /**
+     * ミュートをテスト
+     */
+    "wordMuteTestLabel": string;
+    /**
+     * 上のミュート設定に一致するか確認するテキストを入力してください。各行は個別にテストされます。
+     */
+    "wordMuteTestDescription": string;
+    /**
+     * テスト
+     */
+    "wordMuteTestTest": string;
+    /**
+     * テキストを入力してテストを押してください。
+     */
+    "wordMuteTestNoResults": string;
+    /**
+     * 一致するミュートはありません。
+     */
+    "wordMuteTestNoMatch": string;
+    /**
+     * 一致しました
+     */
+    "wordMuteTestMatch": string;
+    /**
+     * 無効なミュート設定が含まれていたため、一部がスキップされました。
+     */
+    "wordMuteTestInvalid": string;
+    /**
+     * 帰属ドメイン
+     */
+    "attributionDomains": string;
+    /**
+     * ここに登録したウェブサイトは、あなたを著者としてクレジットできます。1行につき1つのドメインを入力してください。
+     */
+    "attributionDomainsDescription": string;
+    /**
+     * クレジットされるウェブサイトに、次のタグを追加してください:
+     */
+    "attributionDomainsTutorial": string;
+    /**
+     * このサーバーは帰属ドメインに対応していません。
+     */
+    "attributionDomainsUnsupported": string;
+    /**
+     * Sharkeyについて
+     */
+    "aboutSharkey": string;
+    /**
+     * SharkeyはMisskeyからフォークされたオープンソースソフトウェアです。
+     */
+    "aboutSharkeyDescription": string;
+    /**
+     * ソースコード(Sharkey)
+     */
+    "aboutSharkeySource": string;
+    /**
+     * Sharkeyに寄付する
+     */
+    "aboutSharkeyDonate": string;
+    /**
+     * テスター
+     */
+    "aboutSharkeyTesters": string;
+    /**
+     * Misskeyのコントリビューター
+     */
+    "aboutSharkeyMisskeyContributors": string;
+    /**
+     * 素敵なスポンサーの皆さま
+     */
+    "aboutSharkeySponsors": string;
+    /**
+     * OKを押すと、これらのメールの配信を停止します。
+     */
+    "clickToUnsubscribe": string;
+    /**
+     * 配信停止に失敗しました。リンクが無効か、期限切れの可能性があります。
+     */
+    "unsubscribeError": string;
+    /**
+     * 配信を停止しました。
+     */
+    "unsubscribeSuccess": string;
+    /**
+     * エントランスページのスタイル
+     */
+    "welcomeEntranceStyle": string;
+    /**
+     * サーバーのデフォルト
+     */
+    "welcomeEntranceStyleServer": string;
+    /**
+     * Sharkey (A)
+     */
+    "welcomeEntranceStyleA": string;
+    /**
+     * システムアカウント
+     */
+    "systemAccountTitle": string;
+    /**
+     * これはサーバーが使用するシステムアカウントです。操作することはできません。
+     */
+    "systemAccountDescription": string;
+    /**
+     * 再生中…
+     */
+    "listeningTo": string;
+    "mfmCheatsheet": {
+        /**
+         * MFMチートシート
+         */
+        "title": string;
+        /**
+         * MFMチートシート
+         */
+        "openButton": string;
+        /**
+         * MFMはMisskey、Sharkey、Firefish、Akkomaなどで使われるマークアップ言語で、さまざまな場所で利用できます。ここでは、使用できるすべてのMFM構文を確認できます。
+         */
+        "intro": string;
+        /**
+         * Sharkeyはフェディバースの世界を広げる
+         */
+        "dummy": string;
+        /**
+         * これは広く普及している機能ではなく、他のMisskeyフォークを含む多くのフェディバースのソフトウェアでは正しく表示されない場合があります
+         */
+        "uncommonFeature": string;
+        "sections": {
+            "mention": {
+                /**
+                 * メンション
+                 */
+                "title": string;
+                /**
+                 * アットマークとユーザー名を使って、ユーザーを指定できます。
+                 */
+                "description": string;
+            };
+            "hashtag": {
+                /**
+                 * ハッシュタグ
+                 */
+                "title": string;
+                /**
+                 * シャープと文字列を使って、ハッシュタグを指定できます。
+                 */
+                "description": string;
+            };
+            "link": {
+                /**
+                 * リンク
+                 */
+                "title": string;
+                /**
+                 * 文章の一部をURLのリンクとして表示できます。
+                 */
+                "description": string;
+            };
+            "emoji": {
+                /**
+                 * カスタム絵文字
+                 */
+                "title": string;
+                /**
+                 * カスタム絵文字の名前をコロンで囲むと、カスタム絵文字を表示できます。
+                 */
+                "description": string;
+            };
+            "bold": {
+                /**
+                 * 太字
+                 */
+                "title": string;
+                /**
+                 * 文字を太くして強調します。
+                 */
+                "description": string;
+            };
+            "small": {
+                /**
+                 * 小文字
+                 */
+                "title": string;
+                /**
+                 * 内容を小さく、細く表示します。
+                 */
+                "description": string;
+            };
+            "quote": {
+                /**
+                 * 引用
+                 */
+                "title": string;
+                /**
+                 * 内容を引用として表示します。
+                 */
+                "description": string;
+            };
+            "center": {
+                /**
+                 * 中央寄せ
+                 */
+                "title": string;
+                /**
+                 * 内容を中央に寄せて表示します。
+                 */
+                "description": string;
+            };
+            "unixtime": {
+                /**
+                 * Unix時間
+                 */
+                "title": string;
+                /**
+                 * 閲覧者の現在のタイムゾーンで日時を表示します。
+                 */
+                "description": string;
+            };
+            "inlineCode": {
+                /**
+                 * コード(インライン)
+                 */
+                "title": string;
+                /**
+                 * (プログラムの)コードをインラインでシンタックスハイライト付きで表示します。
+                 */
+                "description": string;
+            };
+            "blockCode": {
+                /**
+                 * コード(ブロック)
+                 */
+                "title": string;
+                /**
+                 * 複数行の(プログラムの)コードをブロックでシンタックスハイライト付きで表示します。
+                 */
+                "description": string;
+            };
+            "inlineMath": {
+                /**
+                 * 数式(インライン)
+                 */
+                "title": string;
+                /**
+                 * 数式(KaTeX)をインラインで表示します。
+                 */
+                "description": string;
+            };
+            "blockMath": {
+                /**
+                 * 数式(ブロック)
+                 */
+                "title": string;
+                /**
+                 * 数式(KaTeX)をブロックで表示します。
+                 */
+                "description": string;
+            };
+            "search": {
+                /**
+                 * 検索
+                 */
+                "title": string;
+                /**
+                 * あらかじめ入力された文字列が入った検索ボックスを表示します。
+                 */
+                "description": string;
+            };
+            "flip": {
+                /**
+                 * 反転
+                 */
+                "title": string;
+                /**
+                 * 内容を左右または上下に反転します。
+                 */
+                "description": string;
+            };
+            "font": {
+                /**
+                 * フォント
+                 */
+                "title": string;
+                /**
+                 * 内容を表示するフォントを指定します。
+                 */
+                "description": string;
+            };
+            "x2": {
+                /**
+                 * 大
+                 */
+                "title": string;
+                /**
+                 * 内容を大きく表示します。
+                 */
+                "description": string;
+            };
+            "x3": {
+                /**
+                 * 特大
+                 */
+                "title": string;
+                /**
+                 * 内容をさらに大きく表示します。
+                 */
+                "description": string;
+            };
+            "x4": {
+                /**
+                 * 超特大
+                 */
+                "title": string;
+                /**
+                 * 内容を特大よりもさらに大きく表示します。
+                 */
+                "description": string;
+            };
+            "blur": {
+                /**
+                 * ぼかし
+                 */
+                "title": string;
+                /**
+                 * 内容をぼかします。マウスを重ねるとはっきり表示されます。
+                 */
+                "description": string;
+            };
+            "jelly": {
+                /**
+                 * アニメーション(ぷるぷる)
+                 */
+                "title": string;
+                /**
+                 * 内容にゼリーのようなアニメーションを付けます。
+                 */
+                "description": string;
+            };
+            "tada": {
+                /**
+                 * アニメーション(じゃーん)
+                 */
+                "title": string;
+                /**
+                 * 内容に「じゃーん!」という感じのアニメーションを付けます。
+                 */
+                "description": string;
+            };
+            "jump": {
+                /**
+                 * アニメーション(ジャンプ)
+                 */
+                "title": string;
+                /**
+                 * 内容にジャンプするアニメーションを付けます。
+                 */
+                "description": string;
+            };
+            "bounce": {
+                /**
+                 * アニメーション(バウンド)
+                 */
+                "title": string;
+                /**
+                 * 内容に弾むアニメーションを付けます。
+                 */
+                "description": string;
+            };
+            "spin": {
+                /**
+                 * アニメーション(回転)
+                 */
+                "title": string;
+                /**
+                 * 内容に回転するアニメーションを付けます。
+                 */
+                "description": string;
+            };
+            "shake": {
+                /**
+                 * アニメーション(震える)
+                 */
+                "title": string;
+                /**
+                 * 内容に震えるアニメーションを付けます。
+                 */
+                "description": string;
+            };
+            "twitch": {
+                /**
+                 * アニメーション(ピクピク)
+                 */
+                "title": string;
+                /**
+                 * 内容に激しくピクピクするアニメーションを付けます。
+                 */
+                "description": string;
+            };
+            "rainbow": {
+                /**
+                 * 虹色
+                 */
+                "title": string;
+                /**
+                 * 内容を虹色で表示します。
+                 */
+                "description": string;
+            };
+            "sparkle": {
+                /**
+                 * キラキラ
+                 */
+                "title": string;
+                /**
+                 * 内容にキラキラした粒子のエフェクトを付けます。
+                 */
+                "description": string;
+            };
+            "rotate": {
+                /**
+                 * 回転
+                 */
+                "title": string;
+                /**
+                 * 内容を指定した角度だけ回転させます。
+                 */
+                "description": string;
+            };
+            "crop": {
+                /**
+                 * 切り抜き
+                 */
+                "title": string;
+                /**
+                 * 内容を切り抜きます。
+                 */
+                "description": string;
+            };
+            "position": {
+                /**
+                 * 位置
+                 */
+                "title": string;
+                /**
+                 * 内容を指定した量だけ移動させます。
+                 */
+                "description": string;
+            };
+            "followMouse": {
+                /**
+                 * マウス追従
+                 */
+                "title": string;
+                /**
+                 * 内容がマウスに追従します。モバイルではタップした場所に追従します。
+                 */
+                "description": string;
+            };
+            "scale": {
+                /**
+                 * 拡大縮小
+                 */
+                "title": string;
+                /**
+                 * 内容を指定した倍率で拡大縮小します。
+                 */
+                "description": string;
+            };
+            "fade": {
+                /**
+                 * フェード
+                 */
+                "title": string;
+                /**
+                 * 文字をフェードイン・フェードアウトさせます。
+                 */
+                "description": string;
+            };
+            "foreground": {
+                /**
+                 * 文字色
+                 */
+                "title": string;
+                /**
+                 * 文字の色を変更します。
+                 */
+                "description": string;
+            };
+            "background": {
+                /**
+                 * 背景色
+                 */
+                "title": string;
+                /**
+                 * 文字の背景色を変更します。
+                 */
+                "description": string;
+            };
+            "border": {
+                /**
+                 * 枠線
+                 */
+                "title": string;
+                /**
+                 * 内容の周りに枠線を描きます。
+                 */
+                "description": string;
+            };
+            "plain": {
+                /**
+                 * プレーン
+                 */
+                "title": string;
+                /**
+                 * このMFM効果に含まれるすべてのMFMの効果を無効にします。
+                 */
+                "description": string;
+            };
+        };
+    };
 }

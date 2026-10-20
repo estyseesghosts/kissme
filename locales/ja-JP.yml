@@ -3582,3 +3582,209 @@ _qr:
   scanFile: "端末の画像をスキャン"
   raw: "テキスト"
   mfm: "MFM"
+
+# Sharkey frontend port (see MISSING-STRINGS.md)
+noteIsFlaggedAs: "フラグ付き: {cw}"
+userIsFlaggedAs: "{name}さんはフラグが付いています: {cw}"
+instanceIsFlaggedAs: "{name}はフラグが付いています: {cw}"
+userSaysSomethingInMutedNote: "{name}さんがミュート中のノートを投稿しました"
+userSaysSomethingInMutedThread: "{name}さんがミュート中のスレッドに投稿しました"
+silencedUserSaysSomething: "{name}さん({host})はサイレンス中ですが、投稿しました"
+silencedInstanceSaysSomething: "サイレンス中のサーバーの{name}さんが投稿しました"
+writtenBy: "{user}さんによる記事"
+fetchLinkedNote: "リンク先のノートを取得"
+quoted: "引用しました。"
+rmboost: "ブーストを解除しました。"
+noteFooterLabel: "ノートの操作"
+animatedMFM:
+  play: "再生"
+  stop: "停止"
+  alertText: "アニメーションするMFMは気が散るかもしれません。それでも再生しますか?"
+  alertConfirm: "再生"
+postOn: "投稿日時"
+schedulePostList: "予約投稿"
+confirmPollEditTitle: "アンケートを編集しますか?"
+confirmPollEditText: "アンケートが変更されました。アンケート付きのノートを編集すると、投票がリセットされる場合があります。続行しますか?"
+translationFailed: "翻訳に失敗しました"
+cannotLoadNote: "ノートを読み込めません"
+externalWarningTitle: "外部のウェブサイト"
+externalWarningDescription: "このリンクは{host}の外にあるウェブサイトに移動します。続行する前に、信頼できるサイトか確認してください。"
+externalWarningTrust: "このドメインを信頼する"
+flashContentHidden: "Flashコンテンツは非表示です"
+flashPoweredByRuffle: "Ruffleを使用しています。"
+flashArbitraryCodeExecutionWarning: "任意のコードが実行される危険に常に注意してください!"
+flashFailedToLoad: "Flashコンテンツの読み込みに失敗しました:"
+flashIsLoading: "Flashコンテンツを読み込み中"
+flashLoadingRufflePlayer: "Ruffleプレイヤーを読み込み中"
+flashLoadingFlashFile: "Flashファイルを読み込み中"
+flashCspError: "raw.esm.shにアクセスできませんでした。このサーバーのコンテンツセキュリティポリシーが古い可能性があります。サーバーの管理者に連絡してください。"
+modPatternHidden: "パターンは非表示です"
+modFailedToLoad: "モジュールの読み込みに失敗しました"
+modAudioUnsupported: "このブラウザーは音声の再生に対応していません。"
+imageLacksDescription: "画像に説明文がありません"
+likeNotSupported: "このサーバーはまだ「いいね」に対応していません。"
+mutuals: "相互フォロー"
+showBots: "タイムラインにBotを表示"
+showQuotes: "引用を表示"
+showReplies: "返信を表示"
+showNonPublicNotes: "非公開のノートを表示"
+remoteFollowersWarning: "リモートのフォロワーのアクティビティは不完全または古い可能性があります"
+approvals: "承認"
+approveAccount: "承認"
+denyAccount: "拒否して削除"
+signupReason: "登録理由"
+approveConfirm: "このアカウントを承認しますか?"
+denyAccountConfirm: "このアカウントを拒否して削除しますか?この操作は取り消せません。"
+approvalsUnsupported: "このサーバーはアカウントの承認に対応していません。"
+approvalsEmpty: "承認待ちのアカウントはありません。"
+wordMuteTestLabel: "ミュートをテスト"
+wordMuteTestDescription: "上のミュート設定に一致するか確認するテキストを入力してください。各行は個別にテストされます。"
+wordMuteTestTest: "テスト"
+wordMuteTestNoResults: "テキストを入力してテストを押してください。"
+wordMuteTestNoMatch: "一致するミュートはありません。"
+wordMuteTestMatch: "一致しました"
+wordMuteTestInvalid: "無効なミュート設定が含まれていたため、一部がスキップされました。"
+attributionDomains: "帰属ドメイン"
+attributionDomainsDescription: "ここに登録したウェブサイトは、あなたを著者としてクレジットできます。1行につき1つのドメインを入力してください。"
+attributionDomainsTutorial: "クレジットされるウェブサイトに、次のタグを追加してください:"
+attributionDomainsUnsupported: "このサーバーは帰属ドメインに対応していません。"
+aboutSharkey: "Sharkeyについて"
+aboutSharkeyDescription: "SharkeyはMisskeyからフォークされたオープンソースソフトウェアです。"
+aboutSharkeySource: "ソースコード(Sharkey)"
+aboutSharkeyDonate: "Sharkeyに寄付する"
+aboutSharkeyTesters: "テスター"
+aboutSharkeyMisskeyContributors: "Misskeyのコントリビューター"
+aboutSharkeySponsors: "素敵なスポンサーの皆さま"
+clickToUnsubscribe: "OKを押すと、これらのメールの配信を停止します。"
+unsubscribeError: "配信停止に失敗しました。リンクが無効か、期限切れの可能性があります。"
+unsubscribeSuccess: "配信を停止しました。"
+welcomeEntranceStyle: "エントランスページのスタイル"
+welcomeEntranceStyleServer: "サーバーのデフォルト"
+welcomeEntranceStyleA: "Sharkey (A)"
+systemAccountTitle: "システムアカウント"
+systemAccountDescription: "これはサーバーが使用するシステムアカウントです。操作することはできません。"
+listeningTo: "再生中…"
+mfmCheatsheet:
+  title: "MFMチートシート"
+  openButton: "MFMチートシート"
+  intro: "MFMはMisskey、Sharkey、Firefish、Akkomaなどで使われるマークアップ言語で、さまざまな場所で利用できます。ここでは、使用できるすべてのMFM構文を確認できます。"
+  dummy: "Sharkeyはフェディバースの世界を広げる"
+  uncommonFeature: "これは広く普及している機能ではなく、他のMisskeyフォークを含む多くのフェディバースのソフトウェアでは正しく表示されない場合があります"
+  sections:
+    mention:
+      title: "メンション"
+      description: "アットマークとユーザー名を使って、ユーザーを指定できます。"
+    hashtag:
+      title: "ハッシュタグ"
+      description: "シャープと文字列を使って、ハッシュタグを指定できます。"
+    link:
+      title: "リンク"
+      description: "文章の一部をURLのリンクとして表示できます。"
+    emoji:
+      title: "カスタム絵文字"
+      description: "カスタム絵文字の名前をコロンで囲むと、カスタム絵文字を表示できます。"
+    bold:
+      title: "太字"
+      description: "文字を太くして強調します。"
+    small:
+      title: "小文字"
+      description: "内容を小さく、細く表示します。"
+    quote:
+      title: "引用"
+      description: "内容を引用として表示します。"
+    center:
+      title: "中央寄せ"
+      description: "内容を中央に寄せて表示します。"
+    unixtime:
+      title: "Unix時間"
+      description: "閲覧者の現在のタイムゾーンで日時を表示します。"
+    inlineCode:
+      title: "コード(インライン)"
+      description: "(プログラムの)コードをインラインでシンタックスハイライト付きで表示します。"
+    blockCode:
+      title: "コード(ブロック)"
+      description: "複数行の(プログラムの)コードをブロックでシンタックスハイライト付きで表示します。"
+    inlineMath:
+      title: "数式(インライン)"
+      description: "数式(KaTeX)をインラインで表示します。"
+    blockMath:
+      title: "数式(ブロック)"
+      description: "数式(KaTeX)をブロックで表示します。"
+    search:
+      title: "検索"
+      description: "あらかじめ入力された文字列が入った検索ボックスを表示します。"
+    flip:
+      title: "反転"
+      description: "内容を左右または上下に反転します。"
+    font:
+      title: "フォント"
+      description: "内容を表示するフォントを指定します。"
+    x2:
+      title: "大"
+      description: "内容を大きく表示します。"
+    x3:
+      title: "特大"
+      description: "内容をさらに大きく表示します。"
+    x4:
+      title: "超特大"
+      description: "内容を特大よりもさらに大きく表示します。"
+    blur:
+      title: "ぼかし"
+      description: "内容をぼかします。マウスを重ねるとはっきり表示されます。"
+    jelly:
+      title: "アニメーション(ぷるぷる)"
+      description: "内容にゼリーのようなアニメーションを付けます。"
+    tada:
+      title: "アニメーション(じゃーん)"
+      description: "内容に「じゃーん!」という感じのアニメーションを付けます。"
+    jump:
+      title: "アニメーション(ジャンプ)"
+      description: "内容にジャンプするアニメーションを付けます。"
+    bounce:
+      title: "アニメーション(バウンド)"
+      description: "内容に弾むアニメーションを付けます。"
+    spin:
+      title: "アニメーション(回転)"
+      description: "内容に回転するアニメーションを付けます。"
+    shake:
+      title: "アニメーション(震える)"
+      description: "内容に震えるアニメーションを付けます。"
+    twitch:
+      title: "アニメーション(ピクピク)"
+      description: "内容に激しくピクピクするアニメーションを付けます。"
+    rainbow:
+      title: "虹色"
+      description: "内容を虹色で表示します。"
+    sparkle:
+      title: "キラキラ"
+      description: "内容にキラキラした粒子のエフェクトを付けます。"
+    rotate:
+      title: "回転"
+      description: "内容を指定した角度だけ回転させます。"
+    crop:
+      title: "切り抜き"
+      description: "内容を切り抜きます。"
+    position:
+      title: "位置"
+      description: "内容を指定した量だけ移動させます。"
+    followMouse:
+      title: "マウス追従"
+      description: "内容がマウスに追従します。モバイルではタップした場所に追従します。"
+    scale:
+      title: "拡大縮小"
+      description: "内容を指定した倍率で拡大縮小します。"
+    fade:
+      title: "フェード"
+      description: "文字をフェードイン・フェードアウトさせます。"
+    foreground:
+      title: "文字色"
+      description: "文字の色を変更します。"
+    background:
+      title: "背景色"
+      description: "文字の背景色を変更します。"
+    border:
+      title: "枠線"
+      description: "内容の周りに枠線を描きます。"
+    plain:
+      title: "プレーン"
+      description: "このMFM効果に含まれるすべてのMFMの効果を無効にします。"

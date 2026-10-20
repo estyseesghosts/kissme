@@ -223,3 +223,20 @@ Gate: typecheck exit 0; tests 44 files / 322 passed; SPDX OK. Build not run at t
 Notes: `noteDesign` default in `def.ts` is `'sk'` (committed before Phase 9), contradicting the plan's `'misskey'`; unchanged, needs owner decision. `--MI-radius-xs/sm/xl/full` are undefined upstream; earlier Sk* files use them without fallback. Unconsumed: `SkBadgeStrip`, `MkRadio`, several 9.4 utils.
 
 Exit criteria: widgets/pages/utils **implemented, unverified live**.
+
+
+## Phase 10 — implementation (verification by direction: no backend or browser smoke)
+
+Details: `docs/sk-port/phase10-prefs.md`, `phase10-infra.md`.
+
+- 10.1: store additions + legacy block, new prefs, settings page `/settings/sharkey` covering all Sk prefs with consumers. `accountInfos` kept as `MeDetailed`; `tl.src` has no `'bubble'` (no bubble source in timeline page).
+- 10.2: `pref-migrate-core.ts` (pure, tested with fixture) + `pref-migrate.ts`, wired in `main-boot.ts`, gated on `lastVersion < 2025.3.2-alpha.0`.
+- 10.3: routes consolidated, `/following-feed` deduped, `/settings/sharkey` added; `/admin/server-rules` not added (upstream page is an embedded section; follow-up).
+- 10.4: tossface path helper, const additions, viewport clamp, favicon dot, token-regenerated signout. Split-mode boot intact (read-verified).
+- 10.5: no dep/vite changes needed (ruffle, katex, vuedraggable already in); no photoswipe/uuid/sfm-js/promise-limit. `SPLIT_BUILD.md` absent in tree.
+- 10.6: rosepine themes + ja-JP block (skSettings.* keys not yet in ja-JP). 10.7: no misskey-js or embed changes (rationale in phase10-infra.md).
+
+Final gate (coordinator-run): typecheck 0; frontend tests 48 files / 350 passed; build exit 0; SPDX OK; only `locales/ja-JP.yml` changed among locales; no backend/misskey-js/embed changes.
+
+Open: `noteDesign` default is `'sk'` vs plan `'misskey'` (owner decision). Follow-ups: tossface assets, MFM fade/crop, RuffleSans, bubble source, server-rules page, ja-JP keys for skSettings, migrate skStrings to i18n, settings UI for prefs lacking consumers.
+Exit criteria: **implemented, unverified live**.

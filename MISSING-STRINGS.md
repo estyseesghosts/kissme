@@ -101,6 +101,17 @@ Phase 4 additions. The last column notes where the wording comes from.
 | `mfmCheatsheet.intro` / `.dummy` / `.uncommonFeature` | donor `_mfm.intro` / `.dummy` / `.uncommonFeature` | `SkMfmWindow` (Phase 9.1) |
 | `mfmCheatsheet.sections.<id>.title` / `.description` (39 sections) | donor `_mfm.<id>` / `_mfm.<id>Description` | `SkMfmWindow` via `utility/sk-mfm-cheatsheet.ts` (Phase 9.1) |
 
+## Phase 10.6
+
+All `skStrings` keys above now also exist in `locales/ja-JP.yml` under the same names (Japanese only; Crowdin propagates). Components still read `skStrings`.
+
+## Phase 10.1/10.2
+
+| Key | English | Used by |
+|---|---|---|
+| `settingsMigrating` | `Migrating settings. Please wait...` | `pref-migrate.ts` (upstream removed the locale key) |
+| `skSettings.*` (title, description, 5 section labels, 21 pref labels/captions) | see `utility/sk-strings.ts` | `pages/settings/sharkey.vue`, `pages/settings/index.vue`. Added after the 10.6 ja-JP pass, so not yet in `ja-JP.yml`. |
+
 ## Not strings, but related
 
 - `expandLongNote` pref: now in `preferences/def.ts` (default `false`, Sharkey default).

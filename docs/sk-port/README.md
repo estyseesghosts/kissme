@@ -176,6 +176,14 @@ Dependency and typing notes:
 | `SkPatternTest.vue`, `utility/sk-parse-mutes.ts` | (this file) | Word-mute tester, shown in the mute settings behind pref `showWordMuteTester` (default off). Reuses `getMutedWords` from `sk-check-mute.ts`. Tested. |
 | `pages/settings/profile.attribution-domains-setting.vue`, `utility/sk-attribution-domains.ts` | (this file) | Saves via untyped `i/update`; shown in settings profile behind pref `showAttributionDomains` (default off). Tested. |
 
+### Phase 10.1-10.3 (prefs, migration, routes)
+
+See [phase10-prefs.md](phase10-prefs.md): store/preferences merge, defaults table (with the open `noteDesign` default decision), `/settings/sharkey`, `pref-migrate` and its boot call site, route table.
+
+### Phase 10.4-10.7 (infra)
+
+See [phase10-infra.md](phase10-infra.md): boot/config/const/emoji-base notes, deps and build decisions, themes, ja-JP strings, embed/misskey-js decisions, follow-up slices.
+
 ### Phase 9.4 additions
 
 See [phase9-utilities.md](phase9-utilities.md) for the per-utility disposition table.

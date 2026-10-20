@@ -127,8 +127,76 @@ https://github.com/sindresorhus/file-type/blob/main/core.js
 https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Containers
 */
 
+// sharkey: Sharkey's superset of notification types (upstream list lives in misskey-js `notificationTypes`).
+export const notificationTypes = [
+	'note',
+	'follow',
+	'mention',
+	'reply',
+	'renote',
+	'quote',
+	'reaction',
+	'pollEnded',
+	'receiveFollowRequest',
+	'followRequestAccepted',
+	'roleAssigned',
+	'chatRoomInvitationReceived',
+	'achievementEarned',
+	'exportCompleted',
+	'importCompleted',
+	'login',
+	'createToken',
+	'test',
+	'app',
+	'edited',
+	'scheduledNoteFailed',
+	'scheduledNotePosted',
+] as const;
+export const obsoleteNotificationTypes = ['pollVote', 'groupInvited'] as const;
 
-export const MFM_TAGS = ['tada', 'jelly', 'twitch', 'shake', 'spin', 'jump', 'bounce', 'flip', 'x2', 'x3', 'x4', 'scale', 'position', 'fg', 'bg', 'border', 'font', 'blur', 'rainbow', 'sparkle', 'rotate', 'ruby', 'unixtime'];
+export const ROLE_POLICIES = [
+	'gtlAvailable',
+	'ltlAvailable',
+	'btlAvailable',
+	'canPublicNote',
+	'canImportNotes',
+	'scheduleNoteMax',
+	'mentionLimit',
+	'canInvite',
+	'inviteLimit',
+	'inviteLimitCycle',
+	'inviteExpirationTime',
+	'canManageCustomEmojis',
+	'canManageAvatarDecorations',
+	'canSearchNotes',
+	'canUseTranslator',
+	'canFetchLBMetadata',
+	'canHideAds',
+	'driveCapacityMb',
+	'maxFileSizeMb',
+	'alwaysMarkNsfw',
+	'canUpdateBioMedia',
+	'pinLimit',
+	'antennaLimit',
+	'wordMuteLimit',
+	'webhookLimit',
+	'clipLimit',
+	'noteEachClipsLimit',
+	'userListLimit',
+	'userEachUserListsLimit',
+	'rateLimitFactor',
+	'avatarDecorationLimit',
+	'canImportAntennas',
+	'canImportBlocking',
+	'canImportFollowing',
+	'canImportMuting',
+	'canImportUserLists',
+	'chatAvailability',
+	'canTrend',
+	'canViewFederation',
+] as const;
+
+export const MFM_TAGS = ['tada', 'jelly', 'twitch', 'shake', 'spin', 'jump', 'bounce', 'flip', 'x2', 'x3', 'x4', 'scale', 'position', 'fg', 'bg', 'border', 'font', 'blur', 'rainbow', 'sparkle', 'rotate', 'ruby', 'unixtime', 'followmouse'];
 export const MFM_PARAMS: Record<typeof MFM_TAGS[number], string[]> = {
 	tada: ['speed=', 'delay='],
 	jelly: ['speed=', 'delay='],
@@ -152,6 +220,7 @@ export const MFM_PARAMS: Record<typeof MFM_TAGS[number], string[]> = {
 	rotate: ['deg='],
 	ruby: [],
 	unixtime: [],
+	followmouse: ['x', 'y', 'rotateByVelocity', 'speed='],
 };
 
 /**

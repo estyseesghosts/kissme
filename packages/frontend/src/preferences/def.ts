@@ -16,6 +16,7 @@ import type { DeckProfile } from '@/deck.js';
 import type { WatermarkPreset } from '@/utility/watermark/WatermarkRenderer.js';
 import type { ImageFramePreset } from '@/utility/image-frame-renderer/ImageFrameRenderer.js';
 import { genId } from '@/utility/id.js';
+import { searchEngineMap } from '@/utility/search-engine-map.js';
 import { DEFAULT_DEVICE_KIND } from '@/utility/device-kind.js';
 import { deepEqual } from '@/utility/deep-equal.js';
 import { defaultFollowingFeedState } from '@/types/following-feed.js';
@@ -345,6 +346,25 @@ export const PREF_DEF = definePreferences({
 	},
 	like: {
 		default: null as string | null,
+	},
+	// Phase 10.1: remaining Sharkey prefs (Sharkey defaults). No consumer in this tree yet, so no settings UI.
+	collapseFiles: {
+		default: false,
+	},
+	disableCatSpeak: {
+		default: false,
+	},
+	enableFaviconNotificationDot: {
+		default: true,
+	},
+	notificationClickable: {
+		default: false,
+	},
+	searchEngine: {
+		default: Object.keys(searchEngineMap)[0],
+	},
+	warnMissingAltText: {
+		default: true,
 	},
 	emojiPickerScale: {
 		default: 2,

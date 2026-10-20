@@ -29,15 +29,6 @@ export const ROUTE_DEF = [{
 	path: '/timeline',
 	component: PageTimeline,
 }, {
-	// Phase 7 (Sharkey following feed); Phase 10.3 consolidates routes.
-	path: '/following-feed',
-	component: page(() => import('@/pages/following-feed.vue')),
-	loginRequired: true,
-}, {
-	path: '/following-feed/:userId',
-	component: page(() => import('@/pages/user/recent-notes.vue')),
-	loginRequired: true,
-}, {
 	path: '/@:username/pages/:pageName(*)',
 	component: page(() => import('@/pages/page.vue')),
 }, {
@@ -202,6 +193,10 @@ export const ROUTE_DEF = [{
 		name: 'other',
 		component: page(() => import('@/pages/settings/other.vue')),
 	}, {
+		path: '/sharkey',
+		name: 'sharkey',
+		component: page(() => import('@/pages/settings/sharkey.vue')),
+	}, {
 		path: '/',
 		component: page(() => import('@/pages/_empty_.vue')),
 	}],
@@ -231,13 +226,21 @@ export const ROUTE_DEF = [{
 	path: '/about-misskey',
 	component: page(() => import('@/pages/about-misskey.vue')),
 }, {
-	// Phase 9.3 (Sharkey static pages): minimal entries; Phase 10.3 consolidates the route table.
+	// Sharkey routes. Each path appears once. Unknown paths fall through to the catch-all not-found entry at the end.
 	path: '/about-sharkey',
 	component: page(() => import('@/pages/about-sharkey.vue')),
 }, {
-	// Phase 9.3: public (no loginRequired) so email links work while signed out.
+	// Public (no loginRequired) so email links work while signed out.
 	path: '/unsubscribe/:user/:token',
 	component: page(() => import('@/pages/unsubscribe.vue')),
+}, {
+	path: '/following-feed',
+	component: page(() => import('@/pages/following-feed.vue')),
+	loginRequired: true,
+}, {
+	path: '/following-feed/:userId',
+	component: page(() => import('@/pages/user/recent-notes.vue')),
+	loginRequired: true,
 }, {
 	path: '/invite',
 	name: 'invite',
@@ -484,7 +487,7 @@ export const ROUTE_DEF = [{
 		name: 'branding',
 		component: page(() => import('@/pages/admin/branding.vue')),
 	}, {
-		// Phase 8.1: minimal entry; Phase 10.3 consolidates the route table.
+		// Sharkey approvals queue (served at /admin/approvals).
 		path: '/approvals',
 		name: 'approvals',
 		component: page(() => import('@/pages/admin/approvals.vue')),

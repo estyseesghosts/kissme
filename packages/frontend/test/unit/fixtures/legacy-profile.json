@@ -1,0 +1,32 @@
+{
+	"store": {
+		"reactions": ["👍", "❤️"],
+		"pinnedEmojis": [":a:"],
+		"menu": ["notifications", "-", "explore"],
+		"keepCw": false,
+		"nsfw": "force",
+		"squareAvatars": true,
+		"dataSaver": { "media": true, "avatar": false, "urlPreview": true, "code": false },
+		"sound_masterVolume": 0.8,
+		"sound_note": { "type": "syuilo/n-aec", "volume": 0.5 },
+		"defaultWithReplies": true,
+		"noteDesign": "sharkey",
+		"followingFeed": { "withNonPublic": true },
+		"mutedEmojis": [":x:"],
+		"trustedDomains": ["example.com"],
+		"warnMissingAltText": false
+	},
+	"cold": {
+		"lightTheme": { "id": "light-1", "name": "L", "base": "light", "props": {} },
+		"darkTheme": { "id": "dark-1", "name": "D", "base": "dark", "props": {} },
+		"syncDeviceDarkMode": false,
+		"plugins": [{ "id": "plugin-1", "name": "P", "version": "1", "author": "a", "description": "d", "permissions": [], "config": { "k": 1 }, "src": "x", "active": true, "token": "t" }]
+	},
+	"registryThemes": [{ "id": "t1", "name": "Mine", "base": "dark", "props": {} }],
+	"deckProfileName": "main",
+	"registryDeckProfiles": [
+		{ "key": "main", "value": { "columns": [{ "id": "c1", "type": "main" }], "layout": [["c1"]] } },
+		{ "key": "broken", "value": { "columns": "nope" } },
+		{ "key": "gone", "value": null }
+	]
+}

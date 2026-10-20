@@ -29,6 +29,9 @@ import { prefer } from '@/preferences.js';
 import { updateCurrentAccountPartial } from '@/accounts.js';
 import { unisonReload } from '@/utility/unison-reload.js';
 import { isBirthday } from '@/utility/is-birthday.js';
+import { signout } from '@/signout.js';
+import { setFavIconDot } from '@/utility/favicon-dot.js';
+import { migrateOldSettings, shouldMigrateOldSettings } from '@/pref-migrate.js';
 
 export async function mainBoot() {
 	const { isClientUpdated, lastVersion } = await common(async () => {
@@ -63,6 +66,12 @@ export async function mainBoot() {
 
 	reactionPicker.init();
 	emojiPicker.init();
+
+	// preferences migration (Sharkey, pre 2025.3.2-alpha.0 clients). TODO: そのうち消す
+	if ($i && shouldMigrateOldSettings(lastVersion)) {
+		console.log('Preferences migration');
+		migrateOldSettings();
+	}
 
 	if (isClientUpdated && $i) {
 		const { dispose } = popup(defineAsyncComponent(() => import('@/components/MkUpdated.vue')), {}, {
@@ -334,7 +343,16 @@ export async function mainBoot() {
 				updateCurrentAccountPartial(i);
 			});
 
+			const attemptShowNotificationDot = () => {
+				if (prefer.s.enableFaviconNotificationDot) {
+					setFavIconDot(true);
+				}
+			};
+
+			if ($i.hasUnreadNotification) attemptShowNotificationDot();
+
 			main.on('readAllNotifications', () => {
+				setFavIconDot(false);
 				updateCurrentAccountPartial({
 					hasUnreadNotification: false,
 					unreadNotificationsCount: 0,
@@ -342,6 +360,7 @@ export async function mainBoot() {
 			});
 
 			main.on('unreadNotification', () => {
+				attemptShowNotificationDot();
 				const unreadNotificationsCount = ($i?.unreadNotificationsCount ?? 0) + 1;
 				updateCurrentAccountPartial({
 					hasUnreadNotification: true,
@@ -360,6 +379,11 @@ export async function mainBoot() {
 
 			// 個人宛てお知らせが発行されたとき
 			main.on('announcementCreated', onAnnouncementCreated);
+
+			// トークンが再生成されたとき: このままでは利用できないので強制的にサインアウトさせる
+			main.on('myTokenRegenerated', () => {
+				signout();
+			});
 		}
 	}
 
