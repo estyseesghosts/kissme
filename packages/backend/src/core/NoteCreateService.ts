@@ -49,6 +49,7 @@ import { RoleService } from '@/core/RoleService.js';
 import { SearchService } from '@/core/SearchService.js';
 import { FeaturedService } from '@/core/FeaturedService.js';
 import { FanoutTimelineService } from '@/core/FanoutTimelineService.js';
+import { LatestNoteService } from '@/core/LatestNoteService.js';
 import { UtilityService } from '@/core/UtilityService.js';
 import { UserBlockingService } from '@/core/UserBlockingService.js';
 import { isReply } from '@/misc/is-reply.js';
@@ -262,6 +263,7 @@ export class NoteCreateService implements OnApplicationShutdown {
 		private apRendererService: ApRendererService,
 		private roleService: RoleService,
 		private searchService: SearchService,
+		private latestNoteService: LatestNoteService,
 		private notesChart: NotesChart,
 		private perUserNotesChart: PerUserNotesChart,
 		private activeUsersChart: ActiveUsersChart,
@@ -777,6 +779,8 @@ export class NoteCreateService implements OnApplicationShutdown {
 		this.incNotesCountOfUser(user);
 
 		this.pushToTl(note, user);
+
+		this.latestNoteService.handleCreatedNote(note).catch(() => { /* ignore update failure */ });
 
 		this.antennaService.addNoteToAntennas({
 			...note,

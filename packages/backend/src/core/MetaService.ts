@@ -8,6 +8,9 @@ import { DataSource } from 'typeorm';
 import * as Redis from 'ioredis';
 import { DI } from '@/di-symbols.js';
 import { MiMeta } from '@/models/Meta.js';
+import { MiInstance } from '@/models/Instance.js';
+import type { InstancesRepository } from '@/models/_.js';
+import { diffArrays } from '@/misc/diff-arrays.js';
 import { GlobalEventService } from '@/core/GlobalEventService.js';
 import { bindThis } from '@/decorators.js';
 import type { GlobalEvents } from '@/core/GlobalEventService.js';
@@ -25,6 +28,9 @@ export class MetaService implements OnApplicationShutdown {
 
 		@Inject(DI.db)
 		private db: DataSource,
+
+		@Inject(DI.instancesRepository)
+		private instancesRepository: InstancesRepository,
 
 		private featuredService: FeaturedService,
 		private globalEventService: GlobalEventService,
@@ -146,6 +152,10 @@ export class MetaService implements OnApplicationShutdown {
 
 		this.globalEventService.publishInternalEvent('metaUpdated', { before, after: updated });
 
+		if (before && updated) {
+			await this.persistBlocks(before, updated);
+		}
+
 		return updated;
 	}
 
@@ -159,4 +169,47 @@ export class MetaService implements OnApplicationShutdown {
 	public onApplicationShutdown(signal?: string | undefined): void {
 		this.dispose();
 	}
+
+	@bindThis
+	private async persistBlocks(before: Partial<MiMeta>, after: Partial<MiMeta>): Promise<void> {
+		await this.persistBlock(before.bubbleInstances, after.bubbleInstances, 'isBubbled');
+	}
+
+	@bindThis
+	private async persistBlock(before: string[] | undefined, after: string[] | undefined, field: keyof MiInstance): Promise<void> {
+		const { added, removed } = diffArrays(before, after);
+
+		if (removed.length > 0) {
+			await this.updateInstancesByHost(field, false, removed);
+		}
+
+		if (added.length > 0) {
+			await this.updateInstancesByHost(field, true, added);
+		}
+	}
+
+	@bindThis
+	private async updateInstancesByHost(field: keyof MiInstance, value: boolean, hosts: string[]): Promise<void> {
+		const patterns = hosts.map(host => genHostPattern(host));
+
+		if (patterns.length === 1) {
+			await this.instancesRepository
+				.createQueryBuilder('instance')
+				.update()
+				.set({ [field]: value })
+				.where('(lower(reverse("host")) || \'.\') LIKE :pattern', { pattern: patterns[0] })
+				.execute();
+		} else if (patterns.length > 1) {
+			await this.instancesRepository
+				.createQueryBuilder('instance')
+				.update()
+				.set({ [field]: value })
+				.where('(lower(reverse("host")) || \'.\') LIKE ANY (:patterns)', { patterns })
+				.execute();
+		}
+	}
+}
+
+function genHostPattern(host: string): string {
+	return host.toLowerCase().split('').reverse().join('') + '.%';
 }

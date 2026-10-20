@@ -21,6 +21,7 @@ import { ApDeliverManagerService } from '@/core/activitypub/ApDeliverManagerServ
 import { UserEntityService } from '@/core/entities/UserEntityService.js';
 import { bindThis } from '@/decorators.js';
 import { SearchService } from '@/core/SearchService.js';
+import { LatestNoteService } from '@/core/LatestNoteService.js';
 import { ModerationLogService } from '@/core/ModerationLogService.js';
 import { isQuote, isRenote } from '@/misc/is-renote.js';
 
@@ -49,6 +50,7 @@ export class NoteDeleteService {
 		private apRendererService: ApRendererService,
 		private apDeliverManagerService: ApDeliverManagerService,
 		private searchService: SearchService,
+		private latestNoteService: LatestNoteService,
 		private moderationLogService: ModerationLogService,
 		private notesChart: NotesChart,
 		private perUserNotesChart: PerUserNotesChart,
@@ -109,6 +111,8 @@ export class NoteDeleteService {
 		}
 
 		this.searchService.unindexNote(note);
+
+		this.latestNoteService.handleDeletedNote(note).catch(() => { /* ignore update failure */ });
 
 		await this.notesRepository.delete({
 			id: note.id,

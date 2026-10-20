@@ -84,6 +84,7 @@ import {
 	MiChatRoomMembership,
 	MiChatRoomInvitation,
 	MiChatApproval,
+	SkLatestNote,
 } from './_.js';
 import type { Provider } from '@nestjs/common';
 import type { DataSource } from 'typeorm';
@@ -544,6 +545,12 @@ const $reversiGamesRepository: Provider = {
 	inject: [DI.db],
 };
 
+const $latestNotesRepository: Provider = {
+	provide: DI.latestNotesRepository,
+	useFactory: (db: DataSource) => db.getRepository(SkLatestNote).extend(miRepository as MiRepository<SkLatestNote>),
+	inject: [DI.db],
+};
+
 @Module({
 	imports: [],
 	providers: [
@@ -623,6 +630,7 @@ const $reversiGamesRepository: Provider = {
 		$chatApprovalsRepository,
 		$bubbleGameRecordsRepository,
 		$reversiGamesRepository,
+		$latestNotesRepository,
 	],
 	exports: [
 		$usersRepository,
@@ -701,6 +709,7 @@ const $reversiGamesRepository: Provider = {
 		$chatApprovalsRepository,
 		$bubbleGameRecordsRepository,
 		$reversiGamesRepository,
+		$latestNotesRepository,
 	],
 })
 export class RepositoryModule {

@@ -109,6 +109,11 @@ export class MiMeta {
 	public mediaSilencedHosts: string[];
 
 	@Column('varchar', {
+		length: 256, array: true, default: '{}',
+	})
+	public bubbleInstances: string[];
+
+	@Column('varchar', {
 		length: 1024,
 		nullable: true,
 	})
