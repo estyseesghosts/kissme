@@ -21,13 +21,13 @@ Displays an account pending approval, with the signup reason and buttons to appr
 				<div>{{ email }}</div>
 			</div>
 			<div>
-				<div :class="$style.label">{{ skStrings.signupReason }}</div>
+				<div :class="$style.label">{{ i18n.ts.signupReason }}</div>
 				<div>{{ reason }}</div>
 			</div>
 		</div>
 		<div :class="$style.buttons">
-			<MkButton inline success @click="approveAccount()">{{ skStrings.approveAccount }}</MkButton>
-			<MkButton inline danger @click="deleteAccount()">{{ skStrings.denyAccount }}</MkButton>
+			<MkButton inline success @click="approveAccount()">{{ i18n.ts.approveAccount }}</MkButton>
+			<MkButton inline danger @click="deleteAccount()">{{ i18n.ts.denyAccount }}</MkButton>
 		</div>
 	</div>
 </MkFolder>
@@ -43,7 +43,6 @@ import { i18n } from '@/i18n.js';
 import * as os from '@/os.js';
 import { misskeyApi } from '@/utility/misskey-api.js';
 import { approveUser, declineUser } from '@/utility/sk-approvals-api.js';
-import { skStrings } from '@/utility/sk-strings.js';
 
 const props = defineProps<{
 	user: Misskey.entities.UserDetailedNotMe;
@@ -64,7 +63,7 @@ misskeyApi('admin/show-user', { userId: props.user.id }).then(info => {
 }).catch(() => { /* leave blank */ });
 
 async function deleteAccount() {
-	const confirm = await os.confirm({ type: 'warning', text: skStrings.denyAccountConfirm });
+	const confirm = await os.confirm({ type: 'warning', text: i18n.ts.denyAccountConfirm });
 	if (confirm.canceled) return;
 
 	await os.promiseDialog(declineUser(props.user.id));
@@ -72,7 +71,7 @@ async function deleteAccount() {
 }
 
 async function approveAccount() {
-	const confirm = await os.confirm({ type: 'warning', text: skStrings.approveConfirm });
+	const confirm = await os.confirm({ type: 'warning', text: i18n.ts.approveConfirm });
 	if (confirm.canceled) return;
 
 	await os.promiseDialog(approveUser(props.user.id));

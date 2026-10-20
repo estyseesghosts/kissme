@@ -14,16 +14,6 @@ import type { ParameterizedString } from 'i18n';
  */
 export const skStrings = {
 
-	// SkApprovalUser.vue, pages/admin/approvals.vue (Phase 8.1)
-	approvals: 'Approvals',
-	approveAccount: 'Approve',
-	denyAccount: 'Deny and delete',
-	signupReason: 'Signup reason',
-	approveConfirm: 'Approve this account?',
-	denyAccountConfirm: 'Deny and delete this account? This cannot be undone.',
-	approvalsUnsupported: 'This server does not support account approvals.',
-	approvalsEmpty: 'No accounts are waiting for approval.',
-
 	// SkPatternTest.vue (Phase 8.2)
 	wordMuteTestLabel: 'Test your mutes',
 	wordMuteTestDescription: 'Enter text to check against the mutes above. Each line is tested separately.',

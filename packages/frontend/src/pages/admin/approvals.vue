@@ -7,9 +7,9 @@ SPDX-License-Identifier: AGPL-3.0-only
 <PageWithHeader>
 	<div class="_spacer" style="--MI_SPACER-w: 900px;">
 		<MkLoading v-if="supported === null"/>
-		<MkInfo v-else-if="!supported" warn>{{ skStrings.approvalsUnsupported }}</MkInfo>
+		<MkInfo v-else-if="!supported" warn>{{ i18n.ts.approvalsUnsupported }}</MkInfo>
 		<MkPagination v-else :paginator="paginator" withControl>
-			<template #empty><MkResult type="empty" :text="skStrings.approvalsEmpty"/></template>
+			<template #empty><MkResult type="empty" :text="i18n.ts.approvalsEmpty"/></template>
 			<template #default="{ items }">
 				<div class="_gaps_s">
 					<SkApprovalUser v-for="item in items" :key="item.id" :user="item" @deleted="deleted"/>
@@ -26,9 +26,9 @@ import MkPagination from '@/components/MkPagination.vue';
 import MkInfo from '@/components/MkInfo.vue';
 import SkApprovalUser from '@/components/SkApprovalUser.vue';
 import { definePage } from '@/page.js';
+import { i18n } from '@/i18n.js';
 import { Paginator } from '@/utility/paginator.js';
 import { probeApprovalsSupported } from '@/utility/sk-approvals-api.js';
-import { skStrings } from '@/utility/sk-strings.js';
 
 // null = probing, false = backend lacks admin/approve-user (disabled note), true = enabled.
 const supported = ref<boolean | null>(null);
@@ -51,7 +51,7 @@ function deleted(id: string) {
 }
 
 definePage(() => ({
-	title: skStrings.approvals,
+	title: i18n.ts.approvals,
 	icon: 'ti ti-user-check',
 }));
 </script>

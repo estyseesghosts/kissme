@@ -51,6 +51,11 @@ Migrated (in both locale files, read via `i18n.ts`, gone from `sk-strings.ts`):
 - Following feed (`mutuals`, `showBots`, `showQuotes`, `showReplies`,
   `showNonPublicNotes`, `remoteFollowersWarning`) in
   `following-feed-utils.ts`, `SkRemoteFollowersWarning` — donor wording.
+- Admin approvals (`approvals`, `approveAccount`, `denyAccount`,
+  `signupReason`, `approveConfirm`, `denyAccountConfirm`,
+  `approvalsUnsupported`, `approvalsEmpty`) in `SkApprovalUser`,
+  `admin/approvals`, `admin/index` — donor wording adopted
+  (`denyAccount` is "Deny & Delete", `approveConfirm` the full sentence).
 
 Remaining (phases 1–3 are fully migrated):
 
@@ -58,14 +63,6 @@ Phase 4 additions. The last column notes where the wording comes from.
 
 | Key in `skStrings` | English text | Used in |
 |---|---|---|
-| `approvals` | `Approvals` | `SkApprovalUser / admin approvals` (donor) |
-| `approveAccount` | `Approve` | `SkApprovalUser / admin approvals` (donor) |
-| `denyAccount` | `Deny and delete` | `SkApprovalUser / admin approvals` (donor) |
-| `signupReason` | `Signup reason` | `SkApprovalUser / admin approvals` (donor) |
-| `approveConfirm` | `Approve this account?` | `SkApprovalUser / admin approvals` (donor) |
-| `denyAccountConfirm` | `Deny and delete this account? This cannot be undone.` | `SkApprovalUser / admin approvals` (donor) |
-| `approvalsUnsupported` | `This server does not support account approvals.` | `SkApprovalUser / admin approvals` (donor) |
-| `approvalsEmpty` | `No accounts are waiting for approval.` | `SkApprovalUser / admin approvals` (donor) |
 | `wordMuteTestLabel` | `Test your mutes` | `SkPatternTest` (donor) |
 | `wordMuteTestDescription` | `Enter text to check against the mutes above. Each line is tested separately.` | `SkPatternTest` (donor) |
 | `wordMuteTestTest` | `Test` | `SkPatternTest` (donor) |

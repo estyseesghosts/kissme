@@ -45,7 +45,6 @@ import { lookupUser, lookupUserByEmail, lookupFile } from '@/utility/admin-looku
 import { definePage, provideMetadataReceiver, provideReactiveMetadata } from '@/page.js';
 import { useRouter } from '@/router.js';
 import { genSearchIndexes } from '@/utility/inapp-search.js';
-import { skStrings } from '@/utility/sk-strings.js';
 
 const searchIndex = await import('search-index:admin').then(({ searchIndexes }) => genSearchIndexes(searchIndexes));
 
@@ -114,7 +113,7 @@ const menuDef = computed<SuperMenuDef[]>(() => [{
 		active: currentPage.value?.route.name === 'users',
 	}, {
 		icon: 'ti ti-user-check',
-		text: skStrings.approvals,
+		text: i18n.ts.approvals,
 		to: '/admin/approvals',
 		active: currentPage.value?.route.name === 'approvals',
 	}, {
