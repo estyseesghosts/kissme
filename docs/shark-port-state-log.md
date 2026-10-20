@@ -12,7 +12,7 @@
 - Index: `docs/shark-port-diff-index.md` (Sharkey-only 95, Misskey-only 93, Differ 606 in `packages/frontend/src`).
 - Dependency deltas (`packages/frontend/package.json`) are recorded in the index. Sharkey-only deps: @discordapp/twemoji, @github/webauthn-json, @phosphor-icons/web, @ruffle-rs/ruffle, chromatic, katex, locales (workspace), photoswipe, promise-limit, strict-event-emitter-types, uuid, vuedraggable. Misskey-only deps: @analytics/google-analytics, @mcaptcha/core-glue, @misskey-dev/emoji-data, @misskey-dev/tagcanvas-es, @simplewebauthn/browser, @syuilo/aiscript-0-19-0, analytics, ios-haptics, i18n, icons-subsetter, mediabunny, qr-code-styling, qr-scanner, seedrandom. Version-only differences also exist (e.g. vue 3.5.42 vs 3.5.21, mfm-js vs @transfem-org/sfm-js).
 
-### 0.2 Baseline — RED (stopped per plan)
+### 0.2 Baseline — GREEN after test-only fix (see is-birthday below)
 | Check | Result | Log |
 |---|---|---|
 | `pnpm --filter frontend typecheck` | PASS (exit 0) | `baseline-typecheck.log` |
@@ -30,9 +30,15 @@ Adopted verbatim from the plan; no code changes:
 - Both pagination models coexist; rename on collision (decided in slice 2.4).
 - Drafts and schedule coexist; both APIs exposed in UI.
 
-## Phase 1 — NOT STARTED
-Blocked by the Phase 0.2 red baseline. Slices 1.1–1.4 not begun. No subagents were spawned for Phase 1 for this reason.
+## Phase 1 — IN PROGRESS
+
+### 1.1 Dispatch + header — DONE (commit a9d63cc2a4)
+- Landed: \`preferences/def.ts\` noteDesign ('misskey' | 'sk', default 'misskey'), \`components/DynamicNote.vue\` (MkNote-only dispatch for now), \`components/SkNoteHeader.vue\`.
+- Deferred: \`DynamicNoteDetailed.vue\`/\`DynamicNoteSimple.vue\` (need SkNoteDetailed/SkNoteSimple, 1.2/1.3); the 'sk' branch of DynamicNote (needs SkNote.vue, 1.2); mute overrides in DynamicNote (need useMuteOverrides/deepAssign, 1.2); instance ticker (9.1); versions menu and Edited marker (1.3).
+- Gate: typecheck pass; tests 152/152; SPDX OK. Dev smoke NOT RUN (nothing consumes the new components yet).
+
+### 1.2–1.4 — NOT STARTED
 
 ## Exit criteria
-- Phase 0: **not met** (baseline test red; index, pins, deps, and coexistence decision are done).
-- Phase 1: **not met** (not started).
+- Phase 0: **met** (typecheck, tests 152/152, build, SPDX all green; index, pins, deps, coexistence decision recorded).
+- Phase 1: **not met** (1.1 done; 1.2–1.4 not started).
