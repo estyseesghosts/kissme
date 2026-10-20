@@ -26,7 +26,7 @@ profile reports `listenbrainz`, a Sharkey-only field; the `users/listenbrainz` e
 				</div>
 			</component>
 			<div class="flex flex-col items-start titles">
-				<p class="listening-to">{{ skStrings.listeningTo }}</p>
+				<p class="listening-to">{{ i18n.ts.listeningTo }}</p>
 				<p class="text-sm font-bold ellipsis">{{ data.title }}</p>
 				<p class="text-xs font-medium ellipsis">{{ data.artist }}</p>
 			</div>
@@ -47,7 +47,7 @@ profile reports `listenbrainz`, a Sharkey-only field; the `users/listenbrainz` e
 <script lang="ts" setup>
 import { ref, watch, computed, onMounted, onBeforeUnmount } from 'vue';
 import { prefer } from '@/preferences.js';
-import { skStrings } from '@/utility/sk-strings.js';
+import { i18n } from '@/i18n.js';
 import { getProxiedImageUrl } from '@/utility/media-proxy.js';
 import { warningExternalWebsite } from '@/utility/warning-external-website.js';
 import { fetchListenBrainz } from '@/utility/sk-listenbrainz-api.js';

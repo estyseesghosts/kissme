@@ -14,9 +14,6 @@ import type { ParameterizedString } from 'i18n';
  */
 export const skStrings = {
 
-	// SkListenBrainz.vue (Phase 9.1)
-	listeningTo: 'Listening to\u2026',
-
 	// SkMfmWindow.vue (Phase 9.1)
 	mfmCheatsheet: {
 		title: 'MFM Cheatsheet',

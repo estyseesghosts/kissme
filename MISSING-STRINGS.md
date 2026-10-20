@@ -71,6 +71,8 @@ Migrated (in both locale files, read via `i18n.ts`, gone from `sk-strings.ts`):
   (`systemAccountTitle`, `systemAccountDescription`) in
   `show-system-account-dialog` — port wording (donor has no about page or
   system-account dialog copy).
+- ListenBrainz (`listeningTo`) in `SkListenBrainz` — donor wording
+  (donor `_profile.listeningTo`).
 
 Remaining (phases 1–3 are fully migrated):
 
@@ -81,7 +83,6 @@ Phase 4 additions. The last column notes where the wording comes from.
 | `welcomeEntranceStyle` | `Entrance page style` | migrated to `_skSettings` (Phase 10); orphaned top-level ja-JP tail copies pending removal |
 | `welcomeEntranceStyleServer` | `Server default` | migrated to `_skSettings` (Phase 10); orphaned top-level ja-JP tail copies pending removal |
 | `welcomeEntranceStyleA` | `Sharkey (A)` | migrated to `_skSettings` (Phase 10); orphaned top-level ja-JP tail copies pending removal |
-| `listeningTo` | `Listening to…` | `SkListenBrainz` (Phase 9.1; donor `_profile.listeningTo`) |
 | `mfmCheatsheet.title` / `.openButton` | `MFM Cheatsheet` / `MFM cheatsheet` | `SkMfmWindow`, `MkPostForm` button (Phase 9.1; donor hard-coded the title) |
 | `mfmCheatsheet.intro` / `.dummy` / `.uncommonFeature` | donor `_mfm.intro` / `.dummy` / `.uncommonFeature` | `SkMfmWindow` (Phase 9.1) |
 | `mfmCheatsheet.sections.<id>.title` / `.description` (39 sections) | donor `_mfm.<id>` / `_mfm.<id>Description` | `SkMfmWindow` via `utility/sk-mfm-cheatsheet.ts` (Phase 9.1) |
