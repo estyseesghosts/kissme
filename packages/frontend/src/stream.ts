@@ -7,6 +7,8 @@ import * as Misskey from 'misskey-js';
 import { markRaw } from 'vue';
 import { $i } from '@/i.js';
 import { wsOrigin } from '@@/js/config.js';
+import { prefer } from '@/preferences.js';
+import { StreamMock } from '@/utility/stream-mock.js';
 
 // heart beat interval in ms
 const HEART_BEAT_INTERVAL = 1000 * 60;
@@ -17,6 +19,14 @@ let lastHeartbeatCall = 0;
 
 export function useStream(): Misskey.IStream {
 	if (stream) return stream;
+
+	// No-Websocket mode: never open a real connection.
+	if (prefer.s.disableStreamingTimeline) {
+		stream = markRaw(new StreamMock(wsOrigin, $i ? {
+			token: $i.token,
+		} : null));
+		return stream;
+	}
 
 	stream = markRaw(new Misskey.Stream(wsOrigin, $i ? {
 		token: $i.token,
