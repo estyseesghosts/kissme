@@ -270,6 +270,10 @@ export const PREF_DEF = definePreferences({
 	instanceTicker: {
 		default: 'remote' as 'none' | 'remote' | 'always',
 	},
+	// 'misskey' keeps the stock MkNote*; 'sk' selects the Sharkey-style SkNote*. Consumed by DynamicNote*.
+	noteDesign: {
+		default: 'misskey' as 'misskey' | 'sk',
+	},
 	emojiPickerScale: {
 		default: 2,
 	},
