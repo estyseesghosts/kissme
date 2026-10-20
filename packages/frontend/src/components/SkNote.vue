@@ -47,7 +47,7 @@ Displays a note in the Sharkey style. Used to show the "main" note in a given co
 			</span>
 			<span v-if="note.localOnly" style="margin-left: 0.5em;" :title="i18n.ts._visibility['disableFederation']"><i class="ti ti-rocket-off"></i></span>
 			<span v-if="note.channel" style="margin-left: 0.5em;" :title="note.channel.name"><i class="ti ti-device-tv"></i></span>
-			<span v-if="note.updatedAt" ref="menuVersionsButton" style="margin-left: 0.5em;" title="Edited" @mousedown="menuVersions()"><i class="ti ti-pencil"></i></span>
+			<span v-if="note.updatedAt" ref="menuVersionsButton" style="margin-left: 0.5em;" :title="i18n.ts.edited" @mousedown="menuVersions()"><i class="ti ti-pencil"></i></span>
 		</div>
 	</div>
 	<div v-if="renoteCollapsed" :class="$style.collapsedRenoteTarget">

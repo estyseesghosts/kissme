@@ -75,7 +75,7 @@ Detailed view of a note in the Sharkey style. Used when opening a note onto its 
 							<i v-else-if="appearNote.visibility === 'followers'" class="ti ti-lock"></i>
 							<i v-else-if="appearNote.visibility === 'specified'" ref="specified" class="ti ti-mail"></i>
 						</span>
-						<span v-if="appearNote.updatedAt" ref="menuVersionsButton" style="margin-left: 0.5em;" title="Edited" @mousedown="menuVersions()"><i class="ti ti-pencil"></i></span>
+						<span v-if="appearNote.updatedAt" ref="menuVersionsButton" style="margin-left: 0.5em;" :title="i18n.ts.edited" @mousedown="menuVersions()"><i class="ti ti-pencil"></i></span>
 						<span v-if="appearNote.localOnly" style="margin-left: 0.5em;" :title="i18n.ts._visibility['disableFederation']"><i class="ti ti-rocket-off"></i></span>
 					</div>
 					<SkInstanceTicker v-if="showTicker" style="cursor: pointer;" :host="appearNote.user.host" :instance="appearNote.user.instance" @click.stop="showNoteOnOriginalInstance(appearNote)"/>
