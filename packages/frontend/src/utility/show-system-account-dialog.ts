@@ -4,12 +4,12 @@
  */
 
 import * as os from '@/os.js';
-import { skStrings } from '@/utility/sk-strings.js';
+import { i18n } from '@/i18n.js';
 
 export function showSystemAccountDialog(): Promise<void> {
 	return os.alert({
 		type: 'error',
-		title: skStrings.systemAccountTitle,
-		text: skStrings.systemAccountDescription,
+		title: i18n.ts.systemAccountTitle,
+		text: i18n.ts.systemAccountDescription,
 	});
 }

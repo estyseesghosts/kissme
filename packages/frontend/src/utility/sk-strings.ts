@@ -14,22 +14,6 @@ import type { ParameterizedString } from 'i18n';
  */
 export const skStrings = {
 
-	// about-sharkey.vue, unsubscribe.vue (Phase 9.3)
-	aboutSharkey: 'About Sharkey',
-	aboutSharkeyDescription: 'Sharkey is open-source software forked from Misskey.',
-	aboutSharkeySource: 'Source code (Sharkey)',
-	aboutSharkeyDonate: 'Donate to Sharkey',
-	aboutSharkeyTesters: 'Testers',
-	aboutSharkeyMisskeyContributors: 'Misskey contributors',
-	aboutSharkeySponsors: 'Our lovely sponsors',
-	clickToUnsubscribe: 'Click OK to unsubscribe from these emails.',
-	unsubscribeError: 'Could not unsubscribe. The link may be invalid or expired.',
-	unsubscribeSuccess: 'You have been unsubscribed.',
-
-	// show-system-account-dialog.ts (Phase 9.4; not in the donor locale either)
-	systemAccountTitle: 'System account',
-	systemAccountDescription: 'This is a system account used by the server. It cannot be interacted with.',
-
 	// SkListenBrainz.vue (Phase 9.1)
 	listeningTo: 'Listening to\u2026',
 

@@ -21,7 +21,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 					<button v-if="thereIsTreasure" class="_button treasure" @click="getTreasure"><img src="/fluent-emoji/1f3c6.png" class="treasureImg"></button>
 				</div>
 				<div style="text-align: center;">
-					{{ skStrings.aboutSharkeyDescription }}<br><a href="https://joinsharkey.org/" target="_blank" rel="noopener" class="_link">{{ i18n.ts.learnMore }}</a>
+					{{ i18n.ts.aboutSharkeyDescription }}<br><a href="https://joinsharkey.org/" target="_blank" rel="noopener" class="_link">{{ i18n.ts.learnMore }}</a>
 				</div>
 				<div v-if="$i != null" style="text-align: center;">
 					<MkButton primary rounded inline @click="iLoveSharkey">I <Mfm text="$[jelly ❤]"/> #Sharkey</MkButton>
@@ -49,12 +49,12 @@ SPDX-License-Identifier: AGPL-3.0-only
 					<div class="_gaps_s">
 						<FormLink :to="SHARKEY_REPOSITORY" external>
 							<template #icon><i class="ti ti-code"></i></template>
-							{{ skStrings.aboutSharkeySource }}
+							{{ i18n.ts.aboutSharkeySource }}
 							<template #suffix>GitLab</template>
 						</FormLink>
 						<FormLink to="https://opencollective.com/sharkey" external>
 							<template #icon><i class="ti ti-pig-money"></i></template>
-							{{ skStrings.aboutSharkeyDonate }}
+							{{ i18n.ts.aboutSharkeyDonate }}
 							<template #suffix>OpenCollective</template>
 						</FormLink>
 					</div>
@@ -107,7 +107,6 @@ import { claimAchievement, claimedAchievements } from '@/utility/achievements.js
 import { $i } from '@/i.js';
 import { definePage } from '@/page.js';
 import { prefer } from '@/preferences.js';
-import { skStrings } from '@/utility/sk-strings.js';
 import { shuffled, sponsorsToPeople } from '@/utility/sk-static-pages.js';
 import type { SponsorData } from '@/utility/sk-static-pages.js';
 
@@ -192,7 +191,7 @@ const everyone = ref<Section[]>([
 		]),
 	},
 	{
-		heading: skStrings.aboutSharkeyTesters,
+		heading: i18n.ts.aboutSharkeyTesters,
 		people: [
 			{
 				handle: '@lucent',
@@ -212,7 +211,7 @@ const everyone = ref<Section[]>([
 		],
 	},
 	{
-		heading: skStrings.aboutSharkeyMisskeyContributors,
+		heading: i18n.ts.aboutSharkeyMisskeyContributors,
 		people: [
 			{
 				handle: '@syuilo',
@@ -286,7 +285,7 @@ onMounted(async () => {
 	try {
 		const res = await sponsorsApi('sponsors', { forceUpdate: false });
 		everyone.value.push({
-			heading: skStrings.aboutSharkeySponsors,
+			heading: i18n.ts.aboutSharkeySponsors,
 			people: sponsorsToPeople(res.sponsor_data),
 		});
 	} catch {
@@ -347,7 +346,7 @@ const headerActions = computed(() => []);
 const headerTabs = computed(() => []);
 
 definePage(() => ({
-	title: skStrings.aboutSharkey,
+	title: i18n.ts.aboutSharkey,
 }));
 </script>
 

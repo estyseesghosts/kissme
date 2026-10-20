@@ -66,6 +66,11 @@ Migrated (in both locale files, read via `i18n.ts`, gone from `sk-strings.ts`):
   donor wording, latter two keep the port wording (donor has none).
   `attributionDomainsUnsupported` is currently unused (kept for the
   backend-gap UI).
+- Static pages (`aboutSharkey*`, `clickToUnsubscribe`, `unsubscribeError`,
+  `unsubscribeSuccess`) in `about-sharkey`, `unsubscribe`, plus
+  (`systemAccountTitle`, `systemAccountDescription`) in
+  `show-system-account-dialog` — port wording (donor has no about page or
+  system-account dialog copy).
 
 Remaining (phases 1–3 are fully migrated):
 
@@ -73,21 +78,9 @@ Phase 4 additions. The last column notes where the wording comes from.
 
 | Key in `skStrings` | English text | Used in |
 |---|---|---|
-| `aboutSharkey` | `About Sharkey` | `about-sharkey page title` (Phase 9.3) |
-| `aboutSharkeyDescription` | `Sharkey is open-source software forked from Misskey.` | `about-sharkey` (Phase 9.3) |
-| `aboutSharkeySource` | `Source code (Sharkey)` | `about-sharkey` (Phase 9.3) |
-| `aboutSharkeyDonate` | `Donate to Sharkey` | `about-sharkey` (Phase 9.3) |
-| `aboutSharkeyTesters` | `Testers` | `about-sharkey` (Phase 9.3) |
-| `aboutSharkeyMisskeyContributors` | `Misskey contributors` | `about-sharkey` (Phase 9.3) |
-| `aboutSharkeySponsors` | `Our lovely sponsors` | `about-sharkey` (Phase 9.3) |
-| `clickToUnsubscribe` | `Click OK to unsubscribe from these emails.` | `unsubscribe` (Phase 9.3) |
-| `unsubscribeError` | `Could not unsubscribe. The link may be invalid or expired.` | `unsubscribe` (Phase 9.3) |
-| `unsubscribeSuccess` | `You have been unsubscribed.` | `unsubscribe (new, donor showed nothing)` (Phase 9.3) |
-| `welcomeEntranceStyle` | `Entrance page style` | `entrance pref label (no settings UI yet)` (Phase 9.3) |
-| `welcomeEntranceStyleServer` | `Server default` | `entrance pref option` (Phase 9.3) |
-| `welcomeEntranceStyleA` | `Sharkey (A)` | `entrance pref option` (Phase 9.3) |
-| `systemAccountTitle` | `System account` | `show-system-account-dialog` (donor key absent from donor locale; text written here) |
-| `systemAccountDescription` | `This is a system account used by the server. It cannot be interacted with.` | `show-system-account-dialog` |
+| `welcomeEntranceStyle` | `Entrance page style` | migrated to `_skSettings` (Phase 10); orphaned top-level ja-JP tail copies pending removal |
+| `welcomeEntranceStyleServer` | `Server default` | migrated to `_skSettings` (Phase 10); orphaned top-level ja-JP tail copies pending removal |
+| `welcomeEntranceStyleA` | `Sharkey (A)` | migrated to `_skSettings` (Phase 10); orphaned top-level ja-JP tail copies pending removal |
 | `listeningTo` | `Listening to…` | `SkListenBrainz` (Phase 9.1; donor `_profile.listeningTo`) |
 | `mfmCheatsheet.title` / `.openButton` | `MFM Cheatsheet` / `MFM cheatsheet` | `SkMfmWindow`, `MkPostForm` button (Phase 9.1; donor hard-coded the title) |
 | `mfmCheatsheet.intro` / `.dummy` / `.uncommonFeature` | donor `_mfm.intro` / `.dummy` / `.uncommonFeature` | `SkMfmWindow` (Phase 9.1) |

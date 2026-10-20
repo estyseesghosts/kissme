@@ -11,7 +11,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<i class="ti ti-user-edit"></i>
 			</div>
 			<div class="_gaps_m" style="padding: 32px;">
-				<div>{{ done ? skStrings.unsubscribeSuccess : skStrings.clickToUnsubscribe }}</div>
+				<div>{{ done ? i18n.ts.unsubscribeSuccess : i18n.ts.clickToUnsubscribe }}</div>
 				<div v-if="!done">
 					<MkButton gradate large rounded type="submit" :disabled="submitting" data-cy-admin-ok style="margin: 0 auto;">
 						{{ submitting ? i18n.ts.processing : i18n.ts.ok }}<MkEllipsis v-if="submitting"/>
@@ -29,7 +29,6 @@ import MkButton from '@/components/MkButton.vue';
 import { i18n } from '@/i18n.js';
 import * as os from '@/os.js';
 import { misskeyApi } from '@/utility/misskey-api.js';
-import { skStrings } from '@/utility/sk-strings.js';
 import { buildUnsubscribeEndpoint } from '@/utility/sk-static-pages.js';
 
 const submitting = ref(false);
@@ -57,7 +56,7 @@ function submit() {
 		os.alert({
 			type: 'error',
 			title: i18n.ts.somethingHappened,
-			text: skStrings.unsubscribeError,
+			text: i18n.ts.unsubscribeError,
 		});
 	});
 }
