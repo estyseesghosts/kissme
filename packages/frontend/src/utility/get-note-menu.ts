@@ -268,6 +268,20 @@ export function getNoteMenu(props: {
 		});
 	}
 
+	function toggleNoteMute(mute: boolean): void {
+		// `notes/thread-muting/*` is typed in misskey-js with `{ noteId }`
+		// only; the Sharkey-only `noteOnly` flag rides along as an untyped
+		// extra (`{ noteId, noteOnly: true }` mutes just this note).
+		// Remove this cast once misskey-js exposes `noteOnly`.
+		(os.apiWithDialog as unknown as (endpoint: string, body: object) => Promise<unknown>)(
+			mute ? 'notes/thread-muting/create' : 'notes/thread-muting/delete',
+			{
+				noteId: appearNote.id,
+				noteOnly: true,
+			},
+		);
+	}
+
 	function copyContent(): void {
 		copyToClipboard(appearNote.text);
 	}
@@ -468,6 +482,23 @@ export function getNoteMenu(props: {
 			text: i18n.ts.muteThread,
 			action: () => toggleThreadMute(true),
 		}));
+
+		// Sharkey packs `isMutingNote` on the note; upstream Misskey does not,
+		// so read it through a cast (undefined when the backend lacks it).
+		// When absent the mute action is still offered: the endpoint call
+		// reports the backend error honestly via apiWithDialog instead of
+		// faking the mute.
+		const skNoteMuted = (appearNote as unknown as { isMutingNote?: boolean }).isMutingNote ?? false;
+
+		menuItems.push(skNoteMuted ? {
+			icon: 'ti ti-message-off',
+			text: i18n.ts.unmuteNote,
+			action: () => toggleNoteMute(false),
+		} : {
+			icon: 'ti ti-message-off',
+			text: i18n.ts.muteNote,
+			action: () => toggleNoteMute(true),
+		});
 
 		if (appearNote.userId === $i.id) {
 			if (($i.pinnedNoteIds ?? []).includes(appearNote.id)) {

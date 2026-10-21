@@ -129,7 +129,7 @@ session; no browser connected).
 | `notes/versions` | absent | PRESENT | untyped alias; empty menu on failure |
 | `notes/following` | absent | absent | Paginator cast; list error state on failure |
 | `notes/bubble-timeline` | absent | absent | untyped cast via `buildTimelineQuery`; bubble branch on renderer; `MkError` state on failure; `btlAvailable`-gated tab |
-| `notes/thread-muting/create\|delete` | PRESENT | absent | direct typed call; `apiWithDialog` error surfaces honestly on Pinetree |
+| `notes/thread-muting/create\|delete` | PRESENT | absent | thread items: direct typed call; note items: untyped alias with `noteOnly: true` (see `sk-note-mute.md`); `apiWithDialog` error surfaces honestly on Pinetree |
 | `admin/approve-user`, `admin/decline-user` | absent | absent | `probeApprovalsSupported()` shows the disabled note |
 | `admin/cw-note`, `admin/cw-user` | absent | absent | direct untyped calls from the menus; errors surface |
 | `i/shared-access/*` | absent | absent | untyped aliases; unsupported note in the dialog |
@@ -147,8 +147,11 @@ Grouped:
   `i/shared-access/*`, `users/listenbrainz`. The frontend degrades honestly
   (disabled notes, empty menus, error states) — never faked.
 - **Stock endpoint missing on Pinetree**: `notes/thread-muting/*` is typed in
-  misskey-js but Pinetree answers `UNKNOWN_API_ENDPOINT`; the menu action
-  fails through the standard error dialog.
+  misskey-js but Pinetree answers `UNKNOWN_API_ENDPOINT`; the thread and note
+  menu actions fail through the standard error dialog.
+- `isMutingNote` additionally drives the single-note menu items
+  (see `sk-note-mute.md`); on backends without the field the mute action is
+  still offered and reports the backend error honestly.
 
 Fields absent from the upstream API (read through casts; behavior is a no-op when missing):
 
@@ -245,4 +248,5 @@ See [phase9-utilities.md](phase9-utilities.md) for the per-utility disposition t
 | `SkSearchResultWindow.vue` | [SkSearchResultWindow.md](SkSearchResultWindow.md) | Search-results window for the search page/widget. |
 | `SkErrorList.vue` | [SkErrorList.md](SkErrorList.md) | Note `processErrors` caution block. |
 | `utility/sk-like.ts` | [sk-like.md](sk-like.md) | Honest `notes/like` seam (PRESENT on Pinetree). |
+| `utility/get-note-menu.ts` (single-note mute items) | [sk-note-mute.md](sk-note-mute.md) | Untyped `noteOnly: true` alias; `muteNote`/`unmuteNote` items driven by cast-read `isMutingNote`, honest error when unsupported. Tested. |
 | `pages/search.note.vue` (+ `utility/sk-note-search-params.ts`) | [search-filetype.md](search-filetype.md) | Gap 3: Sharkey file-type dropdown restored (additive); untyped cast, honest error state. |

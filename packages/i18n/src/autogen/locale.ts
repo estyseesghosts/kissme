@@ -13867,6 +13867,14 @@ export interface Locale extends ILocale {
      */
     "likeNotSupported": string;
     /**
+     * ノートをミュート
+     */
+    "muteNote": string;
+    /**
+     * ノートのミュートを解除
+     */
+    "unmuteNote": string;
+    /**
      * 相互フォロー
      */
     "mutuals": string;
