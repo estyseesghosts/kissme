@@ -524,6 +524,8 @@ import type {
 	NotesDraftsListResponse,
 	NotesDraftsUpdateRequest,
 	NotesDraftsUpdateResponse,
+	NotesEditRequest,
+	NotesEditResponse,
 	NotesFavoritesCreateRequest,
 	NotesFavoritesDeleteRequest,
 	NotesFeaturedRequest,
@@ -550,6 +552,10 @@ import type {
 	NotesRenotesResponse,
 	NotesRepliesRequest,
 	NotesRepliesResponse,
+	NotesScheduleCreateRequest,
+	NotesScheduleDeleteRequest,
+	NotesScheduleListRequest,
+	NotesScheduleListResponse,
 	NotesSearchRequest,
 	NotesSearchResponse,
 	NotesSearchByTagRequest,
@@ -569,6 +575,8 @@ import type {
 	NotesUnrenoteRequest,
 	NotesUserListTimelineRequest,
 	NotesUserListTimelineResponse,
+	NotesVersionsRequest,
+	NotesVersionsResponse,
 	NotificationsCreateRequest,
 	PagePushRequest,
 	PagesCreateRequest,
@@ -1030,6 +1038,7 @@ export type Endpoints = {
 	'notes/drafts/delete': { req: NotesDraftsDeleteRequest; res: EmptyResponse };
 	'notes/drafts/list': { req: NotesDraftsListRequest; res: NotesDraftsListResponse };
 	'notes/drafts/update': { req: NotesDraftsUpdateRequest; res: NotesDraftsUpdateResponse };
+	'notes/edit': { req: NotesEditRequest; res: NotesEditResponse };
 	'notes/favorites/create': { req: NotesFavoritesCreateRequest; res: EmptyResponse };
 	'notes/favorites/delete': { req: NotesFavoritesDeleteRequest; res: EmptyResponse };
 	'notes/featured': { req: NotesFeaturedRequest; res: NotesFeaturedResponse };
@@ -1046,6 +1055,9 @@ export type Endpoints = {
 	'notes/reactions/delete': { req: NotesReactionsDeleteRequest; res: EmptyResponse };
 	'notes/renotes': { req: NotesRenotesRequest; res: NotesRenotesResponse };
 	'notes/replies': { req: NotesRepliesRequest; res: NotesRepliesResponse };
+	'notes/schedule/create': { req: NotesScheduleCreateRequest; res: EmptyResponse };
+	'notes/schedule/delete': { req: NotesScheduleDeleteRequest; res: EmptyResponse };
+	'notes/schedule/list': { req: NotesScheduleListRequest; res: NotesScheduleListResponse };
 	'notes/search': { req: NotesSearchRequest; res: NotesSearchResponse };
 	'notes/search-by-tag': { req: NotesSearchByTagRequest; res: NotesSearchByTagResponse };
 	'notes/show': { req: NotesShowRequest; res: NotesShowResponse };
@@ -1057,6 +1069,7 @@ export type Endpoints = {
 	'notes/translate': { req: NotesTranslateRequest; res: NotesTranslateResponse };
 	'notes/unrenote': { req: NotesUnrenoteRequest; res: EmptyResponse };
 	'notes/user-list-timeline': { req: NotesUserListTimelineRequest; res: NotesUserListTimelineResponse };
+	'notes/versions': { req: NotesVersionsRequest; res: NotesVersionsResponse };
 	'notifications/create': { req: NotificationsCreateRequest; res: EmptyResponse };
 	'notifications/flush': { req: EmptyRequest; res: EmptyResponse };
 	'notifications/mark-all-as-read': { req: EmptyRequest; res: EmptyResponse };

@@ -627,6 +627,8 @@ export const packedMeDetailedOnlySchema = {
 				pollEnded: { optional: true, ...notificationRecieveConfig },
 				scheduledNotePosted: { optional: true, ...notificationRecieveConfig },
 				scheduledNotePostFailed: { optional: true, ...notificationRecieveConfig },
+				edited: { optional: true, ...notificationRecieveConfig },
+				scheduledNoteFailed: { optional: true, ...notificationRecieveConfig },
 				receiveFollowRequest: { optional: true, ...notificationRecieveConfig },
 				followRequestAccepted: { optional: true, ...notificationRecieveConfig },
 				roleAssigned: { optional: true, ...notificationRecieveConfig },

@@ -92,5 +92,7 @@ export const DI = {
 	reversiGamesRepository: Symbol('reversiGamesRepository'),
 	latestNotesRepository: Symbol('latestNotesRepository'),
 	noteDraftsRepository: Symbol('noteDraftsRepository'),
+	noteEditsRepository: Symbol('noteEditsRepository'),
+	noteScheduleRepository: Symbol('noteScheduleRepository'),
 	//#endregion
 };

@@ -14,6 +14,7 @@ import {
 	EndedPollNotificationJobData,
 	InboxJobData,
 	RelationshipJobData,
+	ScheduleNotePostJobData,
 	UserWebhookDeliverJobData,
 	SystemWebhookDeliverJobData,
 	PostScheduledNoteJobData,
@@ -22,6 +23,7 @@ import type { Provider } from '@nestjs/common';
 
 export type SystemQueue = Bull.Queue<Record<string, unknown>>;
 export type EndedPollNotificationQueue = Bull.Queue<EndedPollNotificationJobData>;
+export type ScheduleNotePostQueue = Bull.Queue<ScheduleNotePostJobData>;
 export type PostScheduledNoteQueue = Bull.Queue<PostScheduledNoteJobData>;
 export type DeliverQueue = Bull.Queue<DeliverJobData>;
 export type InboxQueue = Bull.Queue<InboxJobData>;
@@ -50,6 +52,12 @@ const $endedPollNotification: Provider = {
 const $postScheduledNote: Provider = {
 	provide: 'queue:postScheduledNote',
 	useFactory: (config: Config) => createQueue<PostScheduledNoteJobData>(QUEUE.POST_SCHEDULED_NOTE, config),
+	inject: [DI.config],
+};
+
+const $scheduleNotePost: Provider = {
+	provide: 'queue:scheduleNotePost',
+	useFactory: (config: Config) => createQueue<ScheduleNotePostJobData>(QUEUE.SCHEDULE_NOTE_POST, config),
 	inject: [DI.config],
 };
 
@@ -101,6 +109,7 @@ const $systemWebhookDeliver: Provider = {
 	providers: [
 		$system,
 		$endedPollNotification,
+		$scheduleNotePost,
 		$postScheduledNote,
 		$deliver,
 		$inbox,
@@ -113,6 +122,7 @@ const $systemWebhookDeliver: Provider = {
 	exports: [
 		$system,
 		$endedPollNotification,
+		$scheduleNotePost,
 		$postScheduledNote,
 		$deliver,
 		$inbox,
@@ -128,6 +138,7 @@ export class QueueModule implements OnApplicationShutdown {
 		@Inject('queue:system') public systemQueue: SystemQueue,
 		@Inject('queue:endedPollNotification') public endedPollNotificationQueue: EndedPollNotificationQueue,
 		@Inject('queue:postScheduledNote') public postScheduledNoteQueue: PostScheduledNoteQueue,
+		@Inject('queue:scheduleNotePost') public scheduleNotePostQueue: ScheduleNotePostQueue,
 		@Inject('queue:deliver') public deliverQueue: DeliverQueue,
 		@Inject('queue:inbox') public inboxQueue: InboxQueue,
 		@Inject('queue:db') public dbQueue: DbQueue,
@@ -144,6 +155,7 @@ export class QueueModule implements OnApplicationShutdown {
 		await Promise.all([
 			this.systemQueue.close(),
 			this.endedPollNotificationQueue.close(),
+			this.scheduleNotePostQueue.close(),
 			this.postScheduledNoteQueue.close(),
 			this.deliverQueue.close(),
 			this.inboxQueue.close(),

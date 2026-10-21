@@ -14,6 +14,8 @@
  * pollEnded - 自分のアンケートもしくは自分が投票したアンケートが終了した
  * scheduledNotePosted - 予約したノートが投稿された
  * scheduledNotePostFailed - 予約したノートの投稿に失敗した
+ * edited - 投稿が編集された
+ * scheduledNoteFailed - スケジュールノートの投稿に失敗した
  * receiveFollowRequest - フォローリクエストされた
  * followRequestAccepted - 自分の送ったフォローリクエストが承認された
  * roleAssigned - ロールが付与された
@@ -36,6 +38,8 @@ export const notificationTypes = [
 	'pollEnded',
 	'scheduledNotePosted',
 	'scheduledNotePostFailed',
+	'edited',
+	'scheduledNoteFailed',
 	'receiveFollowRequest',
 	'followRequestAccepted',
 	'roleAssigned',

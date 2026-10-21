@@ -50,6 +50,7 @@ export interface MainEventTypes {
 	mention: Packed<'Note'>;
 	reply: Packed<'Note'>;
 	renote: Packed<'Note'>;
+	edited: Packed<'Note'>;
 	follow: Packed<'UserDetailedNotMe'>;
 	followed: Packed<'UserLite'>;
 	unfollow: Packed<'UserDetailedNotMe'>;

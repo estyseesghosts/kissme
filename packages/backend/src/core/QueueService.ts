@@ -31,6 +31,7 @@ import type {
 	DeliverQueue,
 	EndedPollNotificationQueue,
 	PostScheduledNoteQueue,
+	ScheduleNotePostQueue,
 	InboxQueue,
 	ObjectStorageQueue,
 	RelationshipQueue,
@@ -45,6 +46,7 @@ export const QUEUE_TYPES = [
 	'system',
 	'endedPollNotification',
 	'postScheduledNote',
+	'scheduleNotePost',
 	'deliver',
 	'inbox',
 	'db',
@@ -107,6 +109,7 @@ export class QueueService {
 		@Inject('queue:system') public systemQueue: SystemQueue,
 		@Inject('queue:endedPollNotification') public endedPollNotificationQueue: EndedPollNotificationQueue,
 		@Inject('queue:postScheduledNote') public postScheduledNoteQueue: PostScheduledNoteQueue,
+		@Inject('queue:scheduleNotePost') public scheduleNotePostQueue: ScheduleNotePostQueue,
 		@Inject('queue:deliver') public deliverQueue: DeliverQueue,
 		@Inject('queue:inbox') public inboxQueue: InboxQueue,
 		@Inject('queue:db') public dbQueue: DbQueue,
@@ -733,6 +736,7 @@ export class QueueService {
 			case 'system': return this.systemQueue;
 			case 'endedPollNotification': return this.endedPollNotificationQueue;
 			case 'postScheduledNote': return this.postScheduledNoteQueue;
+			case 'scheduleNotePost': return this.scheduleNotePostQueue;
 			case 'deliver': return this.deliverQueue;
 			case 'inbox': return this.inboxQueue;
 			case 'db': return this.dbQueue;

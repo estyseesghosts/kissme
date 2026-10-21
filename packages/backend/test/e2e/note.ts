@@ -1037,4 +1037,55 @@ describe('Note', () => {
 			assert.strictEqual(castAsError(res.body).error.code, 'UNAVAILABLE');
 		});
 	});
+
+	describe('notes/schedule', () => {
+		test('create → list → delete roundtrip', async () => {
+			const createRes = await api('notes/schedule/create', {
+				text: 'scheduled note',
+				scheduleNote: { scheduledAt: Date.now() + 60 * 1000 },
+			}, alice);
+			assert.strictEqual(createRes.status, 200);
+
+			const listRes = await api('notes/schedule/list', {}, alice);
+			assert.strictEqual(listRes.status, 200);
+			assert.strictEqual(Array.isArray(listRes.body), true);
+			assert.strictEqual(listRes.body.length, 1);
+			const item = listRes.body[0];
+			assert.strictEqual(item.note.text, 'scheduled note');
+			assert.strictEqual(item.userId, alice.id);
+
+			const deleteRes = await api('notes/schedule/delete', { noteId: item.id }, alice);
+			assert.ok(deleteRes.status === 200 || deleteRes.status === 204);
+
+			const listRes2 = await api('notes/schedule/list', {}, alice);
+			assert.strictEqual(listRes2.status, 200);
+			assert.strictEqual(listRes2.body.length, 0);
+		});
+
+		test('cannot schedule in the past', async () => {
+			const res = await api('notes/schedule/create', {
+				text: 'past note',
+				scheduleNote: { scheduledAt: Date.now() - 1000 },
+			}, alice);
+			assert.strictEqual(res.status, 400);
+			assert.strictEqual(castAsError(res.body as any).error.code, 'CANNOT_CREATE_ALREADY_EXPIRED_SCHEDULE');
+		});
+	});
+
+	describe('notes/edit', () => {
+		test('edit returns updated createdNote and versions lists the snapshot', async () => {
+			const created = await post(alice, { text: 'before edit' });
+
+			const editRes = await api('notes/edit', { editId: created.id, text: 'after edit' }, alice);
+			assert.strictEqual(editRes.status, 200);
+			assert.strictEqual(editRes.body.createdNote.id, created.id);
+			assert.strictEqual(editRes.body.createdNote.text, 'after edit');
+
+			const versionsRes = await api('notes/versions', { noteId: created.id }, alice);
+			assert.strictEqual(versionsRes.status, 200);
+			assert.ok(Array.isArray(versionsRes.body));
+			assert.ok(versionsRes.body.length >= 1);
+			assert.ok(versionsRes.body.some(v => v.text === 'before edit'));
+		});
+	});
 });
