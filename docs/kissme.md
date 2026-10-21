@@ -72,8 +72,9 @@ Stock Misskey code always wins; Sharkey behavior is added, never substituted.
 - Admin approvals queue — [sk-admin-approvals.md](sk-port/sk-admin-approvals.md)
 - Shared-access login dialog — [SkSigninSharedAccessDialog.md](sk-port/SkSigninSharedAccessDialog.md)
 - Attribution domains setting — [sk-attribution-domains.md](sk-port/sk-attribution-domains.md)
-- ListenBrainz, MFM cheatsheet, oneko, follow-mouse, ticker, badges —
-  [phase-9-1-9-2.md](sk-port/phase-9-1-9-2.md)
+- ListenBrainz, MFM cheatsheet, oneko, follow-mouse, ticker —
+  [phase-9-1-9-2.md](sk-port/phase-9-1-9-2.md) (`SkBadgeStrip` deleted in Gap 5:
+  no clean wiring target)
 - Static pages (about-sharkey, unsubscribe, Sharkey entrance) —
   [static-pages.md](sk-port/static-pages.md)
 - Search-results window, search widget wiring —
@@ -82,23 +83,22 @@ Stock Misskey code always wins; Sharkey behavior is added, never substituted.
   [MkUrlWarningDialog.md](sk-port/MkUrlWarningDialog.md),
   [SkErrorList.md](sk-port/SkErrorList.md)
 
+- Live reply append in open threads (`replied` / `updated` stream events via
+  additive `use-note-capture` callbacks) — [SkNoteLiveReplies.md](sk-port/SkNoteLiveReplies.md)
+- Single-note mute menu (`noteOnly` thread-muting seam) — [sk-note-mute.md](sk-port/sk-note-mute.md)
+- File-type search filter — [search-filetype.md](sk-port/search-filetype.md)
+- Bubble timeline surface (policy-gated tab, deck column, widget inheritance) —
+  [bubble-timeline.md](sk-port/bubble-timeline.md)
+- Backend contract index for the above — [backend-requirements.md](sk-port/backend-requirements.md)
+
 ## What it explicitly does not do
 
-- **No per-file-type search filter.** The donor's search page offers a file-type
-  dropdown (`_noteSearch.fileType`); the port's search page does not. Dropped,
-  not deferred to a pref.
-- **No single-note mute menu.** The donor's note menu has mute/unmute-note items
-  driven by `appearNote.isMutingNote`; that field is absent from the API, so
-  the port ships only the thread-mute items (state via `notes/state`).
-  A note-mute item with no state to show would be dead UI.
 - **No full no-websocket mode.** `disableStreamingTimeline` swaps the stream
   for `StreamMock` (`utility/stream-mock.ts`); the donor's deeper offline
   behavior is not reproduced.
-- **No bubble timeline UI.** The `notes/bubble-timeline` mapping and query
-  builder are ported and tested, but no timeline, deck column or widget exposes
-  the source (the endpoint is absent on Pinetree too), so there is no dead UI.
 - **No backend changes.** Anything the backend lacks (approval endpoints,
-  shared-access, CW admin, ListenBrainz field, mandatory-CW / silence fields)
+  shared-access, CW admin, ListenBrainz field, mandatory-CW / silence fields,
+  and the Gap contracts in [backend-requirements.md](sk-port/backend-requirements.md))
   is a documented gap for the backend maintainers, not worked around in the
   frontend.
 

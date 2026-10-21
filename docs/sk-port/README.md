@@ -250,3 +250,10 @@ See [phase9-utilities.md](phase9-utilities.md) for the per-utility disposition t
 | `utility/sk-like.ts` | [sk-like.md](sk-like.md) | Honest `notes/like` seam (PRESENT on Pinetree). |
 | `utility/get-note-menu.ts` (single-note mute items) | [sk-note-mute.md](sk-note-mute.md) | Untyped `noteOnly: true` alias; `muteNote`/`unmuteNote` items driven by cast-read `isMutingNote`, honest error when unsupported. Tested. |
 | `pages/search.note.vue` (+ `utility/sk-note-search-params.ts`) | [search-filetype.md](search-filetype.md) | Gap 3: Sharkey file-type dropdown restored (additive); untyped cast, honest error state. |
+
+## Backend requirements for the five Gap fixes
+
+[backend-requirements.md](backend-requirements.md): per gap, (1) what the
+frontend changed and why, (2) the exact endpoint contracts (method, params,
+response shape) and entity fields any backend must implement for the feature
+to function. Gap 5 needs no backend work.
