@@ -364,9 +364,11 @@ Base: `de89118a22`. Branch: `jules/kissme-server-b-schedule-edit`.
    queue (which serves `note_draft`-based scheduling); the two systems are independent.
 3. **Donor `MiNote` columns.** Donor `MiNote` HAS `updatedAt: Date | null` and
    `mandatoryCW: string | null`. Upstream `MiNote` (`packages/backend/src/models/Note.ts`)
-   has NEITHER (verified). **Not added here** — owned by workstreams (e)/(f)
-   (entity columns). `NoteEditService` is ported as-is with minimal type-relaxation
-   casts at the three touch points, each marked `TODO(workstreams-e/f)`.
+   has NEITHER (verified). **Not added here** — owned by workstreams (e)/(f). At merge time the (e)/(f) columns
+   had landed, so integration enables the donor-verbatim writes (`updatedAt`,
+   `mandatoryCW`, `processErrors`) and drops the casts; `oldDate` on later edits
+   reads the real `note.updatedAt`. `LatestNoteService.handleUpdatedNote` is wired
+   into `edit()` (fire-and-forget, mirroring create/delete).
 
 ## 1. Contract
 
@@ -443,16 +445,19 @@ Error-ID policy: donor UUIDs reused verbatim after collision-grep against
   omitted (TODO in code); `instanceChart.updateNote` kept behind existing meta flags.
 - `user.noindex` absent on upstream `MiUser` → search index called unconditionally
   (mirrors upstream `create()`).
-- `processErrors` field dropped from ported `Option` (upstream `MiNote` has no such
-  column; the `notes/edit` endpoint never sends it).
-- `mandatoryCW` / `note.updatedAt` (missing upstream columns): casts + `TODO(workstreams-e/f)`.
+- `processErrors` re-added to ported `Option` + donor write at integration
+  (upstream `MiNote` gained the column via workstream f; the `notes/edit`
+  endpoint still never sends it — service-level use only).
+- `mandatoryCW` / `note.updatedAt` writes enabled at integration (columns landed
+  via workstreams e/f); casts removed.
 - Schedule processor posts via upstream `NoteCreateService.fetchAndCreate` (ID-based params)
   instead of donor `create()` (object params); `visibleUsers: MinimumUser[]` → ID array.
 
 ## 3. Deliberately NOT implemented
 
 - Frontend (web UI for schedule/edit/versions), locales/i18n strings.
-- `MiNote.updatedAt` / `MiNote.mandatoryCW` columns + their migrations (workstreams e/f).
+- `MiNote.updatedAt` / `MiNote.mandatoryCW` columns + their migrations (landed via
+  workstreams e/f and wired up at integration).
 - Quote-permission checks (`checkQuotePermissions`, `quoteDisabledForUser` trigger).
 - `postScheduledNote` (draft-based) changes — untouched; both schedulers coexist.
 - Webhook event type `edited` (donor `WebhookTestService` only; no runtime use in ported flow).

@@ -8,11 +8,11 @@
  *   queue, absent upstream) -> direct postNoteEdited() call.
  * - noteVisibilityService -> noteEntityService.isVisibleForMe; CacheService thread/list
  *   caches + getUserRelation/findUsersById -> repository calls mirroring NoteCreateService.
- * - collapsedQueueService/LatestNoteService absent -> instance/user count-queue updates
- *   and latest-note handling omitted (TODOs below).
+ * - collapsedQueueService absent -> instance/user count-queue updates omitted
+ *   (TODOs below). LatestNoteService is wired (landed with workstream f).
  * - checkQuotePermissions omitted: quote-permission feature absent upstream.
- * - TODO(workstreams-e/f): MiNote.updatedAt/mandatoryCW columns are owned by
- *   workstreams (e)/(f); touched here only through explicitly-marked casts.
+ * - MiNote.updatedAt/mandatoryCW columns have landed (workstreams e/f);
+ *   written and read directly.
  */
 
 import * as mfm from 'mfm-js';
@@ -25,6 +25,7 @@ import { extractHashtags } from '@/misc/extract-hashtags.js';
 import { concat } from '@/misc/prelude/array.js';
 import { normalizeForSearch } from '@/misc/normalize-for-search.js';
 import { bindThis } from '@/decorators.js';
+import { LatestNoteService } from '@/core/LatestNoteService.js';
 import { isReply } from '@/misc/is-reply.js';
 import { isRenote, isQuote } from '@/misc/is-renote.js';
 import type { IMentionedRemoteUsers } from '@/models/Note.js';
@@ -144,6 +145,7 @@ export type Option = {
 	app?: MiApp | null;
 	updatedAt?: Date | null;
 	mandatoryCW?: string | null;
+	processErrors?: string[] | null;
 };
 
 @Injectable()
@@ -216,6 +218,7 @@ export class NoteEditService implements OnApplicationShutdown {
 		private utilityService: UtilityService,
 		private userBlockingService: UserBlockingService,
 		private noteCreateService: NoteCreateService,
+		private latestNoteService: LatestNoteService,
 	) {
 	}
 
@@ -442,9 +445,8 @@ export class NoteEditService implements OnApplicationShutdown {
 			throw new IdentifiableError('9f466dab-c856-48cd-9e65-ff90ff750580', 'Note contains too many mentions');
 		}
 
-		// TODO(workstreams-e/f): MiNote has no updatedAt/mandatoryCW columns yet (owned by
-		// workstreams e/f). The casts below keep this compiling and become exact once they land.
-		const oldNoteWithEditColumns = oldNote as MiNote & { mandatoryCW?: string | null; updatedAt?: Date | null };
+		// The edit columns now exist (workstreams e/f merged): read them directly.
+		const oldNoteWithEditColumns = oldNote;
 		const update: Partial<MiNote> & { mandatoryCW?: string | null } = {};
 		if (data.text !== undefined && data.text !== oldNote.text) {
 			update.text = data.text;
@@ -487,12 +489,10 @@ export class NoteEditService implements OnApplicationShutdown {
 				hasPoll: oldPoll != null,
 			});
 
-			// NOTE: updatedAt/mandatoryCW are intentionally NOT set on the written object:
-			// those MiNote columns do not exist yet (owned by workstreams e/f) and
-			// passing unknown properties to TypeORM update() throws
-			// EntityPropertyNotFoundError. Re-enable the assignments below once they land.
+			// The edit columns exist now (workstreams e/f merged): write them donor-verbatim.
 			const noteData: Partial<MiNote> = {
 				id: oldNote.id,
+				updatedAt: data.updatedAt ? data.updatedAt : new Date(),
 				fileIds: data.files ? data.files.map(file => file.id) : [],
 				replyId: oldNote.replyId,
 				renoteId: data.renote ? data.renote.id : null,
@@ -528,16 +528,14 @@ export class NoteEditService implements OnApplicationShutdown {
 				renoteUserHost: data.renote ? data.renote.userHost : null,
 				userHost: user.host,
 				reactionAndUserPairCache: oldNote.reactionAndUserPairCache,
+				mandatoryCW: data.mandatoryCW,
 			};
-
-			// TODO(workstreams-e/f): once MiNote gains updatedAt/mandatoryCW, assign here:
-			// (note as unknown as { updatedAt: Date | null }).updatedAt = data.updatedAt ?? new Date();
-			// (note as unknown as { mandatoryCW: string | null }).mandatoryCW = data.mandatoryCW;
 
 			const note = new MiNote(noteData);
 
 			if (data.uri != null) note.uri = data.uri;
 			if (data.url != null) note.url = data.url;
+			if (data.processErrors !== undefined) note.processErrors = data.processErrors;
 
 			if (mentionedUsers.length > 0) {
 				note.mentions = mentionedUsers.map(u => u.id);
@@ -596,6 +594,11 @@ export class NoteEditService implements OnApplicationShutdown {
 			const currentPoll = await this.pollsRepository.findOneBy({ noteId: note.id });
 			await this.postNoteEdited(edited, user, { ...edited, poll: currentPoll }, silent, mentionedUsers);
 
+			// Keep the following-feed index correct when the edit changed the note's
+			// key (visibility / reply / quote-ness). Mirrors the fire-and-forget
+			// wiring in NoteCreateService/NoteDeleteService.
+			this.latestNoteService.handleUpdatedNote(oldNote, edited).catch(() => { /* ignore update failure */ });
+
 			return edited;
 		} else {
 			return oldNote;
@@ -619,9 +622,9 @@ export class NoteEditService implements OnApplicationShutdown {
 			}
 		}
 
-		// TODO(schedule-workstream): donor enqueues a user-update (updatedAt) via
-		// CollapsedQueueService and refreshes the latest-note index via LatestNoteService;
-		// both are absent upstream and are omitted here.
+		// NOTE: donor enqueues a user-update (updatedAt) via CollapsedQueueService
+		// (absent upstream; omitted). The latest-note index refresh happens in
+		// edit() via LatestNoteService now that it exists in-tree.
 
 		// ハッシュタグ更新
 		await this.pushToTl(note, user);
