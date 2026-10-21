@@ -34,6 +34,10 @@ SPDX-License-Identifier: AGPL-3.0-only
 				>
 				</MkRadios>
 
+				<MkSelect v-model="filetype" :items="filetypeDef">
+					<template #label>{{ i18n.ts._noteSearch.fileType }}</template>
+				</MkSelect>
+
 				<div v-if="instance.federation !== 'none' && searchScope === 'server'" :class="$style.subOptionRoot">
 					<MkInput
 						v-model="hostInput"
@@ -136,9 +140,13 @@ import MkFoldableSection from '@/components/MkFoldableSection.vue';
 import MkInput from '@/components/MkInput.vue';
 import MkNotesTimeline from '@/components/MkNotesTimeline.vue';
 import MkRadios from '@/components/MkRadios.vue';
+import MkSelect from '@/components/MkSelect.vue';
 import MkUserCardMini from '@/components/MkUserCardMini.vue';
 import { Paginator } from '@/utility/paginator.js';
 import type { MkRadiosOption } from '@/components/MkRadios.vue';
+import type { MkSelectItem } from '@/components/MkSelect.vue';
+import { buildFiletypeParams } from '@/utility/sk-note-search-params.js';
+import type { NoteSearchFileType } from '@/utility/sk-note-search-params.js';
 
 const props = withDefaults(defineProps<{
 	query?: string;
@@ -163,6 +171,17 @@ const rangeStartAt = ref<string | null>(null);
 const rangeEndAt = ref<string | null>(null);
 
 const user = shallowRef<Misskey.entities.UserDetailed | null>(null);
+
+const filetype = ref<NoteSearchFileType | null>(null);
+
+const filetypeDef = computed<MkSelectItem[]>(() => [
+	{ value: null, label: i18n.ts._noteSearch._fileType.none },
+	{ value: 'image', label: i18n.ts._noteSearch._fileType.image },
+	{ value: 'video', label: i18n.ts._noteSearch._fileType.video },
+	{ value: 'audio', label: i18n.ts._noteSearch._fileType.audio },
+	{ value: 'module', label: i18n.ts._noteSearch._fileType.module },
+	{ value: 'flash', label: i18n.ts._noteSearch._fileType.flash },
+]);
 
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 const noteSearchableScope = instance.noteSearchableScope ?? 'local';
@@ -221,6 +240,7 @@ type SearchParams = {
 	readonly userId?: string;
 	readonly rangeStartAt?: number | null;
 	readonly rangeEndAt?: number | null;
+	readonly filetype?: NoteSearchFileType | null;
 };
 
 const fixHostIfLocal = (target: string | null | undefined) => {
@@ -246,6 +266,7 @@ const searchParams = computed<SearchParams | null>(() => {
 			host: fixHostIfLocal(user.value.host),
 			userId: user.value.id,
 			...searchRange(),
+			filetype: filetype.value,
 		};
 	}
 
@@ -261,6 +282,7 @@ const searchParams = computed<SearchParams | null>(() => {
 			query: trimmedQuery,
 			host: fixHostIfLocal(trimmedHost),
 			...searchRange(),
+			filetype: filetype.value,
 		};
 	}
 
@@ -269,12 +291,14 @@ const searchParams = computed<SearchParams | null>(() => {
 			query: trimmedQuery,
 			host: '.',
 			...searchRange(),
+			filetype: filetype.value,
 		};
 	}
 
 	return {
 		query: trimmedQuery,
 		...searchRange(),
+		filetype: filetype.value,
 	};
 });
 
@@ -355,11 +379,17 @@ async function search() {
 		}
 	}
 
+	const { filetype: selectedFiletype, ...restParams } = searchParams.value;
 	paginator.value = markRaw(new Paginator('notes/search', {
 		limit: 10,
 		params: {
-			...searchParams.value,
-		},
+			...restParams,
+			// `filetype` is a Sharkey donor extension missing from misskey-js
+			// types (hence the cast). This backend rejects the unknown field,
+			// so the paginator surfaces its error state; never filter locally.
+			// `null` (no filter) omits the key entirely.
+			...buildFiletypeParams(selectedFiletype ?? null),
+		} as Misskey.Endpoints['notes/search']['req'],
 	}));
 
 	key.value++;
@@ -368,11 +398,15 @@ async function search() {
 function openInWindow() {
 	if (searchParams.value == null) return;
 
+	const { filetype: selectedFiletype, ...restParams } = searchParams.value;
 	const windowPaginator = markRaw(new Paginator('notes/search', {
 		limit: 10,
 		params: {
-			...searchParams.value,
-		},
+			...restParams,
+			// Same Sharkey `filetype` extension as above: untyped cast, the
+			// backend rejects it and the paginator shows the error state.
+			...buildFiletypeParams(selectedFiletype ?? null),
+		} as Misskey.Endpoints['notes/search']['req'],
 	}));
 
 	key.value++;

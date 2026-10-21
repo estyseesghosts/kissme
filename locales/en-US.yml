@@ -3319,6 +3319,17 @@ _search:
   serverHostPlaceholder: "Example: misskey.example.com"
   postFrom: "Date posted from"
   postTo: "Date posted to"
+
+_noteSearch:
+  fileType: "File Type"
+  _fileType:
+    none: "None"
+    image: "Images"
+    video: "Videos"
+    audio: "Audio"
+    module: "Module"
+    flash: "Flash"
+
 _processErrors:
   quoteUnavailable: "Unable to process quote. This post may be missing context."
   attachmentFailed: "One or more media attachments are unavailable and cannot be shown."

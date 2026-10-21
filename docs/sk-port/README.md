@@ -245,3 +245,4 @@ See [phase9-utilities.md](phase9-utilities.md) for the per-utility disposition t
 | `SkSearchResultWindow.vue` | [SkSearchResultWindow.md](SkSearchResultWindow.md) | Search-results window for the search page/widget. |
 | `SkErrorList.vue` | [SkErrorList.md](SkErrorList.md) | Note `processErrors` caution block. |
 | `utility/sk-like.ts` | [sk-like.md](sk-like.md) | Honest `notes/like` seam (PRESENT on Pinetree). |
+| `pages/search.note.vue` (+ `utility/sk-note-search-params.ts`) | [search-filetype.md](search-filetype.md) | Gap 3: Sharkey file-type dropdown restored (additive); untyped cast, honest error state. |

@@ -3422,6 +3422,16 @@ _search:
   postFrom: "投稿日時from"
   postTo: "投稿日時to"
 
+_noteSearch:
+  fileType: "ファイルの種類"
+  _fileType:
+    none: "なし"
+    image: "画像"
+    video: "動画"
+    audio: "音声"
+    module: "モジュール"
+    flash: "Flash"
+
 _processErrors:
   quoteUnavailable: "引用の処理に失敗しました。この投稿には必要な情報が不足している可能性があります。"
   attachmentFailed: "利用できない添付ファイルがあるため表示できません。"

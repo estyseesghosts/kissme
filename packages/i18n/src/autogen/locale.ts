@@ -12806,6 +12806,38 @@ export interface Locale extends ILocale {
          */
         "postTo": string;
     };
+    "_noteSearch": {
+        /**
+         * ファイルの種類
+         */
+        "fileType": string;
+        "_fileType": {
+            /**
+             * なし
+             */
+            "none": string;
+            /**
+             * 画像
+             */
+            "image": string;
+            /**
+             * 動画
+             */
+            "video": string;
+            /**
+             * 音声
+             */
+            "audio": string;
+            /**
+             * モジュール
+             */
+            "module": string;
+            /**
+             * Flash
+             */
+            "flash": string;
+        };
+    };
     "_processErrors": {
         /**
          * 引用の処理に失敗しました。この投稿には必要な情報が不足している可能性があります。
