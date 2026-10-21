@@ -39,9 +39,9 @@ SPDX-License-Identifier: AGPL-3.0-only
 			-->
 
 			<MkPagination v-slot="{items}" :paginator="paginator">
-				<div class="_gaps">
-					<XAbuseReport v-for="report in items" :key="report.id" :report="report" @resolved="resolved"/>
-				</div>
+				<SkDateSeparatedList v-slot="{ item: report }" :items="items">
+					<XAbuseReport :report="report" @resolved="resolved"/>
+				</SkDateSeparatedList>
 			</MkPagination>
 		</div>
 	</div>
@@ -52,6 +52,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 import { computed, ref, markRaw } from 'vue';
 import MkSelect from '@/components/MkSelect.vue';
 import MkPagination from '@/components/MkPagination.vue';
+import SkDateSeparatedList from '@/components/SkDateSeparatedList.vue';
 import XAbuseReport from '@/components/MkAbuseReport.vue';
 import { i18n } from '@/i18n.js';
 import { definePage } from '@/page.js';

@@ -3680,7 +3680,6 @@ schedulePostList: "予約投稿"
 confirmPollEditTitle: "アンケートを編集しますか?"
 confirmPollEditText: "アンケートが変更されました。アンケート付きのノートを編集すると、投票がリセットされる場合があります。続行しますか?"
 translationFailed: "翻訳に失敗しました"
-cannotLoadNote: "ノートを読み込めません"
 _externalNavigationWarning:
   title: "外部サイトに移動します"
   description: "{host}を離れて外部サイトに移動します"

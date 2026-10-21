@@ -7,7 +7,7 @@ Donor: Sharkey `develop` @ `752a392d3b`. Frontend only. Nothing was exercised in
 | Component | State | Where it is used | Gate |
 |---|---|---|---|
 | `SkInstanceTicker.vue` | New. Sharkey variant of `MkInstanceTicker` (solid colour, text outline, click handler slot). | `SkNoteHeader` (full and classic headers), `SkNoteDetailed`, `SkOldNoteWindow`. Stock `MkNote*` keep `MkInstanceTicker`. Click opens `showNoteOnOriginalInstance` (9.4 util). | Pref `instanceTicker` (existing). Compact/classic header additionally needs pref `showTickerOnReplies` (new, default `false`) and a non-mobile viewport. |
-| `SkBadgeStrip.vue` | New, verbatim. Exports `Badge` type. | No consumer yet. Donor uses it in `pages/instance-info.vue` and `pages/admin-user.vue`; those pages were not touched. | None needed (no UI change). |
+| `SkBadgeStrip.vue` | Deleted (Gap 5). No consumer: clean wiring is impossible without backend changes — stock `FederationInstance` lacks `mandatoryCW`/`isBubbled` (4 of 6 donor instance badges exist) and stock `User`/`admin/show-user` lack `isDeleted`/`mandatoryCW`/`isRoot`/`isSystem`/`isAdministrator` (5 of 10 donor user badges exist); most donor badge labels (`blocked`, `silenced`, `mediaSilenced`, `cw`, `bubble`, `deleted`, `nsfw`, `hibernated`, `system`, `root`) have no stock i18n keys. A subset strip would diverge from the donor and require new locale strings, violating stock-wins/additive-only. | No consumer; component removed. |
 | `SkMfmWindow.vue` | New. Donor's 39 hand-copied blocks became a list built by `utility/sk-mfm-cheatsheet.ts`. | Button in the `MkPostForm` footer. | Only rendered when pref `useSharkeyPostForm` is on (default off). |
 | `SkListenBrainz.vue` | New. Polls `users/listenbrainz` every 15 s; `utility/sk-listenbrainz.ts` validates the untyped response. | `MkUserPopup`, `pages/user/home.vue`. | Rendered only when the profile has the Sharkey-only `listenbrainz: true` field, so it is absent on stock Misskey. |
 | `SkOneko.vue` | New. Pure math in `utility/sk-oneko.ts`. Asset `assets/oneko.gif`. | `ui/_common_/common.vue` (async). | Pref `oneko`, default `false`. |
@@ -39,7 +39,7 @@ No settings UI yet (Phase 10).
 
 - `SkOneko`: the donor added the `mousemove` listener to `document` and removed it from `window`, leaking it; now both use `document`, and the animation frame is cancelled on unmount.
 - `SkListenBrainz`: Phosphor icon replaced by `ti-player-play`; `<i18n _profile.listeningTo>` replaced by `i18n.ts.listeningTo` (trailing Sharkey locale section, donor wording); response validated.
-- `SkInstanceTicker`, `SkBadgeStrip`, `MkRadio`: `--MI-radius-*` variables other than `--MI-radius` are not defined by upstream's `style.scss` (the Sharkey ones are), so these files carry literal fallbacks. Earlier Sk* files using `--MI-radius-xs` etc. have no fallback and render without a radius; follow-up for the coordinator.
+- `SkInstanceTicker`, `MkRadio`: `--MI-radius-*` variables other than `--MI-radius` are not defined by upstream's `style.scss` (the Sharkey ones are), so these files carry literal fallbacks. Earlier Sk* files using `--MI-radius-xs` etc. have no fallback and render without a radius; follow-up for the coordinator. (`SkBadgeStrip` deleted, Gap 5.)
 - `MkMarquee` uses an object ref for the content element instead of a string ref.
 
 ## Verification

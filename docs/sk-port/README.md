@@ -41,7 +41,7 @@ eslint, and SPDX.
 | `SkMutedNote.vue` | [SkMutedNote.md](SkMutedNote.md) | Ported. |
 | `SkUrlPreview.vue`, `SkUrlPreviewGroup.vue` | [SkUrlPreview.md](SkUrlPreview.md), [SkUrlPreviewGroup.md](SkUrlPreviewGroup.md) | Ported. |
 | `SkOldNoteWindow.vue` | [SkOldNoteWindow.md](SkOldNoteWindow.md) | Ported. Opened only from the versions menu (see gaps). |
-| `SkFetchNote.vue` | [SkFetchNote.md](SkFetchNote.md) | Ported. |
+| `SkFetchNote.vue` | — (doc removed, Gap 5) | Deleted. Stock backend has no `createPromo` moderation-log type, so a `modlog.ModLog.vue` branch would be unreachable dead code. `cannotLoadNote` locale key removed with it. |
 | `utility/get-note-versions-menu.ts` | [get-note-versions-menu.md](get-note-versions-menu.md) | Ported. Calls `notes/versions` (absent, see gaps). |
 | `MkUrlWarningDialog.vue` | [MkUrlWarningDialog.md](MkUrlWarningDialog.md) | New. External-link warning (Phase 9.2 dependency). |
 | `SkNoteHeader.vue` | [SkNoteHeader.md](SkNoteHeader.md) | Ported in slice 1.1. |
@@ -51,7 +51,7 @@ eslint, and SPDX.
 | Component / utility | Doc | State |
 |---|---|---|
 | `SkPagination.vue` (+ `types/date-separated-list.ts`) | [SkPagination.md](SkPagination.md) | Vendored Sharkey `Paging` model, renamed. Upstream `MkPagination`/`IPaginator` untouched. |
-| `SkTransitionGroup.vue`, `SkDateSeparatedList.vue`, `MkDateSeparatedList.vue`, `MkNotes.vue` | [SkTransitionGroup.md](SkTransitionGroup.md), [SkDateSeparatedList.md](SkDateSeparatedList.md), [MkDateSeparatedList.md](MkDateSeparatedList.md), [MkNotes.md](MkNotes.md) | Ported. No consumer pages yet. |
+| `SkTransitionGroup.vue`, `SkDateSeparatedList.vue`, `MkDateSeparatedList.vue`, `MkNotes.vue` | [SkTransitionGroup.md](SkTransitionGroup.md), [SkDateSeparatedList.md](SkDateSeparatedList.md), [MkDateSeparatedList.md](MkDateSeparatedList.md), [MkNotes.md](MkNotes.md) | Ported. `SkDateSeparatedList` is consumed by `pages/admin/abuses.vue` (Gap 5); the rest have no consumer pages yet. |
 | `MkTimeline.vue`, `utility/sk-timeline-query.ts` | [MkTimeline.md](MkTimeline.md) | Ported; query builder unit-tested. |
 | `MkNotifications.vue` | [MkNotifications.md](MkNotifications.md) | Ported thin wrapper. |
 | `MkScheduleEditor.vue`, `utility/sk-schedule.ts` | [MkScheduleEditor.md](MkScheduleEditor.md) | Ported; date/time logic unit-tested. |
@@ -235,7 +235,7 @@ See [phase9-utilities.md](phase9-utilities.md) for the per-utility disposition t
 
 | Component / utility | Doc | State |
 |---|---|---|
-| `SkInstanceTicker`, `SkBadgeStrip`, `SkMfmWindow`, `SkListenBrainz`, `SkOneko`, `CkFollowMouse`, `MkMarquee`, `MkRadio`, `utility/sk-{follow-mouse,oneko,mfm-cheatsheet,listenbrainz}.ts` | [phase-9-1-9-2.md](phase-9-1-9-2.md) | Ported. Prefs `showTickerOnReplies`, `oneko` (default off). `SkUrlPreviewGroup`, `SkTransitionGroup`, `MkUrlWarningDialog` verified as already landed. |
+| `SkInstanceTicker`, `SkMfmWindow`, `SkListenBrainz`, `SkOneko`, `CkFollowMouse`, `MkMarquee`, `MkRadio`, `utility/sk-{follow-mouse,oneko,mfm-cheatsheet,listenbrainz}.ts` | [phase-9-1-9-2.md](phase-9-1-9-2.md) | Ported. Prefs `showTickerOnReplies`, `oneko` (default off). `SkUrlPreviewGroup`, `SkTransitionGroup`, `MkUrlWarningDialog` verified as already landed. `SkBadgeStrip` deleted (Gap 5, no clean wiring target). |
 
 ### Dialogs, widgets and seams
 

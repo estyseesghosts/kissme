@@ -23,8 +23,9 @@ Migrated (in both locale files, read via `i18n.ts` / `i18n.tsx`):
 - Schedule + poll-edit (`postOn`, `schedulePostList`, `confirmPollEditTitle`,
   `confirmPollEditText`) in `MkScheduleEditor`, `MkSchedulePostListDialog`,
   `MkPostForm` — English follows the donor wording.
-- Note loading states (`translationFailed`, `cannotLoadNote`) in
-  `SkNoteTranslation`, `SkFetchNote` — English follows the donor wording.
+- Note loading state (`translationFailed`) in
+  `SkNoteTranslation` — English follows the donor wording. (`cannotLoadNote`
+  in deleted `SkFetchNote` removed with the component, Gap 5.)
 - External-link warning (`_externalNavigationWarning.*`) in
   `MkUrlWarningDialog` — aligned to the donor's nested key structure and
   wording (replacing the port's flat `externalWarning*` keys and the

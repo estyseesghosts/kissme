@@ -14,7 +14,11 @@ Generic list built on upstream's `makeDateSeparatedTimelineComputedRef`. Upstrea
 
 ## Known gaps
 
-- No consumer pages yet: ported ahead of the timeline pages that need it.
-  Kept as tested, consumerless code (same status as `SkBadgeStrip`) rather
-  than deleted, so the port stays complete for a future wiring.
+- ~~No consumer pages yet: ported ahead of the timeline pages that need it.~~
+  Wired (Gap 5): `pages/admin/abuses.vue` wraps the report list in
+  `SkDateSeparatedList` (default slot `v-slot="{ item: report }"`), compatible
+  with the new `Paginator` API slot shape (`MkPagination v-slot="{items}"`).
+  Abuse reports carry `id` + `createdAt`, satisfying the `T extends { id;
+  createdAt }` constraint. `MkAbuseReport` has no `metaHint` prop, so the
+  donor's `:metaHint` is omitted (stock component untouched).
 - No browser verification.

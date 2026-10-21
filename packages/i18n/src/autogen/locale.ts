@@ -13756,10 +13756,6 @@ export interface Locale extends ILocale {
      * 翻訳に失敗しました
      */
     "translationFailed": string;
-    /**
-     * ノートを読み込めません
-     */
-    "cannotLoadNote": string;
     "_externalNavigationWarning": {
         /**
          * 外部サイトに移動します
