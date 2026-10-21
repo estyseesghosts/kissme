@@ -31,6 +31,7 @@ const NOTE_REQUIRED_NOTIFICATION_TYPES = new Set([
 	'reaction',
 	'reaction:grouped',
 	'pollEnded',
+	'edited',
 	'scheduledNotePosted',
 ] as (typeof groupedNotificationTypes[number])[]);
 
@@ -181,6 +182,9 @@ export class NotificationEntityService implements OnModuleInit {
 			} : {}),
 			...(notification.type === 'followRequestAccepted' ? {
 				message: notification.message,
+			} : {}),
+			...(notification.type === 'scheduledNoteFailed' ? {
+				reason: notification.reason,
 			} : {}),
 			...(notification.type === 'achievementEarned' ? {
 				achievement: notification.achievement,

@@ -72,6 +72,17 @@ export type MiNotification = {
 	createdAt: string;
 	noteDraftId: MiNoteDraft['id'];
 } | {
+	type: 'edited';
+	id: string;
+	createdAt: string;
+	notifierId: MiUser['id'];
+	noteId: MiNote['id'];
+} | {
+	type: 'scheduledNoteFailed';
+	id: string;
+	createdAt: string;
+	reason: string;
+} | {
 	type: 'receiveFollowRequest';
 	id: string;
 	createdAt: string;
