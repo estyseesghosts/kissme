@@ -52,7 +52,7 @@ eslint, and SPDX.
 |---|---|---|
 | `SkPagination.vue` (+ `types/date-separated-list.ts`) | [SkPagination.md](SkPagination.md) | Vendored Sharkey `Paging` model, renamed. Upstream `MkPagination`/`IPaginator` untouched. |
 | `SkTransitionGroup.vue`, `SkDateSeparatedList.vue`, `MkDateSeparatedList.vue`, `MkNotes.vue` | [SkTransitionGroup.md](SkTransitionGroup.md), [SkDateSeparatedList.md](SkDateSeparatedList.md), [MkDateSeparatedList.md](MkDateSeparatedList.md), [MkNotes.md](MkNotes.md) | Ported. `SkDateSeparatedList` is consumed by `pages/admin/abuses.vue` (Gap 5); the rest have no consumer pages yet. |
-| `MkTimeline.vue`, `utility/sk-timeline-query.ts` | [MkTimeline.md](MkTimeline.md) | Ported; query builder unit-tested. |
+| `MkTimeline.vue`, `utility/sk-timeline-query.ts` | [MkTimeline.md](MkTimeline.md) | `MkTimeline.vue` dropped as consumerless; query builder restored and wired to the `MkStreamingNotesTimeline` bubble branch ([bubble-timeline.md](bubble-timeline.md)). |
 | `MkNotifications.vue` | [MkNotifications.md](MkNotifications.md) | Ported thin wrapper. |
 | `MkScheduleEditor.vue`, `utility/sk-schedule.ts` | [MkScheduleEditor.md](MkScheduleEditor.md) | Ported; date/time logic unit-tested. |
 | `MkSchedulePostListDialog.vue`, `utility/sk-schedule-api.ts` | [MkSchedulePostListDialog.md](MkSchedulePostListDialog.md) | Ported; `notes/schedule/*` unverified. `SkNoteSimple` gained the edit/delete schedule actions. |
@@ -128,7 +128,7 @@ session; no browser connected).
 | `notes/edit` | absent | PRESENT | via `sk-schedule-api.ts` wrapper |
 | `notes/versions` | absent | PRESENT | untyped alias; empty menu on failure |
 | `notes/following` | absent | absent | Paginator cast; list error state on failure |
-| `notes/bubble-timeline` | absent | absent | mapping kept (`sk-timeline-query.ts`), consumerless; no dead UI |
+| `notes/bubble-timeline` | absent | absent | untyped cast via `buildTimelineQuery`; bubble branch on renderer; `MkError` state on failure; `btlAvailable`-gated tab |
 | `notes/thread-muting/create\|delete` | PRESENT | absent | direct typed call; `apiWithDialog` error surfaces honestly on Pinetree |
 | `admin/approve-user`, `admin/decline-user` | absent | absent | `probeApprovalsSupported()` shows the disabled note |
 | `admin/cw-note`, `admin/cw-user` | absent | absent | direct untyped calls from the menus; errors surface |

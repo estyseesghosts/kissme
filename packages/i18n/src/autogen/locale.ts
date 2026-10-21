@@ -6880,6 +6880,10 @@ export interface Locale extends ILocale {
              */
             "social": string;
             /**
+             * あなたのサーバーが交流しているサーバーからの投稿を見られます。
+             */
+            "bubble": string;
+            /**
              * 接続している他のすべてのサーバーからの投稿を見られます。
              */
             "global": string;
@@ -7016,6 +7020,10 @@ export interface Locale extends ILocale {
          * ソーシャルタイムラインには、ホームタイムラインとローカルタイムラインの投稿が両方表示されます。
          */
         "social": string;
+        /**
+         * バブルタイムラインでは、あなたのサーバーが交流しているサーバーからの投稿を見られます。
+         */
+        "bubble": string;
         /**
          * グローバルタイムラインでは、接続している他のすべてのサーバーからの投稿を見られます。
          */
@@ -10768,6 +10776,10 @@ export interface Locale extends ILocale {
          * ソーシャル
          */
         "social": string;
+        /**
+         * バブル
+         */
+        "bubble": string;
         /**
          * グローバル
          */

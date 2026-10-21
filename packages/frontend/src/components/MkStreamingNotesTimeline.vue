@@ -78,6 +78,8 @@ import { DI } from '@/di.js';
 import { globalEvents, useGlobalEvent } from '@/events.js';
 import { isSeparatorNeeded, getSeparatorInfo } from '@/utility/timeline-date-separate.js';
 import { Paginator } from '@/utility/paginator.js';
+import type { PaginatorCompatibleEndpointPaths } from '@/utility/paginator.js';
+import { buildTimelineChannel, buildTimelineQuery } from '@/utility/sk-timeline-query.js';
 
 const props = withDefaults(defineProps<{
 	src: BasicTimelineType | 'mentions' | 'directs' | 'list' | 'antenna' | 'channel' | 'role';
@@ -89,11 +91,13 @@ const props = withDefaults(defineProps<{
 	customSound?: SoundStore | null;
 	withRenotes?: boolean;
 	withReplies?: boolean;
+	withBots?: boolean;
 	withSensitive?: boolean;
 	onlyFiles?: boolean;
 }>(), {
 	withRenotes: true,
 	withReplies: false,
+	withBots: true,
 	withSensitive: true,
 	onlyFiles: false,
 	sound: false,
@@ -145,6 +149,19 @@ if (props.src === 'antenna') {
 			withRenotes: props.withRenotes,
 			withFiles: props.onlyFiles ? true : undefined,
 		})),
+		useShallowRef: true,
+	}));
+} else if (props.src === 'bubble') {
+	// 'notes/bubble-timeline' is Sharkey-only and absent from misskey-js, so the
+	// query shape comes from the tested sk-timeline-query builder and the endpoint
+	// goes through an untyped cast. Backends without the endpoint answer
+	// UNKNOWN_API_ENDPOINT, surfaced honestly by MkError below.
+	paginator = markRaw(new Paginator(buildTimelineQuery('bubble', {})!.endpoint as PaginatorCompatibleEndpointPaths, {
+		computedParams: computed(() => buildTimelineQuery('bubble', {
+			withRenotes: props.withRenotes,
+			withBots: props.withBots,
+			onlyFiles: props.onlyFiles,
+		})!.params as Misskey.Endpoints['notes/global-timeline']['req']),
 		useShallowRef: true,
 	}));
 } else if (props.src === 'mentions') {
@@ -312,6 +329,7 @@ const connections = {
 	localTimeline: null as Misskey.IChannelConnection<Misskey.Channels['localTimeline']> | null,
 	hybridTimeline: null as Misskey.IChannelConnection<Misskey.Channels['hybridTimeline']> | null,
 	globalTimeline: null as Misskey.IChannelConnection<Misskey.Channels['globalTimeline']> | null,
+	bubbleTimeline: null as Misskey.IChannelConnection<Misskey.Channels['globalTimeline']> | null,
 	main: null as Misskey.IChannelConnection<Misskey.Channels['main']> | null,
 	userList: null as Misskey.IChannelConnection<Misskey.Channels['userList']> | null,
 	channel: null as Misskey.IChannelConnection<Misskey.Channels['channel']> | null,
@@ -353,6 +371,22 @@ function connectChannel() {
 			withFiles: props.onlyFiles ? true : undefined,
 		});
 		connections.globalTimeline.on('note', prepend);
+	} else if (props.src === 'bubble') {
+		// 'bubbleTimeline' is Sharkey-only and absent from misskey-js Channels,
+		// so the channel name and params go through casts shaped like the global
+		// timeline channel. Same no-withReplies param shape as the donor.
+		const bubbleChannel = buildTimelineChannel('bubble', {
+			withRenotes: props.withRenotes,
+			withBots: props.withBots,
+			onlyFiles: props.onlyFiles,
+		});
+		if (bubbleChannel != null) {
+			connections.bubbleTimeline = stream.useChannel(
+				bubbleChannel.channel as 'globalTimeline',
+				bubbleChannel.params as Misskey.Channels['globalTimeline']['params'],
+			);
+			connections.bubbleTimeline.on('note', prepend);
+		}
 	} else if (props.src === 'mentions') {
 		connections.main = stream.useChannel('main');
 		connections.main.on('mention', prepend);

@@ -102,6 +102,8 @@ async function setType() {
 		}, {
 			value: 'social', label: i18n.ts._timelines.social,
 		}, {
+			value: 'bubble', label: i18n.ts._timelines.bubble,
+		}, {
 			value: 'global', label: i18n.ts._timelines.global,
 		}],
 		default: props.column.tl,

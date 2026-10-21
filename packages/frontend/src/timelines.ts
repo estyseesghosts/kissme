@@ -10,6 +10,7 @@ export const basicTimelineTypes = [
 	'home',
 	'local',
 	'social',
+	'bubble',
 	'global',
 ] as const;
 
@@ -27,12 +28,19 @@ export function basicTimelineIconClass(timeline: BasicTimelineType): string {
 			return 'ti ti-planet';
 		case 'social':
 			return 'ti ti-universe';
+		case 'bubble':
+			return 'ti ti-droplet';
 		case 'global':
 			return 'ti ti-whirl';
 	}
 }
 
 export function isAvailableBasicTimeline(timeline: BasicTimelineType | undefined | null): boolean {
+	// 'btlAvailable' is Sharkey-only and absent from misskey-js RolePolicies:
+	// read it through a tolerant cast. Backends that do not advertise the
+	// policy hide the tab instead of showing dead UI.
+	const btlAvailable = (policies: unknown): boolean =>
+		(policies as { btlAvailable?: unknown } | null | undefined)?.btlAvailable === true;
 	switch (timeline) {
 		case 'home':
 			return $i != null;
@@ -40,6 +48,8 @@ export function isAvailableBasicTimeline(timeline: BasicTimelineType | undefined
 			return ($i == null && instance.policies.ltlAvailable) || ($i != null && $i.policies.ltlAvailable);
 		case 'social':
 			return $i != null && $i.policies.ltlAvailable;
+		case 'bubble':
+			return ($i == null && btlAvailable(instance.policies)) || ($i != null && btlAvailable($i.policies));
 		case 'global':
 			return ($i == null && instance.policies.gtlAvailable) || ($i != null && $i.policies.gtlAvailable);
 		default:
