@@ -18,8 +18,14 @@ Imports and components:
 1. `translateNote` now comes from `@/utility/translate-note.js` (was `get-note-menu.js`, which in Misskey has no `translateNote`).
 2. `SkInstanceTicker` is replaced by `MkInstanceTicker` with the same `host` and `instance` props.
 3. `Paging` / `MkPagination :pagination` is replaced by `Paginator` from `@/utility/paginator.js` with `:paginator` and `:autoLoad="false"`. Misskey's `MkPagination` takes a paginator, and `disableAutoLoad` is not a prop there.
-4. `useNoteCapture` uses Misskey's signature `{ note, parentNote }`. The donor's `rootEl`, `pureNote`, `isDeletedRef` and `onReplyCallback` options do not exist in Misskey. Live reactions and poll choices come from `$appearNote`. `subscribe()` is called in `onMounted`.
-5. Because of (4), `addReplyTo` is dropped. The replies list no longer updates live when a reply is posted from this view.
+- **`useNoteCapture`.** The Misskey composable takes `{ note, parentNote }` plus optional
+  `onReplyCallback` / `onDeleteCallback` (see [SkNoteLiveReplies.md](SkNoteLiveReplies.md)).
+  The donor's `rootEl`, `pureNote`, and `isDeletedRef` options still do not exist in
+  Misskey. Live reactions and poll choices come from `$appearNote`. `subscribe()` is
+  called in `onMounted`.
+5. `addReplyTo` is wired unconditionally through the capture's `onReplyCallback`, and
+   `removeReply` through `onDeleteCallback` (see [SkNoteLiveReplies.md](SkNoteLiveReplies.md));
+   their list bookkeeping lives in `utility/sk-reply-list.ts`.
 6. `MkReactionsViewer` takes `reactions`, `reactionEmojis`, `myReaction`, `noteId`, as upstream `MkNoteDetailed` does.
 7. `MkPoll` takes `noteId`, `multiple`, `expiresAt`, `choices`, `author`, `emojiUrls` (Misskey props). The donor's `poll` and `local` props are dropped.
 8. Popups: `targetElement` is renamed to `anchorElement` for `MkUsersTooltip` and `MkReactionsViewer.details`, matching their props.
@@ -75,12 +81,12 @@ Keys used that exist in en-US: `loadConversation`, `renotedBy`, `_visibility.*` 
 - `updatedAt` is not in Misskey notes. The "Edited" marker and footer line only show if the backend returns it.
 - `isRenoted` is not in Misskey notes. The renote button never shows as renoted, and the undo path is only reachable if the backend sends the field.
 - `rejectQuotes` is not in Misskey users. The quote button is always shown.
-- Reply streaming (donor `onReplyCallback`) is not ported. See deviation 5.
+- Reply streaming (donor `onReplyCallback`) is ported via the capture's optional
+  callbacks (see deviation 5 and [SkNoteLiveReplies.md](SkNoteLiveReplies.md)).
 
 ## Not ported
 
-- Sharkey `useNoteCapture` extras: `rootEl`-based visibility subscription, `isDeletedRef`, and the reply callback.
-- `addReplyTo` (see deviation 5).
+- Sharkey `useNoteCapture` extras: `rootEl`-based visibility subscription and `isDeletedRef`.
 
 ## Shared changes needed
 

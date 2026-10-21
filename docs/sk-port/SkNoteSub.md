@@ -17,9 +17,13 @@
 ## Deviations
 
 - **Imports.** `@/use/use-note-capture.js` became `@/composables/use-note-capture.js`. `translateNote` now comes from `@/utility/translate-note.js`, and `getNoteMenu` / `getNoteClipMenu` from `@/utility/get-note-menu.js`. `@/instance` became `@/instance.js`. `@/utility/get-appear-note` gained `.js`. `userPage` was imported but unused, so it was dropped.
-- **`useNoteCapture`.** The Misskey composable has a different API: `{ note, parentNote, mock }` and it returns `{ $note, subscribe }`. Live reactions now come from `$note`. Template and handler reads of `note.myReaction` became `$note.myReaction`. The `rootEl`, `isDeletedRef`, `onReplyCallback`, and `onDeleteCallback` options don't exist in the target.
-- **Delete handling.** Replaced with `useGlobalEvent('noteDeleted', ...)` from `@/events.js`, which sets `isDeleted`. It still calls `props.onDeleteCallback` under the same condition the donor used (`detail && depth < numberOfReplies`), so parent threads still drop deleted replies.
-- **Live reply append** (Sharkey's `onReplyCallback`, which pushed new replies into `replies`) is not ported. The target composable exposes no reply event. Replies still load on mount via `notes/children`.
+- **`useNoteCapture`.** The Misskey composable takes `{ note, parentNote, mock }` plus
+  optional `onReplyCallback` / `onDeleteCallback` (see
+  [SkNoteLiveReplies.md](SkNoteLiveReplies.md)); the donor also took `rootEl`,
+  `pureNote`, and `isDeletedRef`, which the target still lacks. Live reactions now
+  come from `$note`. Template and handler reads of `note.myReaction` became `$note.myReaction`.
+- **Delete handling.** Replaced with `useGlobalEvent('noteDeleted', ...)` from `@/events.js`, which sets `isDeleted`. The capture's `onDeleteCallback` (donor parity, see [SkNoteLiveReplies.md](SkNoteLiveReplies.md)) also forwards stream deletes under the same condition the donor used (`detail && depth < numberOfReplies`). The global handler stays for unsubscribed notes; list removal is a no-op for unknown ids, so a stream echo cannot double-remove.
+- **Live reply append** (Sharkey's `onReplyCallback`, which pushed new replies into `replies`) is ported — see [SkNoteLiveReplies.md](SkNoteLiveReplies.md). The add/remove list bookkeeping lives in `utility/sk-reply-list.ts` (unit tested). Replies still load on mount via `notes/children`.
 - **`appearNote` typing.** `getAppearNote` returns `Note | null` in the target. Now `getAppearNote(note) ?? note`, typed as `Note & { isRenoted?: boolean }`, because `isRenoted` is a Sharkey field the Misskey `Note` entity does not declare.
 - **`rejectQuotes`.** `$i?.rejectQuotes` is not declared on the target `MeDetailed`. Read via `Reflect.get($i ?? {}, 'rejectQuotes') === true`.
 - **`notes/like`.** Not in misskey-js, so `misskeyApi` is cast to an untyped `sharkeyApi` wrapper used only for `notes/like` (in `react()` for `likeOnly` and in `like()`). The call and its `override` payload are the donor's.
@@ -63,16 +67,17 @@ All present in `preferences/def.ts`. None missing.
 | `notes/reactions/create` | yes |
 | `notes/reactions/delete` | yes |
 | `notes/like` | **no**, kept as donor, untyped via `sharkeyApi`. Backend endpoint not verified. |
+| `notes/show` | yes (live-reply / edit refetch) |
 
 ## Not ported
 
-- Live reply append (see Deviations).
 - Translation output inside the sub-note body (see Deviations; needs `MkSubNoteContent` props).
 - `ref="rootComp"` has no matching `const` in script. Kept as donor, it is a no-op.
 - `ref="clipButton"` resolves via `useTemplateRef`. The `el` ref is never bound in the template, so `focus()` is a no-op. Kept as donor.
 
 ## Shared changes needed
 
-- `composables/use-note-capture.ts`: accept `onReplyCallback` / `onDeleteCallback` (or emit a reply event) so live replies can be appended in threads.
+- `composables/use-note-capture.ts` reply/delete callbacks: done — see
+  [SkNoteLiveReplies.md](SkNoteLiveReplies.md).
 - `MkSubNoteContent.vue`: accept `translating`, `translation`, `expandAllCws` (and `hideFiles` for SkNoteSimple).
 - misskey-js: `notes/like` endpoint (Sharkey-only), `MeDetailed.rejectQuotes`, `Note.isRenoted`.

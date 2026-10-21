@@ -115,11 +115,13 @@ function pollingSubscribe(props: {
 
 function realtimeSubscribe(props: {
 	note: Pick<Misskey.entities.Note, 'id' | 'createdAt'>;
+	onReplyCallback?: (reply: Misskey.entities.Note) => void | Promise<void>;
+	onDeleteCallback?: (id: Misskey.entities.Note['id']) => void | Promise<void>;
 }): void {
 	const note = props.note;
 	const connection = useStream();
 
-	function onStreamNoteUpdated(noteData: NoteUpdatedEvent): void {
+	async function onStreamNoteUpdated(noteData: NoteUpdatedEvent): Promise<void> {
 		const { type, id, body } = noteData;
 
 		if (id !== note.id) return;
@@ -152,8 +154,33 @@ function realtimeSubscribe(props: {
 
 			case 'deleted': {
 				globalEvents.emit('noteDeleted', id);
+				await props.onDeleteCallback?.(id);
 				break;
 			}
+		}
+
+		// 'replied' and 'updated' are Sharkey stream events absent from misskey-js
+		// NoteUpdatedEvent, so they arrive here through an untyped cast. Remove the
+		// cast once misskey-js exposes them. If the backend never emits them, this
+		// block never runs and nothing breaks.
+		const extra = noteData as unknown as { type: string; body: { id: string } };
+		if (extra.type === 'replied') {
+			if (props.onReplyCallback == null) return;
+			// notes/show may throw if the current user cannot see the reply
+			try {
+				const replyNote = await misskeyApi('notes/show', {
+					noteId: extra.body.id,
+				});
+				await props.onReplyCallback(replyNote);
+			} catch { /* empty */ }
+		} else if (extra.type === 'updated') {
+			try {
+				// TODO pass the note through the socket instead of blasting the backend with a call from every single client at once
+				const editedNote = await misskeyApi('notes/show', {
+					noteId: id,
+				});
+				Object.assign(note, editedNote);
+			} catch { /* empty */ }
 		}
 	}
 
@@ -194,11 +221,13 @@ export function useNoteCapture(props: {
 	note: Misskey.entities.Note;
 	parentNote: Misskey.entities.Note | null;
 	mock?: boolean;
+	onReplyCallback?: (reply: Misskey.entities.Note) => void | Promise<void>;
+	onDeleteCallback?: (id: Misskey.entities.Note['id']) => void | Promise<void>;
 }): {
 	$note: Reactive<ReactiveNoteData>;
 	subscribe: () => void;
 } {
-	const { note, parentNote, mock } = props;
+	const { note, parentNote, mock, onReplyCallback, onDeleteCallback } = props;
 
 	const $note = reactive<ReactiveNoteData>({
 		reactions: Object.entries(note.reactions).reduce((acc, [name, count]) => {
@@ -290,6 +319,8 @@ export function useNoteCapture(props: {
 		if ($i && store.s.realtimeMode) {
 			realtimeSubscribe({
 				note,
+				onReplyCallback,
+				onDeleteCallback,
 			});
 		} else {
 			pollingSubscribe({

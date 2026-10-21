@@ -311,6 +311,7 @@ import SkUrlPreviewGroup from '@/components/SkUrlPreviewGroup.vue';
 import { showNoteOnOriginalInstance } from '@/utility/show-note-on-original-instance.js';
 import { Paginator } from '@/utility/paginator.js';
 import { likeNoteWithFeedback } from '@/utility/sk-like.js';
+import { addReplyToList, removeReplyFromList } from '@/utility/sk-reply-list.js';
 
 const props = withDefaults(defineProps<{
 	note: Misskey.entities.Note;
@@ -372,10 +373,13 @@ function rejectsQuotes(user: object | null | undefined): boolean {
 	return (user as { rejectQuotes?: unknown } | null | undefined)?.rejectQuotes === true;
 }
 
-// Live reaction and poll state comes from the Misskey capture composable.
+// Live reaction and poll state comes from the Misskey capture composable. The capture
+// also appends live replies (replied stream event) and forwards deletes, like the donor.
 const { $note: $appearNote, subscribe: subscribeManuallyToNoteCapture } = useNoteCapture({
 	note: appearNote.value,
 	parentNote: isRenote ? note.value : null,
+	onReplyCallback: addReplyTo,
+	onDeleteCallback: removeReply,
 });
 
 setupNoteViewInterruptors(note, isDeleted);
@@ -451,14 +455,14 @@ const reactionsPaginator = markRaw(new Paginator('notes/reactions', {
 	})),
 }));
 
-// Handled by a streaming reply callback in the donor. Misskey's capture has no reply hook,
-// so these helpers are called only where the donor calls them directly (the replies list refresh).
+// Live replies arrive through the capture's onReplyCallback (donor parity); deletes of
+// listed replies arrive through onDeleteCallback and the per-child SkNoteSub wiring.
+function addReplyTo(replyNote: Misskey.entities.Note) {
+	addReplyToList(replies.value, appearNote.value, replyNote);
+}
+
 function removeReply(id: Misskey.entities.Note['id']) {
-	const replyIdx = replies.value.findIndex(note => note.id === id);
-	if (replyIdx >= 0) {
-		replies.value.splice(replyIdx, 1);
-		appearNote.value.repliesCount -= 1;
-	}
+	removeReplyFromList(replies.value, appearNote.value, id);
 }
 
 useTooltip(renoteButton, async (showing) => {

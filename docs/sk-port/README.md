@@ -161,9 +161,12 @@ Fields absent from the upstream API (read through casts; behavior is a no-op whe
 
 Behavior not ported:
 
-- **Live reply append** (SkNoteSub, SkNoteDetailed). Upstream `composables/use-note-capture.ts`
-  has a different API (`{ note, parentNote, mock }`, no reply or delete callbacks). Replies do
-  not append live. Deleted notes are dropped via the `noteDeleted` global event.
+- **Live reply append** (SkNoteSub, SkNoteDetailed). Ported — see
+  [SkNoteLiveReplies.md](SkNoteLiveReplies.md). Upstream
+  `composables/use-note-capture.ts` gained optional `onReplyCallback` /
+  `onDeleteCallback` props (stock behavior unchanged); the stream `replied` /
+  `updated` events arrive through an untyped cast because misskey-js lacks
+  them. If the backend never emits them, nothing breaks.
 - **Instance ticker placement.** The donor's `SkNote` computes ticker data but the
   ticker renders inside `SkNoteHeader` (full and classic layouts), which `SkNote`,
   `SkNoteSimple` and `SkNoteSub` all use; `SkNoteDetailed` renders its own header

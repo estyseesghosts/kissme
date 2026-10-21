@@ -128,6 +128,7 @@ import { instance, policies } from '@/instance.js';
 import { getAppearNote } from '@/utility/get-appear-note.js';
 import { setupNoteViewInterruptors } from '@/plugin.js';
 import { deepClone } from '@/utility/clone.js';
+import { addReplyToList, removeReplyFromList } from '@/utility/sk-reply-list.js';
 
 /*
 	Sharkey strings that Misskey's en-US.yml does not have yet. Locale edits are restricted
@@ -196,14 +197,28 @@ const currentClip = inject<Ref<Misskey.entities.Clip> | null>('currentClip', nul
 
 setupNoteViewInterruptors(note, isDeleted);
 
-// Live reactions and my-reaction state are read from the captured copy.
+// Live reactions and my-reaction state are read from the captured copy. The capture
+// also appends live replies (replied stream event) and forwards deletes, like the donor.
+async function addReplyTo(replyNote: Misskey.entities.Note) {
+	addReplyToList(replies.value, appearNote.value, replyNote);
+}
+
+async function removeReply(id: Misskey.entities.Note['id']) {
+	removeReplyFromList(replies.value, appearNote.value, id);
+}
+
 const { $note } = useNoteCapture({
 	note: appearNote.value,
 	parentNote: null,
+	// only update replies if we are, in fact, showing replies
+	onReplyCallback: props.detail && props.depth < prefer.s.numberOfReplies ? addReplyTo : undefined,
+	onDeleteCallback: props.detail && props.depth < prefer.s.numberOfReplies ? props.onDeleteCallback : undefined,
 });
 
 // Replaces the Sharkey useNoteCapture delete callback. Sharkey's version also appended live replies
-// (onReplyCallback), which the Misskey composable does not expose, so only deletion is wired here.
+// (onReplyCallback), which the Misskey composable did not expose before; both are wired above.
+// The global handler stays so unsubscribed (old or polling-mode) notes still drop on delete;
+// removeReplyFromList is a no-op for unknown ids, so a stream echo cannot double-remove.
 useGlobalEvent('noteDeleted', (noteId) => {
 	if (noteId !== note.value.id && noteId !== appearNote.value.id) return;
 	isDeleted.value = true;
@@ -211,14 +226,6 @@ useGlobalEvent('noteDeleted', (noteId) => {
 		props.onDeleteCallback?.(note.value.id);
 	}
 });
-
-async function removeReply(id: Misskey.entities.Note['id']) {
-	const replyIdx = replies.value.findIndex(reply => reply.id === id);
-	if (replyIdx >= 0) {
-		replies.value.splice(replyIdx, 1);
-		appearNote.value.repliesCount -= 1;
-	}
-}
 
 function focus() {
 	el.value?.focus();
